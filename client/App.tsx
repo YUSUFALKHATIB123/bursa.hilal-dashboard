@@ -7,6 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
+import { NotificationProvider } from "./contexts/NotificationContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/Layout";
 import Login from "./pages/Login";
@@ -31,131 +32,133 @@ const App = () => (
       <Toaster />
       <Sonner />
       <AuthProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute>
-                  <Layout>
-                    <Index />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/orders"
-              element={
-                <ProtectedRoute requiredPermission="orders">
-                  <Layout>
-                    <OrdersManagement />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/track-order"
-              element={
-                <ProtectedRoute requiredPermission="track-order">
-                  <Layout>
-                    <TrackOrder />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/track-order/:orderId/details"
-              element={
-                <ProtectedRoute requiredPermission="track-order">
-                  <Layout>
-                    <TrackOrderDetails />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/financial"
-              element={
-                <ProtectedRoute requiredPermission="financial">
-                  <Layout>
-                    <FinancialDashboard />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/customers"
-              element={
-                <ProtectedRoute requiredPermission="customers">
-                  <Layout>
-                    <Customers />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/invoices"
-              element={
-                <ProtectedRoute requiredPermission="invoices">
-                  <Layout>
-                    <Invoices />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/inventory"
-              element={
-                <ProtectedRoute requiredPermission="inventory">
-                  <Layout>
-                    <Inventory />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/employees"
-              element={
-                <ProtectedRoute requiredPermission="employees">
-                  <Layout>
-                    <Employees />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/notifications"
-              element={
-                <ProtectedRoute requiredPermission="notifications">
-                  <Layout>
-                    <Notifications />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/suppliers"
-              element={
-                <ProtectedRoute requiredPermission="suppliers">
-                  <Layout>
-                    <Suppliers />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="*"
-              element={
-                <ProtectedRoute>
-                  <Layout>
-                    <NotFound />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
-        </BrowserRouter>
+        <NotificationProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route
+                path="/"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <Index />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/orders"
+                element={
+                  <ProtectedRoute requiredPermission="orders">
+                    <Layout>
+                      <OrdersManagement />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/track-order"
+                element={
+                  <ProtectedRoute requiredPermission="track-order">
+                    <Layout>
+                      <TrackOrder />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/track-order/:orderId/details"
+                element={
+                  <ProtectedRoute requiredPermission="track-order">
+                    <Layout>
+                      <TrackOrderDetails />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/financial"
+                element={
+                  <ProtectedRoute requiredPermission="financial">
+                    <Layout>
+                      <FinancialDashboard />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/customers"
+                element={
+                  <ProtectedRoute requiredPermission="customers">
+                    <Layout>
+                      <Customers />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/invoices"
+                element={
+                  <ProtectedRoute requiredPermission="invoices">
+                    <Layout>
+                      <Invoices />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/inventory"
+                element={
+                  <ProtectedRoute requiredPermission="inventory">
+                    <Layout>
+                      <Inventory />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/employees"
+                element={
+                  <ProtectedRoute requiredPermission="employees">
+                    <Layout>
+                      <Employees />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/notifications"
+                element={
+                  <ProtectedRoute requiredPermission="notifications">
+                    <Layout>
+                      <Notifications />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/suppliers"
+                element={
+                  <ProtectedRoute requiredPermission="suppliers">
+                    <Layout>
+                      <Suppliers />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="*"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <NotFound />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+          </BrowserRouter>
+        </NotificationProvider>
       </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
