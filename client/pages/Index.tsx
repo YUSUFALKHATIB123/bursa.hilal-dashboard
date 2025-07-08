@@ -27,7 +27,7 @@ const dashboardCards = [
     icon: ShoppingCart,
     path: "/orders",
     color: "from-blue-500 to-blue-600",
-    stats: "142",
+    stats: "143",
   },
   {
     title: { en: "Customers", ar: "العملاء" },
@@ -88,7 +88,7 @@ const dashboardCards = [
     title: { en: "Financial Dashboard", ar: "لوحة المالية" },
     description: {
       en: "Earnings, expenses, profit/loss with charts",
-      ar: "الأرباح والمصروفات والربح/��لخسارة مع المخططات",
+      ar: "الأرباح والمصروفات والربح/الخسارة مع المخططات",
     },
     icon: TrendingUp,
     path: "/financial",
@@ -111,29 +111,29 @@ const dashboardCards = [
 const quickStats = [
   {
     label: { en: "Today's Orders", ar: "طلبات اليوم" },
-    value: 12,
+    value: 13,
     change: "+8%",
     icon: ShoppingCart,
     color: "text-blue-600 bg-blue-100",
   },
   {
     label: { en: "Total Revenue", ar: "إجمالي الإيرادات" },
-    value: 45200,
-    change: "+12%",
+    value: 63200,
+    change: "+40%",
     icon: DollarSign,
     color: "text-green-600 bg-green-100",
   },
   {
     label: { en: "Pending Tasks", ar: "المهام المعلقة" },
-    value: 8,
-    change: "-3%",
+    value: 9,
+    change: "+12%",
     icon: AlertTriangle,
     color: "text-orange-600 bg-orange-100",
   },
   {
     label: { en: "Completed Orders", ar: "الطلبات المكتملة" },
-    value: 134,
-    change: "+5%",
+    value: 135,
+    change: "+6%",
     icon: CheckCircle,
     color: "text-green-600 bg-green-100",
   },
@@ -324,7 +324,7 @@ export default function Index() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="text-center p-4 bg-blue-50 rounded-lg">
             <div className="text-3xl font-bold text-blue-600 mb-2">
-              <AnimatedCounter value={8} />
+              <AnimatedCounter value={9} />
             </div>
             <p className="text-blue-800 font-medium">
               {language === "ar" ? "طلبات جديدة" : "New Orders"}
@@ -332,7 +332,7 @@ export default function Index() {
           </div>
           <div className="text-center p-4 bg-green-50 rounded-lg">
             <div className="text-3xl font-bold text-green-600 mb-2">
-              <AnimatedCounter value={15} />
+              <AnimatedCounter value={16} />
             </div>
             <p className="text-green-800 font-medium">
               {language === "ar" ? "مهام مكتملة" : "Tasks Completed"}
@@ -340,7 +340,7 @@ export default function Index() {
           </div>
           <div className="text-center p-4 bg-orange-50 rounded-lg">
             <div className="text-3xl font-bold text-orange-600 mb-2">
-              <AnimatedCounter value={3} />
+              <AnimatedCounter value={4} />
             </div>
             <p className="text-orange-800 font-medium">
               {language === "ar" ? "تنبيهات نشطة" : "Active Alerts"}

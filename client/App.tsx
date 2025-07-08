@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Index from "./pages/Index";
 import OrdersManagement from "./pages/OrdersManagement";
+import TrackOrder from "./pages/TrackOrder";
 import FinancialDashboard from "./pages/FinancialDashboard";
 import Customers from "./pages/Customers";
 import Invoices from "./pages/Invoices";
@@ -30,6 +31,8 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/orders" element={<OrdersManagement />} />
+            <Route path="/track-order" element={<TrackOrder />} />
+            <Route path="/track-order/:orderId" element={<TrackOrder />} />
             <Route path="/financial" element={<FinancialDashboard />} />
             <Route path="/customers" element={<Customers />} />
             <Route path="/invoices" element={<Invoices />} />

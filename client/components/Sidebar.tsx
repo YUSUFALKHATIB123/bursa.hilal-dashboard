@@ -10,6 +10,7 @@ import {
   Bell,
   TrendingUp,
   Building2,
+  MapPin,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -26,6 +27,11 @@ const menuItems = [
     path: "/orders",
     icon: ShoppingCart,
     label: { en: "Orders Management", ar: "إدارة الطلبات" },
+  },
+  {
+    path: "/track-order",
+    icon: MapPin,
+    label: { en: "Track Order", ar: "تتبع الطلب" },
   },
   {
     path: "/customers",
@@ -55,7 +61,7 @@ const menuItems = [
   {
     path: "/financial",
     icon: TrendingUp,
-    label: { en: "Financial Dashboard", ar: "لوحة المالية" },
+    label: { en: "Financial Dashboard", ar: "لوح�� المالية" },
   },
   {
     path: "/suppliers",
