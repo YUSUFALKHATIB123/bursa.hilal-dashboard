@@ -1,5 +1,15 @@
 import { motion } from "framer-motion";
-import { Users, Plus, Search, Filter, Download } from "lucide-react";
+import {
+  Users,
+  Plus,
+  Search,
+  Filter,
+  Download,
+  Phone,
+  Mail,
+  MapPin,
+  MessageCircle,
+} from "lucide-react";
 
 export default function Customers() {
   return (
@@ -41,52 +51,88 @@ export default function Customers() {
       >
         <div className="bg-gradient-to-r from-green-primary to-green-secondary p-6 text-white">
           <h3 className="text-xl font-bold">Featured Customer</h3>
-          <p className="text-green-100">Recent high-value order</p>
+          <p className="text-green-100">Premium customer profile</p>
         </div>
         <div className="p-6">
-          <div className="flex items-start justify-between">
+          <div className="flex items-start justify-between mb-6">
             <div className="flex items-center space-x-4">
               <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white text-xl font-bold">
                 LT
               </div>
               <div>
-                <h4 className="text-lg font-semibold text-gray-900">
+                <h4 className="text-xl font-semibold text-gray-900">
                   Libya Textile Co.
                 </h4>
                 <p className="text-gray-600">Premium Customer</p>
                 <p className="text-sm text-gray-500">Member since 2022</p>
               </div>
             </div>
-            <div className="text-right">
-              <p className="text-sm text-gray-600">Total Orders Value</p>
-              <p className="text-2xl font-bold text-green-600">$45,000</p>
+          </div>
+
+          {/* Contact Information */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div className="space-y-4">
+              <h5 className="font-semibold text-gray-900">
+                Contact Information
+              </h5>
+              <div className="space-y-3">
+                <div className="flex items-center space-x-3">
+                  <Phone className="w-5 h-5 text-gray-400" />
+                  <div>
+                    <p className="text-sm text-gray-600">Phone</p>
+                    <p className="font-medium">+218-912-345-678</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <MessageCircle className="w-5 h-5 text-gray-400" />
+                  <div>
+                    <p className="text-sm text-gray-600">WhatsApp</p>
+                    <p className="font-medium">218912345678</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <Mail className="w-5 h-5 text-gray-400" />
+                  <div>
+                    <p className="text-sm text-gray-600">Email</p>
+                    <p className="font-medium">contact@libyatextile.com</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <MapPin className="w-5 h-5 text-gray-400" />
+                  <div>
+                    <p className="text-sm text-gray-600">Location</p>
+                    <p className="font-medium">Tripoli, Libya</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h5 className="font-semibold text-gray-900">Recent Order</h5>
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-medium">ORD-001: Jacquard Velvet</span>
+                  <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
+                    Processing
+                  </span>
+                </div>
+                <div className="space-y-2 text-sm text-gray-600">
+                  <p>Quantity: 1200 meters</p>
+                  <p>Colors: Gold, Cream, Beige</p>
+                  <p>Order Date: Jul 07, 2025</p>
+                  <p>Current Stage: Sent to Dyeing</p>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="mt-6 border-t border-gray-200 pt-6">
-            <h5 className="font-semibold text-gray-900 mb-3">Recent Order</h5>
-            <div className="bg-gray-50 rounded-lg p-4">
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-medium">ORD-001: Jacquard Velvet</span>
-                <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
-                  Processing
-                </span>
-              </div>
-              <div className="grid grid-cols-3 gap-4 text-sm text-gray-600">
-                <div>
-                  <p>Quantity: 1200 meters</p>
-                  <p>Colors: Gold, Cream, Beige</p>
-                </div>
-                <div>
-                  <p>Order Date: Jul 07, 2025</p>
-                  <p>Current: Sent to Dyeing</p>
-                </div>
-                <div>
-                  <p>Total: $18,000</p>
-                  <p>Deposit: $3,000 paid</p>
-                </div>
-              </div>
-            </div>
+          <div className="flex space-x-3 pt-4 border-t border-gray-200">
+            <button className="px-4 py-2 bg-green-primary text-white rounded-lg hover:bg-green-secondary transition-colors">
+              Contact Customer
+            </button>
+            <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+              View All Orders
+            </button>
           </div>
         </div>
       </motion.div>

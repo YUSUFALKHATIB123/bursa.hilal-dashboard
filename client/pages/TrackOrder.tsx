@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
-  ArrowLeft,
   Package,
   Palette,
   Scissors,
@@ -12,15 +11,11 @@ import {
   CheckCircle,
   Clock,
   Calendar,
-  MessageSquare,
   User,
   DollarSign,
-  MapPin,
-  Phone,
-  Mail,
-  Edit,
-  Save,
-  X,
+  Eye,
+  Search,
+  Filter,
 } from "lucide-react";
 
 interface TimelineStep {
@@ -34,7 +29,7 @@ interface TimelineStep {
   color: string;
 }
 
-interface OrderDetails {
+interface OrderCard {
   id: string;
   customer: string;
   product: string;
@@ -44,243 +39,256 @@ interface OrderDetails {
   total: number;
   depositPaid: number;
   remaining: number;
-  paymentMethod: string;
-  notes: string;
   status: string;
+  currentStage: string;
+  progress: number;
 }
 
-// Mock data - would come from API in real app
-const getOrderDetails = (orderId: string): OrderDetails | null => {
-  const orders: { [key: string]: OrderDetails } = {
-    "ORD-001": {
-      id: "ORD-001",
-      customer: "Libya Textile Co.",
-      product: "Jacquard Velvet",
-      quantity: "1200 meters",
-      colors: "Gold, Cream, Beige",
-      date: "2025-07-07",
-      total: 18000,
-      depositPaid: 3000,
-      remaining: 15000,
-      paymentMethod: "Wire Transfer",
-      notes: "Special packaging requested",
-      status: "processing",
-    },
+// Mock data - multiple orders for card view
+const getAllOrders = (): OrderCard[] => [
+  {
+    id: "ORD-001",
+    customer: "Libya Textile Co.",
+    product: "Jacquard Velvet",
+    quantity: "1200 meters",
+    colors: "Gold, Cream, Beige",
+    date: "2025-07-07",
+    total: 18000,
+    depositPaid: 3000,
+    remaining: 15000,
+    status: "processing",
+    currentStage: "Sent to Dyeing",
+    progress: 28,
+  },
+  {
+    id: "ORD-002",
+    customer: "Ahmed Textiles Ltd.",
+    product: "Cotton Blend",
+    quantity: "800 meters",
+    colors: "White, Blue",
+    date: "2025-07-05",
+    total: 12000,
+    depositPaid: 5000,
+    remaining: 7000,
+    status: "processing",
+    currentStage: "Quality Check",
+    progress: 71,
+  },
+  {
+    id: "ORD-003",
+    customer: "Cairo Fashion House",
+    product: "Silk Fabric",
+    quantity: "500 meters",
+    colors: "Red, Black",
+    date: "2025-07-03",
+    total: 8500,
+    depositPaid: 8500,
+    remaining: 0,
+    status: "completed",
+    currentStage: "Delivered",
+    progress: 100,
+  },
+  {
+    id: "ORD-004",
+    customer: "Alexandria Garments",
+    product: "Wool Blend",
+    quantity: "1500 meters",
+    colors: "Gray, Navy",
+    date: "2025-07-02",
+    total: 22000,
+    depositPaid: 10000,
+    remaining: 12000,
+    status: "processing",
+    currentStage: "Sent to Stitching",
+    progress: 57,
+  },
+  {
+    id: "ORD-005",
+    customer: "Modern Textiles Co.",
+    product: "Linen Fabric",
+    quantity: "600 meters",
+    colors: "Beige, Cream",
+    date: "2025-07-01",
+    total: 9000,
+    depositPaid: 2000,
+    remaining: 7000,
+    status: "pending",
+    currentStage: "Order Received",
+    progress: 14,
+  },
+  {
+    id: "ORD-006",
+    customer: "Elite Fashion",
+    product: "Polyester Mix",
+    quantity: "900 meters",
+    colors: "Black, White",
+    date: "2025-06-30",
+    total: 7500,
+    depositPaid: 7500,
+    remaining: 0,
+    status: "processing",
+    currentStage: "Ready for Delivery",
+    progress: 85,
+  },
+];
+
+const getStageIcon = (stage: string) => {
+  const stageIcons: { [key: string]: any } = {
+    "Order Received": Package,
+    "Sent to Dyeing": Palette,
+    "Back from Dyeing": CheckCircle,
+    "Sent to Stitching": Scissors,
+    "Quality Check": Shield,
+    "Ready for Delivery": PlayCircle,
+    Delivered: Truck,
   };
-  return orders[orderId] || null;
+  return stageIcons[stage] || Package;
 };
 
-const getTimelineSteps = (orderId: string): TimelineStep[] => {
-  // Libya Textile Co. specific timeline
-  if (orderId === "ORD-001") {
-    return [
-      {
-        id: "1",
-        title: "Order Received",
-        date: "Jul 07, 2025 - 09:30 AM",
-        completed: true,
-        icon: Package,
-        color: "bg-blue-500",
-        notes:
-          "Order confirmed with customer requirements. Special packaging requested noted.",
-      },
-      {
-        id: "2",
-        title: "Sent to Dyeing",
-        date: "Jul 08, 2025 - 11:00 AM",
-        completed: true,
-        current: true,
-        icon: Palette,
-        color: "bg-purple-500",
-        notes:
-          "Materials sent to dyeing department - Colors: Gold, Cream, Beige. Estimated completion: 3 days.",
-      },
-      {
-        id: "3",
-        title: "Back from Dyeing",
-        date: "Expected: Jul 11, 2025",
-        completed: false,
-        icon: CheckCircle,
-        color: "bg-green-500",
-      },
-      {
-        id: "4",
-        title: "Sent to Stitching",
-        date: "Expected: Jul 12, 2025",
-        completed: false,
-        icon: Scissors,
-        color: "bg-orange-500",
-      },
-      {
-        id: "5",
-        title: "Quality Check",
-        date: "Expected: Jul 18, 2025",
-        completed: false,
-        icon: Shield,
-        color: "bg-yellow-500",
-      },
-      {
-        id: "6",
-        title: "Ready for Delivery",
-        date: "Expected: Jul 20, 2025",
-        completed: false,
-        icon: PlayCircle,
-        color: "bg-indigo-500",
-      },
-      {
-        id: "7",
-        title: "Delivered",
-        date: "Expected: Jul 25, 2025",
-        completed: false,
-        icon: Truck,
-        color: "bg-gray-500",
-      },
-    ];
-  }
-
-  // Default timeline for other orders
-  return [
-    {
-      id: "1",
-      title: "Order Received",
-      date: "Jan 15, 2024 - 09:30 AM",
-      completed: true,
-      icon: Package,
-      color: "bg-blue-500",
-      notes: "Order confirmed with customer requirements",
-    },
-    {
-      id: "2",
-      title: "Sent to Dyeing",
-      date: "Jan 16, 2024 - 11:00 AM",
-      completed: true,
-      icon: Palette,
-      color: "bg-purple-500",
-      notes: "Materials sent to dyeing department",
-    },
-    {
-      id: "3",
-      title: "Back from Dyeing",
-      date: "Jan 18, 2024 - 02:15 PM",
-      completed: true,
-      icon: CheckCircle,
-      color: "bg-green-500",
-      notes: "Dyeing completed successfully",
-    },
-    {
-      id: "4",
-      title: "Sent to Stitching",
-      date: "Jan 19, 2024 - 08:45 AM",
-      completed: true,
-      current: true,
-      icon: Scissors,
-      color: "bg-orange-500",
-      notes: "Assigned to stitching team A",
-    },
-    {
-      id: "5",
-      title: "Quality Check",
-      date: "Expected: Jan 22, 2024",
-      completed: false,
-      icon: Shield,
-      color: "bg-yellow-500",
-    },
-    {
-      id: "6",
-      title: "Ready for Delivery",
-      date: "Expected: Jan 24, 2024",
-      completed: false,
-      icon: PlayCircle,
-      color: "bg-indigo-500",
-    },
-    {
-      id: "7",
-      title: "Delivered",
-      date: "Expected: Jan 25, 2024",
-      completed: false,
-      icon: Truck,
-      color: "bg-gray-500",
-    },
-  ];
+const getStageColor = (stage: string) => {
+  const stageColors: { [key: string]: string } = {
+    "Order Received": "bg-blue-500",
+    "Sent to Dyeing": "bg-purple-500",
+    "Back from Dyeing": "bg-green-500",
+    "Sent to Stitching": "bg-orange-500",
+    "Quality Check": "bg-yellow-500",
+    "Ready for Delivery": "bg-indigo-500",
+    Delivered: "bg-gray-500",
+  };
+  return stageColors[stage] || "bg-blue-500";
 };
 
-export default function TrackOrder() {
-  const { orderId } = useParams<{ orderId: string }>();
-  const [timelineSteps, setTimelineSteps] = useState<TimelineStep[]>([]);
-  const [orderDetails, setOrderDetails] = useState<OrderDetails | null>(null);
-  const [newNote, setNewNote] = useState("");
-  const [editingStep, setEditingStep] = useState<string | null>(null);
+function OrderCard({ order }: { order: OrderCard }) {
+  const StageIcon = getStageIcon(order.currentStage);
+  const stageColor = getStageColor(order.currentStage);
 
-  useEffect(() => {
-    if (orderId) {
-      setOrderDetails(getOrderDetails(orderId));
-      setTimelineSteps(getTimelineSteps(orderId));
-    }
-  }, [orderId]);
+  const paymentPercentage = (order.depositPaid / order.total) * 100;
 
-  if (!orderDetails) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">
-            Order Not Found
-          </h2>
-          <p className="text-gray-600 mb-4">
-            The order ID "{orderId}" could not be found.
-          </p>
-          <Link
-            to="/orders"
-            className="text-green-primary hover:text-green-secondary"
-          >
-            Return to Orders
-          </Link>
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ y: -5, scale: 1.02 }}
+      className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden"
+    >
+      {/* Header */}
+      <div
+        className={`p-4 ${order.status === "completed" ? "bg-green-50" : order.status === "pending" ? "bg-yellow-50" : "bg-blue-50"}`}
+      >
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="font-semibold text-gray-900">{order.customer}</h3>
+            <p className="text-sm text-gray-600">{order.id}</p>
+          </div>
+          <div className={`p-2 rounded-lg ${stageColor} text-white`}>
+            <StageIcon className="w-5 h-5" />
+          </div>
         </div>
       </div>
-    );
-  }
 
-  const addNote = (stepId: string, note: string) => {
-    setTimelineSteps((steps) =>
-      steps.map((step) =>
-        step.id === stepId ? { ...step, notes: note } : step,
-      ),
-    );
-    setEditingStep(null);
-    setNewNote("");
-  };
+      {/* Content */}
+      <div className="p-4 space-y-4">
+        {/* Product Info */}
+        <div>
+          <h4 className="font-medium text-gray-900 mb-1">{order.product}</h4>
+          <div className="text-sm text-gray-600 space-y-1">
+            <p className="flex items-center">
+              <Package className="w-4 h-4 mr-2" />
+              {order.quantity}
+            </p>
+            <p>Colors: {order.colors}</p>
+            <p className="flex items-center">
+              <Calendar className="w-4 h-4 mr-2" />
+              {order.date}
+            </p>
+          </div>
+        </div>
 
-  const markStepComplete = (stepId: string) => {
-    const currentDate = new Date().toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+        {/* Payment Status */}
+        <div>
+          <div className="flex justify-between text-sm mb-2">
+            <span className="text-gray-600">Payment Progress</span>
+            <span className="font-medium">
+              ${order.depositPaid.toLocaleString()} / $
+              {order.total.toLocaleString()}
+            </span>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-2">
+            <div
+              className="bg-green-500 h-2 rounded-full transition-all duration-500"
+              style={{ width: `${paymentPercentage}%` }}
+            />
+          </div>
+          {order.remaining > 0 && (
+            <p className="text-xs text-orange-600 mt-1">
+              ${order.remaining.toLocaleString()} remaining
+            </p>
+          )}
+        </div>
 
-    setTimelineSteps((steps) =>
-      steps.map((step) => {
-        if (step.id === stepId) {
-          return {
-            ...step,
-            completed: true,
-            current: false,
-            date: step.completed ? step.date : currentDate,
-          };
-        }
-        // Set next step as current
-        const stepIndex = steps.findIndex((s) => s.id === stepId);
-        const nextStep = steps[stepIndex + 1];
-        if (nextStep && step.id === nextStep.id) {
-          return { ...step, current: true };
-        }
-        return { ...step, current: false };
-      }),
-    );
-  };
+        {/* Current Stage */}
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm text-gray-600">Current Stage</span>
+            <span
+              className={`px-2 py-1 rounded-full text-xs font-medium ${
+                order.status === "completed"
+                  ? "bg-green-100 text-green-800"
+                  : order.status === "pending"
+                    ? "bg-yellow-100 text-yellow-800"
+                    : "bg-blue-100 text-blue-800"
+              }`}
+            >
+              {order.currentStage}
+            </span>
+          </div>
 
-  const completedSteps = timelineSteps.filter((s) => s.completed).length;
-  const progressPercentage = (completedSteps / timelineSteps.length) * 100;
+          {/* Progress Bar */}
+          <div className="w-full bg-gray-200 rounded-full h-2">
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: `${order.progress}%` }}
+              transition={{ duration: 1, ease: "easeOut" }}
+              className="bg-gradient-to-r from-green-primary to-green-secondary h-2 rounded-full"
+            />
+          </div>
+          <p className="text-xs text-gray-600 mt-1">
+            {order.progress}% complete
+          </p>
+        </div>
+
+        {/* Actions */}
+        <div className="flex justify-between items-center pt-2 border-t border-gray-100">
+          <Link
+            to={`/track-order/${order.id}/details`}
+            className="flex items-center space-x-2 text-green-primary hover:text-green-secondary text-sm font-medium"
+          >
+            <Eye className="w-4 h-4" />
+            <span>View Details</span>
+          </Link>
+          <span className="text-xs text-gray-500">Updated today</span>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+export default function TrackOrder() {
+  const [orders] = useState<OrderCard[]>(getAllOrders());
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+
+  const filteredOrders = orders.filter((order) => {
+    const matchesSearch =
+      order.customer.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.product.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesStatus =
+      statusFilter === "all" || order.status === statusFilter;
+
+    return matchesSearch && matchesStatus;
+  });
 
   return (
     <div className="space-y-6">
@@ -290,10 +298,6 @@ export default function TrackOrder() {
           Dashboard
         </Link>
         <span className="mx-2">/</span>
-        <Link to="/orders" className="hover:text-gray-700">
-          Orders
-        </Link>
-        <span className="mx-2">/</span>
         <span className="text-gray-900">Track Order</span>
       </nav>
 
@@ -301,301 +305,122 @@ export default function TrackOrder() {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex items-center justify-between"
+        className="flex flex-col sm:flex-row sm:items-center sm:justify-between"
       >
-        <div className="flex items-center space-x-4">
-          <Link
-            to="/orders"
-            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </Link>
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">Track Order</h1>
-            <p className="text-gray-600">Order ID: {orderDetails.id}</p>
-          </div>
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Track Orders</h1>
+          <p className="text-gray-600 mt-1">
+            Monitor all active orders and their progress at a glance
+          </p>
         </div>
       </motion.div>
 
-      {/* Order Details Card */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-xl border border-gray-200 overflow-hidden"
-      >
-        <div className="bg-gradient-to-r from-green-primary to-green-secondary p-6 text-white">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-xl font-bold">{orderDetails.customer}</h2>
-              <p className="text-green-100">{orderDetails.product}</p>
-            </div>
-            <div className="text-right">
-              <p className="text-green-100">Total Amount</p>
-              <p className="text-2xl font-bold">
-                ${orderDetails.total.toLocaleString()}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div>
-              <p className="text-sm text-gray-600">Quantity</p>
-              <p className="font-semibold">{orderDetails.quantity}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Colors</p>
-              <p className="font-semibold">{orderDetails.colors}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Order Date</p>
-              <p className="font-semibold">{orderDetails.date}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Payment Method</p>
-              <p className="font-semibold">{orderDetails.paymentMethod}</p>
-            </div>
-          </div>
-
-          {/* Payment Info */}
-          <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-            <h3 className="font-semibold text-gray-900 mb-3">Payment Status</h3>
-            <div className="flex items-center justify-between">
-              <div className="flex space-x-6">
-                <div>
-                  <p className="text-sm text-gray-600">Deposit Paid</p>
-                  <p className="font-semibold text-green-600">
-                    ${orderDetails.depositPaid.toLocaleString()}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Remaining</p>
-                  <p className="font-semibold text-orange-600">
-                    ${orderDetails.remaining.toLocaleString()}
-                  </p>
-                </div>
-              </div>
-              <div className="w-32 bg-gray-200 rounded-full h-2">
-                <div
-                  className="bg-green-500 h-2 rounded-full"
-                  style={{
-                    width: `${(orderDetails.depositPaid / orderDetails.total) * 100}%`,
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Order Notes */}
-          {orderDetails.notes && (
-            <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-              <p className="text-sm text-blue-800">
-                <strong>Order Notes:</strong> {orderDetails.notes}
-              </p>
-            </div>
-          )}
-        </div>
-      </motion.div>
-
-      {/* Progress Overview */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-xl border border-gray-200 p-6"
-      >
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold">Progress Overview</h3>
-          <span className="text-sm text-gray-600">
-            {completedSteps} of {timelineSteps.length} steps completed
-          </span>
-        </div>
-        <div className="w-full bg-gray-200 rounded-full h-3 mb-2">
+      {/* Stats Overview */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        {[
+          { label: "Total Orders", value: orders.length, color: "blue" },
+          {
+            label: "In Progress",
+            value: orders.filter((o) => o.status === "processing").length,
+            color: "yellow",
+          },
+          {
+            label: "Completed",
+            value: orders.filter((o) => o.status === "completed").length,
+            color: "green",
+          },
+          {
+            label: "Pending",
+            value: orders.filter((o) => o.status === "pending").length,
+            color: "red",
+          },
+        ].map((stat, index) => (
           <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: `${progressPercentage}%` }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            className="bg-gradient-to-r from-green-primary to-green-secondary h-3 rounded-full"
-          />
-        </div>
-        <p className="text-sm text-gray-600">
-          {progressPercentage.toFixed(0)}% complete
-        </p>
-      </motion.div>
-
-      {/* Timeline */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-xl border border-gray-200 p-6"
-      >
-        <h3 className="text-lg font-semibold mb-6 flex items-center">
-          <Clock className="w-5 h-5 mr-2" />
-          Order Timeline
-        </h3>
-
-        <div className="space-y-8">
-          {timelineSteps.map((step, index) => (
-            <motion.div
-              key={step.id}
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="relative"
-            >
-              {/* Connection line */}
-              {index < timelineSteps.length - 1 && (
-                <div className="absolute left-8 top-16 w-0.5 h-24 bg-gray-200" />
-              )}
-
-              <div className="flex items-start space-x-6">
-                {/* Step Icon */}
-                <motion.div
-                  className={`relative z-10 w-16 h-16 rounded-full ${step.color} flex items-center justify-center text-white shadow-lg`}
-                  animate={{
-                    scale: step.current ? [1, 1.05, 1] : 1,
-                    boxShadow: step.current
-                      ? "0 0 30px rgba(34, 197, 94, 0.4)"
-                      : "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
-                  }}
-                  transition={{
-                    scale: {
-                      repeat: step.current ? Infinity : 0,
-                      duration: 2,
-                    },
-                    boxShadow: { duration: 0.3 },
-                  }}
-                >
-                  <step.icon className="w-8 h-8" />
-                  {step.completed && (
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      className="absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center border-2 border-white"
-                    >
-                      <CheckCircle className="w-4 h-4 text-white" />
-                    </motion.div>
-                  )}
-                </motion.div>
-
-                {/* Step Content */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between mb-2">
-                    <h4
-                      className={`text-xl font-semibold ${
-                        step.completed ? "text-gray-900" : "text-gray-500"
-                      }`}
-                    >
-                      {step.title}
-                      {step.current && (
-                        <span className="ml-3 px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
-                          Current Step
-                        </span>
-                      )}
-                    </h4>
-                    {!step.completed && (
-                      <button
-                        onClick={() => markStepComplete(step.id)}
-                        className="px-4 py-2 bg-green-100 text-green-800 rounded-lg hover:bg-green-200 transition-colors text-sm font-medium"
-                      >
-                        Mark Complete
-                      </button>
-                    )}
-                  </div>
-
-                  <p className="text-gray-600 mb-4 flex items-center">
-                    <Calendar className="w-5 h-5 mr-2" />
-                    {step.date}
-                  </p>
-
-                  {/* Notes Section */}
-                  <div className="mt-4">
-                    {step.notes && editingStep !== step.id ? (
-                      <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                        <div className="flex items-start justify-between">
-                          <p className="text-gray-700 flex-1">
-                            <MessageSquare className="w-5 h-5 inline mr-2" />
-                            {step.notes}
-                          </p>
-                          <button
-                            onClick={() => {
-                              setEditingStep(step.id);
-                              setNewNote(step.notes || "");
-                            }}
-                            className="text-blue-600 hover:text-blue-800 ml-3 p-1"
-                          >
-                            <Edit className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </div>
-                    ) : editingStep === step.id ? (
-                      <div className="space-y-3">
-                        <textarea
-                          value={newNote}
-                          onChange={(e) => setNewNote(e.target.value)}
-                          placeholder="Add notes for this step..."
-                          className="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-primary focus:border-transparent resize-none"
-                          rows={3}
-                        />
-                        <div className="flex space-x-3">
-                          <button
-                            onClick={() => addNote(step.id, newNote)}
-                            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center space-x-2"
-                          >
-                            <Save className="w-4 h-4" />
-                            <span>Save</span>
-                          </button>
-                          <button
-                            onClick={() => {
-                              setEditingStep(null);
-                              setNewNote("");
-                            }}
-                            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors flex items-center space-x-2"
-                          >
-                            <X className="w-4 h-4" />
-                            <span>Cancel</span>
-                          </button>
-                        </div>
-                      </div>
-                    ) : (
-                      <button
-                        onClick={() => setEditingStep(step.id)}
-                        className="text-blue-600 hover:text-blue-800 flex items-center space-x-2 p-2 rounded-lg hover:bg-blue-50 transition-colors"
-                      >
-                        <MessageSquare className="w-5 h-5" />
-                        <span>Add note</span>
-                      </button>
-                    )}
-                  </div>
-                </div>
+            key={stat.label}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: index * 0.1 }}
+            className="bg-white rounded-lg border border-gray-200 p-6"
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-gray-600 text-sm">{stat.label}</p>
+                <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
               </div>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
+              <div
+                className={`p-3 rounded-lg bg-${stat.color}-100 text-${stat.color}-600`}
+              >
+                <Package className="w-6 h-6" />
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
 
-      {/* Admin Controls */}
+      {/* Filters */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-yellow-50 border border-yellow-200 rounded-lg p-6"
+        className="bg-white rounded-lg border border-gray-200 p-6"
       >
-        <h3 className="text-lg font-semibold text-yellow-800 mb-2">
-          Admin Controls
-        </h3>
-        <p className="text-yellow-700 text-sm mb-4">
-          Update order progress and add internal notes visible only to
-          administrators.
-        </p>
-        <div className="flex space-x-3">
-          <button className="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors">
-            Edit Order Details
-          </button>
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-            Send Update to Customer
-          </button>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+          <div className="flex items-center space-x-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <input
+                type="text"
+                placeholder="Search orders..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-primary focus:border-transparent w-64"
+              />
+            </div>
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-primary focus:border-transparent"
+            >
+              <option value="all">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="processing">Processing</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+          <div className="text-sm text-gray-600">
+            Showing {filteredOrders.length} of {orders.length} orders
+          </div>
         </div>
       </motion.div>
+
+      {/* Orders Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredOrders.map((order, index) => (
+          <motion.div
+            key={order.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+          >
+            <OrderCard order={order} />
+          </motion.div>
+        ))}
+      </div>
+
+      {filteredOrders.length === 0 && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center py-12"
+        >
+          <Package className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            No orders found
+          </h3>
+          <p className="text-gray-600">
+            Try adjusting your search or filter criteria.
+          </p>
+        </motion.div>
+      )}
     </div>
   );
 }
