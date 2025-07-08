@@ -1,7 +1,15 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
+import {
+  CreateInvoiceModal,
+  UploadInvoiceModal,
+} from "../components/InvoiceModals";
 import { FileText, Plus, Upload, Download } from "lucide-react";
 
 export default function Invoices() {
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showUploadModal, setShowUploadModal] = useState(false);
+
   return (
     <div className="space-y-6">
       {/* Breadcrumb */}
@@ -27,7 +35,7 @@ export default function Invoices() {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => alert("Upload invoice file - Coming soon!")}
+            onClick={() => setShowUploadModal(true)}
             className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors flex items-center space-x-2"
           >
             <Upload className="w-4 h-4" />
@@ -36,7 +44,7 @@ export default function Invoices() {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => alert("Create new invoice - Coming soon!")}
+            onClick={() => setShowCreateModal(true)}
             className="px-4 py-2 bg-green-primary text-white rounded-lg hover:bg-green-secondary transition-colors flex items-center space-x-2"
           >
             <Plus className="w-4 h-4" />
@@ -76,6 +84,16 @@ export default function Invoices() {
           </div>
         </div>
       </motion.div>
+
+      {/* Invoice Modals */}
+      <CreateInvoiceModal
+        isOpen={showCreateModal}
+        onClose={() => setShowCreateModal(false)}
+      />
+      <UploadInvoiceModal
+        isOpen={showUploadModal}
+        onClose={() => setShowUploadModal(false)}
+      />
     </div>
   );
 }

@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import {
   ShoppingCart,
   Users,
-  FileText,
   Package,
   UserCheck,
   Bell,
@@ -113,7 +112,7 @@ const dashboardCards = [
 
 const quickStats = [
   {
-    label: { en: "Today's Orders", ar: "طلبات اليوم" },
+    label: { en: "Today's Orders", ar: "طلبات ا��يوم" },
     value: 13,
     change: "+8%",
     icon: ShoppingCart,

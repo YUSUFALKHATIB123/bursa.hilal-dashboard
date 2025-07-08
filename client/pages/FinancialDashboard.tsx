@@ -268,6 +268,26 @@ export default function FinancialDashboard() {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={() => {
+              // Generate CSV/PDF export
+              const csvContent =
+                "data:text/csv;charset=utf-8," +
+                "Month,Revenue,Expenses,Profit\n" +
+                "Jan,45000,32000,13000\n" +
+                "Feb,52000,35000,17000\n" +
+                "Mar,48000,38000,10000\n" +
+                "Apr,61000,41000,20000\n" +
+                "May,55000,39000,16000\n" +
+                "Jun,67000,44000,23000";
+
+              const encodedUri = encodeURI(csvContent);
+              const link = document.createElement("a");
+              link.setAttribute("href", encodedUri);
+              link.setAttribute("download", "financial_report.csv");
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            }}
             className="px-4 py-2 bg-green-primary text-white rounded-lg hover:bg-green-secondary transition-colors flex items-center space-x-2"
           >
             <Download className="w-4 h-4" />
