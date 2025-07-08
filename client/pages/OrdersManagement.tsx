@@ -300,7 +300,7 @@ export default function OrdersManagement() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                     <Link
-                      to={`/track-order/${order.id}`}
+                      to={`/track-order/${order.id}/details`}
                       className="text-green-primary hover:text-green-secondary p-1 rounded transition-colors inline-flex items-center"
                       title="Track Order"
                     >

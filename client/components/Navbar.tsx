@@ -26,6 +26,7 @@ export default function Navbar({
   toggleLanguage,
 }: NavbarProps) {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
   const { user, logout } = useAuth();
 
   const handleLogout = () => {
@@ -51,18 +52,6 @@ export default function Navbar({
           >
             <Menu className="w-5 h-5" />
           </motion.button>
-
-          {/* Logo */}
-          <div className="flex items-center space-x-3">
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets%2Fbf5a031be6ad4459b45a03211af5ce40%2F1cedd8caa61447b3afc7a2affd9fa0aa?format=webp&width=800"
-              alt="Bursa Hilal Logo"
-              className="w-8 h-8 object-contain"
-            />
-            <span className="font-bold text-gray-900 hidden md:block">
-              Bursa Hilal
-            </span>
-          </div>
 
           {/* Search */}
           <div className="relative hidden md:block">
@@ -91,18 +80,71 @@ export default function Navbar({
           </motion.button>
 
           {/* Notifications */}
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="relative p-2 rounded-lg hover:bg-gray-100 transition-colors"
-          >
-            <Bell className="w-5 h-5" />
-            <motion.span
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"
-            />
-          </motion.button>
+          <div className="relative">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setNotificationsOpen(!notificationsOpen)}
+              className="relative p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            >
+              <Bell className="w-5 h-5" />
+              <motion.span
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"
+              />
+            </motion.button>
+
+            {/* Notifications Dropdown */}
+            <AnimatePresence>
+              {notificationsOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
+                >
+                  <div className="px-4 py-2 border-b border-gray-200">
+                    <h3 className="font-semibold text-gray-900">
+                      Notifications
+                    </h3>
+                  </div>
+                  <div className="max-h-64 overflow-y-auto">
+                    <div className="px-4 py-3 hover:bg-gray-50">
+                      <p className="text-sm font-medium text-gray-900">
+                        New order received
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        Libya Textile Co. - 2 minutes ago
+                      </p>
+                    </div>
+                    <div className="px-4 py-3 hover:bg-gray-50">
+                      <p className="text-sm font-medium text-gray-900">
+                        Low stock alert
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        Cotton fabric running low - 1 hour ago
+                      </p>
+                    </div>
+                    <div className="px-4 py-3 hover:bg-gray-50">
+                      <p className="text-sm font-medium text-gray-900">
+                        Payment received
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        Ahmed Textiles - 3 hours ago
+                      </p>
+                    </div>
+                  </div>
+                  <div className="px-4 py-2 border-t border-gray-200">
+                    <button className="text-sm text-blue-600 hover:text-blue-800">
+                      View all notifications
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
 
           {/* User menu */}
           <div className="relative">
@@ -134,22 +176,28 @@ export default function Navbar({
                   transition={{ duration: 0.2 }}
                   className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50"
                 >
-                  <a
-                    href="#"
-                    className="flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    <User className="w-4 h-4" />
-                    <span>
-                      {language === "ar" ? "الملف الشخصي" : "Profile"}
-                    </span>
-                  </a>
-                  <a
-                    href="#"
-                    className="flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    <Settings className="w-4 h-4" />
-                    <span>{language === "ar" ? "الإعدادات" : "Settings"}</span>
-                  </a>
+                  {user?.email === "yusuf@bursahilal.com" && (
+                    <>
+                      <a
+                        href="#"
+                        className="flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        <User className="w-4 h-4" />
+                        <span>
+                          {language === "ar" ? "الملف الشخصي" : "Profile"}
+                        </span>
+                      </a>
+                      <a
+                        href="#"
+                        className="flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        <Settings className="w-4 h-4" />
+                        <span>
+                          {language === "ar" ? "الإعدادات" : "Settings"}
+                        </span>
+                      </a>
+                    </>
+                  )}
                   <hr className="my-1" />
                   <button
                     onClick={handleLogout}

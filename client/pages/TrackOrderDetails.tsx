@@ -340,17 +340,11 @@ export default function TrackOrderDetails() {
               <h2 className="text-xl font-bold">{orderDetails.customer}</h2>
               <p className="text-green-100">{orderDetails.product}</p>
             </div>
-            <div className="text-right">
-              <p className="text-green-100">Total Amount</p>
-              <p className="text-2xl font-bold">
-                ${orderDetails.total.toLocaleString()}
-              </p>
-            </div>
           </div>
         </div>
 
         <div className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <p className="text-sm text-gray-600">Quantity</p>
               <p className="font-semibold">{orderDetails.quantity}</p>
@@ -362,39 +356,6 @@ export default function TrackOrderDetails() {
             <div>
               <p className="text-sm text-gray-600">Order Date</p>
               <p className="font-semibold">{orderDetails.date}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Payment Method</p>
-              <p className="font-semibold">{orderDetails.paymentMethod}</p>
-            </div>
-          </div>
-
-          {/* Payment Info */}
-          <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-            <h3 className="font-semibold text-gray-900 mb-3">Payment Status</h3>
-            <div className="flex items-center justify-between">
-              <div className="flex space-x-6">
-                <div>
-                  <p className="text-sm text-gray-600">Deposit Paid</p>
-                  <p className="font-semibold text-green-600">
-                    ${orderDetails.depositPaid.toLocaleString()}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Remaining</p>
-                  <p className="font-semibold text-orange-600">
-                    ${orderDetails.remaining.toLocaleString()}
-                  </p>
-                </div>
-              </div>
-              <div className="w-32 bg-gray-200 rounded-full h-2">
-                <div
-                  className="bg-green-500 h-2 rounded-full"
-                  style={{
-                    width: `${(orderDetails.depositPaid / orderDetails.total) * 100}%`,
-                  }}
-                />
-              </div>
             </div>
           </div>
 
@@ -445,28 +406,24 @@ export default function TrackOrderDetails() {
           Order Timeline
         </h3>
 
-        <div className="space-y-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {timelineSteps.map((step, index) => (
             <motion.div
               key={step.id}
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="relative"
+              whileHover={{ y: -5, scale: 1.02 }}
+              className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm hover:shadow-md transition-all duration-300"
             >
-              {/* Connection line */}
-              {index < timelineSteps.length - 1 && (
-                <div className="absolute left-8 top-16 w-0.5 h-24 bg-gray-200" />
-              )}
-
-              <div className="flex items-start space-x-6">
+              <div className="flex items-start space-x-4">
                 {/* Step Icon */}
                 <motion.div
-                  className={`relative z-10 w-16 h-16 rounded-full ${step.color} flex items-center justify-center text-white shadow-lg`}
+                  className={`relative w-12 h-12 rounded-full ${step.color} flex items-center justify-center text-white shadow-lg`}
                   animate={{
-                    scale: step.current ? [1, 1.05, 1] : 1,
+                    scale: step.current ? [1, 1.1, 1] : 1,
                     boxShadow: step.current
-                      ? "0 0 30px rgba(34, 197, 94, 0.4)"
+                      ? "0 0 20px rgba(34, 197, 94, 0.5)"
                       : "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
                   }}
                   transition={{
@@ -477,14 +434,14 @@ export default function TrackOrderDetails() {
                     boxShadow: { duration: 0.3 },
                   }}
                 >
-                  <step.icon className="w-8 h-8" />
+                  <step.icon className="w-6 h-6" />
                   {step.completed && (
                     <motion.div
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
-                      className="absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center border-2 border-white"
+                      className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center border-2 border-white"
                     >
-                      <CheckCircle className="w-4 h-4 text-white" />
+                      <CheckCircle className="w-3 h-3 text-white" />
                     </motion.div>
                   )}
                 </motion.div>
@@ -493,91 +450,41 @@ export default function TrackOrderDetails() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between mb-2">
                     <h4
-                      className={`text-xl font-semibold ${
+                      className={`text-lg font-semibold ${
                         step.completed ? "text-gray-900" : "text-gray-500"
                       }`}
                     >
                       {step.title}
-                      {step.current && (
-                        <span className="ml-3 px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
-                          Current Step
-                        </span>
-                      )}
                     </h4>
-                    {!step.completed && (
-                      <button
-                        onClick={() => markStepComplete(step.id)}
-                        className="px-4 py-2 bg-green-100 text-green-800 rounded-lg hover:bg-green-200 transition-colors text-sm font-medium"
-                      >
-                        Mark Complete
-                      </button>
+                    {step.current && (
+                      <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
+                        Current
+                      </span>
                     )}
                   </div>
 
-                  <p className="text-gray-600 mb-4 flex items-center">
-                    <Calendar className="w-5 h-5 mr-2" />
+                  <p className="text-gray-600 text-sm mb-3 flex items-center">
+                    <Calendar className="w-4 h-4 mr-2" />
                     {step.date}
                   </p>
 
-                  {/* Notes Section */}
-                  <div className="mt-4">
-                    {step.notes && editingStep !== step.id ? (
-                      <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                        <div className="flex items-start justify-between">
-                          <p className="text-gray-700 flex-1">
-                            <MessageSquare className="w-5 h-5 inline mr-2" />
-                            {step.notes}
-                          </p>
-                          <button
-                            onClick={() => {
-                              setEditingStep(step.id);
-                              setNewNote(step.notes || "");
-                            }}
-                            className="text-blue-600 hover:text-blue-800 ml-3 p-1"
-                          >
-                            <Edit className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </div>
-                    ) : editingStep === step.id ? (
-                      <div className="space-y-3">
-                        <textarea
-                          value={newNote}
-                          onChange={(e) => setNewNote(e.target.value)}
-                          placeholder="Add notes for this step..."
-                          className="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-primary focus:border-transparent resize-none"
-                          rows={3}
-                        />
-                        <div className="flex space-x-3">
-                          <button
-                            onClick={() => addNote(step.id, newNote)}
-                            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center space-x-2"
-                          >
-                            <Save className="w-4 h-4" />
-                            <span>Save</span>
-                          </button>
-                          <button
-                            onClick={() => {
-                              setEditingStep(null);
-                              setNewNote("");
-                            }}
-                            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors flex items-center space-x-2"
-                          >
-                            <X className="w-4 h-4" />
-                            <span>Cancel</span>
-                          </button>
-                        </div>
-                      </div>
-                    ) : (
-                      <button
-                        onClick={() => setEditingStep(step.id)}
-                        className="text-blue-600 hover:text-blue-800 flex items-center space-x-2 p-2 rounded-lg hover:bg-blue-50 transition-colors"
-                      >
-                        <MessageSquare className="w-5 h-5" />
-                        <span>Add note</span>
-                      </button>
-                    )}
-                  </div>
+                  {step.notes && (
+                    <div className="bg-gray-50 rounded-lg p-3 border border-gray-200 mb-3">
+                      <p className="text-gray-700 text-sm">
+                        <MessageSquare className="w-4 h-4 inline mr-2" />
+                        {step.notes}
+                      </p>
+                    </div>
+                  )}
+
+                  {!step.completed && (
+                    <button
+                      onClick={() => markStepComplete(step.id)}
+                      className="px-3 py-1.5 bg-green-100 text-green-800 rounded-lg hover:bg-green-200 transition-colors text-sm font-medium"
+                    >
+                      Mark Complete
+                    </button>
+                  )}
                 </div>
               </div>
             </motion.div>

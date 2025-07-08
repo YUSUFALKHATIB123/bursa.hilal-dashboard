@@ -47,12 +47,12 @@ export default function Login() {
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2 }}
-            className="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4"
+            className="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg"
           >
             <img
-              src="https://cdn.builder.io/api/v1/image/assets%2Fbf5a031be6ad4459b45a03211af5ce40%2F1cedd8caa61447b3afc7a2affd9fa0aa?format=webp&width=800"
+              src="https://cdn.builder.io/api/v1/image/assets%2Fbf5a031be6ad4459b45a03211af5ce40%2F1a79a6d76b7d49f281d62d90ebab9ba9?format=webp&width=800"
               alt="Bursa Hilal Logo"
-              className="w-12 h-12 object-contain"
+              className="w-16 h-16 object-contain"
             />
           </motion.div>
           <h1 className="text-2xl font-bold mb-2">Bursa Hilal</h1>
@@ -177,6 +177,11 @@ export default function Login() {
                   <strong>Production:</strong> production@bursahilal.com /
                   production123
                 </p>
+                <p>
+                  <strong>Workers:</strong> ghaith@bursahilal.com / worker123
+                </p>
+                <p>mohamedhaj@bursahilal.com / worker123</p>
+                <p>abdullah@bursahilal.com / worker123</p>
               </div>
             </motion.div>
           </motion.div>

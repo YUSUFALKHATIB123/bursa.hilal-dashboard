@@ -24,7 +24,7 @@ const dashboardCards = [
     title: { en: "Orders Management", ar: "إدارة الطلبات" },
     description: {
       en: "View, add, track, and manage customer orders",
-      ar: "عرض وإضافة وتتبع وإدارة طلبات العملاء",
+      ar: "عرض وإضافة وتتبع وإ��ارة طلبات العملاء",
     },
     icon: ShoppingCart,
     path: "/orders",
@@ -344,98 +344,43 @@ export default function Index() {
         ))}
       </div>
 
-      {/* Today's Overview and Top Countries */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Today's Overview */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1 }}
-          className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
-        >
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
-            {language === "ar" ? "نظرة عامة على اليوم" : "Today's Overview"}
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="text-center p-4 bg-blue-50 rounded-lg">
-              <div className="text-3xl font-bold text-blue-600 mb-2">
-                <AnimatedCounter value={9} />
-              </div>
-              <p className="text-blue-800 font-medium">
-                {language === "ar" ? "طلبات جديدة" : "New Orders"}
-              </p>
+      {/* Today's Overview */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1 }}
+        className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+      >
+        <h2 className="text-xl font-semibold text-gray-900 mb-4">
+          {language === "ar" ? "نظرة عامة على اليوم" : "Today's Overview"}
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="text-center p-4 bg-blue-50 rounded-lg">
+            <div className="text-3xl font-bold text-blue-600 mb-2">
+              <AnimatedCounter value={9} />
             </div>
-            <div className="text-center p-4 bg-green-50 rounded-lg">
-              <div className="text-3xl font-bold text-green-600 mb-2">
-                <AnimatedCounter value={16} />
-              </div>
-              <p className="text-green-800 font-medium">
-                {language === "ar" ? "مهام مكتملة" : "Tasks Completed"}
-              </p>
+            <p className="text-blue-800 font-medium">
+              {language === "ar" ? "طلبات جديدة" : "New Orders"}
+            </p>
+          </div>
+          <div className="text-center p-4 bg-green-50 rounded-lg">
+            <div className="text-3xl font-bold text-green-600 mb-2">
+              <AnimatedCounter value={16} />
             </div>
-            <div className="text-center p-4 bg-orange-50 rounded-lg">
-              <div className="text-3xl font-bold text-orange-600 mb-2">
-                <AnimatedCounter value={4} />
-              </div>
-              <p className="text-orange-800 font-medium">
-                {language === "ar" ? "تنبيهات نشطة" : "Active Alerts"}
-              </p>
+            <p className="text-green-800 font-medium">
+              {language === "ar" ? "مهام مكتملة" : "Tasks Completed"}
+            </p>
+          </div>
+          <div className="text-center p-4 bg-orange-50 rounded-lg">
+            <div className="text-3xl font-bold text-orange-600 mb-2">
+              <AnimatedCounter value={4} />
             </div>
+            <p className="text-orange-800 font-medium">
+              {language === "ar" ? "تنبيهات نشطة" : "Active Alerts"}
+            </p>
           </div>
-        </motion.div>
-
-        {/* Top Countries Analytics */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2 }}
-          className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
-        >
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-gray-900 flex items-center">
-              <Globe className="w-5 h-5 mr-2" />
-              {language === "ar" ? "أفضل البلدان" : "Top Countries"}
-            </h2>
-          </div>
-          <div className="space-y-4">
-            {topCountries.map((country, index) => (
-              <motion.div
-                key={country.country}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1.4 + index * 0.1 }}
-                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-              >
-                <div className="flex items-center space-x-3">
-                  <span className="text-2xl">{country.flag}</span>
-                  <div>
-                    <p className="font-medium text-gray-900">
-                      {country.country}
-                    </p>
-                    <p className="text-sm text-gray-600">
-                      {country.orders} {language === "ar" ? "طلبات" : "orders"}
-                    </p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <p className="font-semibold text-gray-900">
-                    ${(country.revenue / 1000).toFixed(0)}K
-                  </p>
-                  <p
-                    className={`text-xs ${
-                      country.growth === "New"
-                        ? "text-blue-600"
-                        : "text-green-600"
-                    }`}
-                  >
-                    {country.growth}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-      </div>
+        </div>
+      </motion.div>
     </div>
   );
 }
