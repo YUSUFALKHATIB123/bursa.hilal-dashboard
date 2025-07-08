@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useAuth } from "../contexts/AuthContext";
 import {
   LayoutDashboard,
   ShoppingCart,
@@ -22,55 +23,71 @@ const menuItems = [
     path: "/",
     icon: LayoutDashboard,
     label: { en: "Dashboard", ar: "لوحة التحكم" },
+    permission: "*", // Always visible
   },
   {
     path: "/orders",
     icon: ShoppingCart,
     label: { en: "Orders Management", ar: "إدارة الطلبات" },
+    permission: "orders",
   },
   {
     path: "/track-order",
     icon: MapPin,
     label: { en: "Track Order", ar: "تتبع الطلب" },
+    permission: "track-order",
   },
   {
     path: "/customers",
     icon: Users,
     label: { en: "Customers", ar: "العملاء" },
+    permission: "customers",
   },
   {
     path: "/invoices",
     icon: FileText,
     label: { en: "Invoices", ar: "الفواتير" },
+    permission: "invoices",
   },
   {
     path: "/inventory",
     icon: Package,
     label: { en: "Inventory", ar: "المخزون" },
+    permission: "inventory",
   },
   {
     path: "/employees",
     icon: UserCheck,
     label: { en: "Employees & Tasks", ar: "الموظفين والمهام" },
+    permission: "employees",
   },
   {
     path: "/notifications",
     icon: Bell,
     label: { en: "Smart Notifications", ar: "الإشعارات الذكية" },
+    permission: "notifications",
   },
   {
     path: "/financial",
     icon: TrendingUp,
-    label: { en: "Financial Dashboard", ar: "لوح�� المالية" },
+    label: { en: "Financial Dashboard", ar: "لوحة المالية" },
+    permission: "financial",
   },
   {
     path: "/suppliers",
     icon: Building2,
     label: { en: "Supplier Management", ar: "إدارة الموردين" },
+    permission: "suppliers",
   },
 ];
 
 export default function Sidebar({ language }: SidebarProps) {
+  const { hasPermission } = useAuth();
+
+  const visibleMenuItems = menuItems.filter(
+    (item) => item.permission === "*" || hasPermission(item.permission),
+  );
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -101,7 +118,7 @@ export default function Sidebar({ language }: SidebarProps) {
 
       {/* Navigation */}
       <nav className="p-4 space-y-2">
-        {menuItems.map((item, index) => (
+        {visibleMenuItems.map((item, index) => (
           <motion.div
             key={item.path}
             initial={{ x: language === "ar" ? 50 : -50, opacity: 0 }}

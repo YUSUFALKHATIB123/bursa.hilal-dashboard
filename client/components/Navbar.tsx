@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAuth } from "../contexts/AuthContext";
 import {
   Menu,
   Search,
@@ -25,6 +26,12 @@ export default function Navbar({
   toggleLanguage,
 }: NavbarProps) {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    setUserMenuOpen(false);
+  };
 
   return (
     <motion.header
@@ -44,6 +51,18 @@ export default function Navbar({
           >
             <Menu className="w-5 h-5" />
           </motion.button>
+
+          {/* Logo */}
+          <div className="flex items-center space-x-3">
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets%2Fbf5a031be6ad4459b45a03211af5ce40%2F1cedd8caa61447b3afc7a2affd9fa0aa?format=webp&width=800"
+              alt="Bursa Hilal Logo"
+              className="w-8 h-8 object-contain"
+            />
+            <span className="font-bold text-gray-900 hidden md:block">
+              Bursa Hilal
+            </span>
+          </div>
 
           {/* Search */}
           <div className="relative hidden md:block">
@@ -97,11 +116,9 @@ export default function Navbar({
                 <User className="w-4 h-4 text-white" />
               </div>
               <div className="hidden md:block text-left">
-                <p className="text-sm font-medium">
-                  {language === "ar" ? "أحمد محمد" : "Ahmed Mohamed"}
-                </p>
-                <p className="text-xs text-gray-500">
-                  {language === "ar" ? "مدير" : "Manager"}
+                <p className="text-sm font-medium">{user?.name || "User"}</p>
+                <p className="text-xs text-gray-500 capitalize">
+                  {user?.role || "Role"}
                 </p>
               </div>
               <ChevronDown className="w-4 h-4" />
@@ -134,13 +151,13 @@ export default function Navbar({
                     <span>{language === "ar" ? "الإعدادات" : "Settings"}</span>
                   </a>
                   <hr className="my-1" />
-                  <a
-                    href="#"
-                    className="flex items-center space-x-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center space-x-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50"
                   >
                     <LogOut className="w-4 h-4" />
                     <span>{language === "ar" ? "تسجيل الخروج" : "Logout"}</span>
-                  </a>
+                  </button>
                 </motion.div>
               )}
             </AnimatePresence>
