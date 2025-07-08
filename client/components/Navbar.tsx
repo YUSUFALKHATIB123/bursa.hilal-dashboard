@@ -162,42 +162,101 @@ export default function Navbar({
                   className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <div className="px-4 py-2 border-b border-gray-200">
+                  <div className="px-4 py-2 border-b border-gray-200 flex items-center justify-between">
                     <h3 className="font-semibold text-gray-900">
                       Notifications
                     </h3>
+                    {unreadCount > 0 && (
+                      <button
+                        onClick={markAllAsRead}
+                        className="text-xs text-blue-600 hover:text-blue-800"
+                      >
+                        Mark all read
+                      </button>
+                    )}
                   </div>
-                  <div className="max-h-64 overflow-y-auto">
-                    <div className="px-4 py-3 hover:bg-gray-50">
-                      <p className="text-sm font-medium text-gray-900">
-                        New order received
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        Libya Textile Co. - 2 minutes ago
-                      </p>
-                    </div>
-                    <div className="px-4 py-3 hover:bg-gray-50">
-                      <p className="text-sm font-medium text-gray-900">
-                        Low stock alert
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        Cotton fabric running low - 1 hour ago
-                      </p>
-                    </div>
-                    <div className="px-4 py-3 hover:bg-gray-50">
-                      <p className="text-sm font-medium text-gray-900">
-                        Payment received
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        Ahmed Textiles - 3 hours ago
-                      </p>
-                    </div>
+                  <div className="max-h-80 overflow-y-auto">
+                    {notifications.length === 0 ? (
+                      <div className="px-4 py-8 text-center text-gray-500">
+                        <Bell className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                        <p className="text-sm">No notifications</p>
+                      </div>
+                    ) : (
+                      notifications.slice(0, 6).map((notification) => {
+                        const IconComponent = getNotificationIcon(
+                          notification.type,
+                        );
+                        return (
+                          <div
+                            key={notification.id}
+                            onClick={() =>
+                              handleNotificationClick(notification)
+                            }
+                            className={`px-4 py-3 hover:bg-gray-50 cursor-pointer border-l-4 ${
+                              notification.read
+                                ? "border-transparent bg-white"
+                                : notification.priority === "high"
+                                  ? "border-red-400 bg-red-50"
+                                  : notification.priority === "medium"
+                                    ? "border-yellow-400 bg-yellow-50"
+                                    : "border-blue-400 bg-blue-50"
+                            }`}
+                          >
+                            <div className="flex items-start space-x-3">
+                              <div
+                                className={`p-1 rounded-full ${
+                                  notification.type === "order"
+                                    ? "bg-blue-100"
+                                    : notification.type === "payment"
+                                      ? "bg-green-100"
+                                      : notification.type === "inventory"
+                                        ? "bg-orange-100"
+                                        : notification.type === "employee"
+                                          ? "bg-purple-100"
+                                          : "bg-gray-100"
+                                }`}
+                              >
+                                <IconComponent className="w-3 h-3 text-gray-600" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p
+                                  className={`text-sm font-medium ${
+                                    notification.read
+                                      ? "text-gray-600"
+                                      : "text-gray-900"
+                                  }`}
+                                >
+                                  {notification.title}
+                                </p>
+                                <p className="text-xs text-gray-500 mt-1">
+                                  {notification.message}
+                                </p>
+                                <p className="text-xs text-gray-400 mt-1">
+                                  {getTimeAgo(notification.timestamp)}
+                                </p>
+                              </div>
+                              {!notification.read && (
+                                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })
+                    )}
                   </div>
-                  <div className="px-4 py-2 border-t border-gray-200">
-                    <button className="text-sm text-blue-600 hover:text-blue-800">
-                      View all notifications
-                    </button>
-                  </div>
+                  {notifications.length > 6 && (
+                    <div className="px-4 py-2 border-t border-gray-200">
+                      <button
+                        onClick={() => {
+                          navigate("/notifications");
+                          setNotificationsOpen(false);
+                        }}
+                        className="text-sm text-blue-600 hover:text-blue-800"
+                      >
+                        View all {notifications.length} notifications
+                      </button>
+                    </div>
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>
