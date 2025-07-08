@@ -451,6 +451,53 @@ export default function FinancialDashboard() {
         </div>
       </motion.div>
 
+      {/* Top Countries Analytics */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-white rounded-lg border border-gray-200 p-6"
+      >
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold text-gray-900 flex items-center">
+            <Globe className="w-5 h-5 mr-2" />
+            Top Countries by Revenue
+          </h3>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {topCountries.map((country, index) => (
+            <motion.div
+              key={country.country}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-2xl">{country.flag}</span>
+                <span
+                  className={`text-xs px-2 py-1 rounded-full ${
+                    country.growth === "New"
+                      ? "bg-blue-100 text-blue-600"
+                      : "bg-green-100 text-green-600"
+                  }`}
+                >
+                  {country.growth}
+                </span>
+              </div>
+              <h4 className="font-medium text-gray-900 mb-1">
+                {country.country}
+              </h4>
+              <p className="text-sm text-gray-600 mb-2">
+                {country.orders} orders
+              </p>
+              <p className="font-bold text-lg text-gray-900">
+                ${(country.revenue / 1000).toFixed(0)}K
+              </p>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+
       {/* Admin Notes */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
