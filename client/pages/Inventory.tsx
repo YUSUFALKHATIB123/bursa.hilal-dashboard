@@ -26,6 +26,7 @@ export default function Inventory() {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
+          onClick={() => alert("Add new stock item - Coming soon!")}
           className="mt-4 sm:mt-0 px-4 py-2 bg-green-primary text-white rounded-lg hover:bg-green-secondary transition-colors flex items-center space-x-2"
         >
           <Plus className="w-4 h-4" />
