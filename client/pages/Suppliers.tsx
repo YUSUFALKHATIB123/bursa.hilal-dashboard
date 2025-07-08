@@ -1,7 +1,11 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
+import AddSupplierModal from "../components/AddSupplierModal";
 import { Building2, Plus, Star, Upload } from "lucide-react";
 
 export default function Suppliers() {
+  const [showAddSupplierModal, setShowAddSupplierModal] = useState(false);
+
   return (
     <div className="space-y-6">
       <nav className="flex text-sm text-gray-500">
@@ -26,7 +30,7 @@ export default function Suppliers() {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => alert("Add new supplier - Coming soon!")}
+          onClick={() => setShowAddSupplierModal(true)}
           className="mt-4 sm:mt-0 px-4 py-2 bg-green-primary text-white rounded-lg hover:bg-green-secondary transition-colors flex items-center space-x-2"
         >
           <Plus className="w-4 h-4" />
@@ -50,6 +54,12 @@ export default function Suppliers() {
           quality ratings.
         </p>
       </motion.div>
+
+      {/* Add Supplier Modal */}
+      <AddSupplierModal
+        isOpen={showAddSupplierModal}
+        onClose={() => setShowAddSupplierModal(false)}
+      />
     </div>
   );
 }

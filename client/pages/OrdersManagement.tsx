@@ -364,6 +364,12 @@ export default function OrdersManagement() {
           Save Notes
         </button>
       </motion.div>
+
+      {/* New Order Modal */}
+      <NewOrderModal
+        isOpen={showNewOrderModal}
+        onClose={() => setShowNewOrderModal(false)}
+      />
     </div>
   );
 }
