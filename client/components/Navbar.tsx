@@ -91,7 +91,6 @@ export default function Navbar({
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.3 }}
       className="bg-white shadow-sm border-b border-gray-200 px-6 py-4"
-      onClick={handleClickOutside}
     >
       <div className="flex items-center justify-between">
         {/* Left side */}
@@ -136,7 +135,10 @@ export default function Navbar({
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => setNotificationsOpen(!notificationsOpen)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setNotificationsOpen(!notificationsOpen);
+              }}
               className="relative p-2 rounded-lg hover:bg-gray-100 transition-colors"
             >
               <Bell className="w-5 h-5" />
@@ -159,7 +161,7 @@ export default function Navbar({
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
+                  className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-40"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <div className="px-4 py-2 border-b border-gray-200 flex items-center justify-between">
@@ -267,7 +269,10 @@ export default function Navbar({
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => setUserMenuOpen(!userMenuOpen)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setUserMenuOpen(!userMenuOpen);
+              }}
               className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 transition-colors"
             >
               <div className="w-8 h-8 bg-gradient-to-br from-green-primary to-green-secondary rounded-full flex items-center justify-center">
@@ -290,17 +295,18 @@ export default function Navbar({
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50"
+                  className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-40"
                   onClick={(e) => e.stopPropagation()}
                 >
                   {user?.email === "yusuf@bursahilal.com" && (
                     <>
                       <button
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           alert("Profile page - Coming soon!");
                           setUserMenuOpen(false);
                         }}
-                        className="w-full flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="w-full flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left"
                       >
                         <User className="w-4 h-4" />
                         <span>
@@ -308,11 +314,12 @@ export default function Navbar({
                         </span>
                       </button>
                       <button
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           alert("Settings page - Coming soon!");
                           setUserMenuOpen(false);
                         }}
-                        className="w-full flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="w-full flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left"
                       >
                         <Settings className="w-4 h-4" />
                         <span>
@@ -323,8 +330,11 @@ export default function Navbar({
                   )}
                   <hr className="my-1" />
                   <button
-                    onClick={handleLogout}
-                    className="w-full flex items-center space-x-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleLogout();
+                    }}
+                    className="w-full flex items-center space-x-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 text-left"
                   >
                     <LogOut className="w-4 h-4" />
                     <span>{language === "ar" ? "تسجيل الخروج" : "Logout"}</span>
@@ -335,6 +345,17 @@ export default function Navbar({
           </div>
         </div>
       </div>
+
+      {/* Overlay to close menus when clicking outside */}
+      {(notificationsOpen || userMenuOpen) && (
+        <div
+          className="fixed inset-0 z-30"
+          onClick={() => {
+            setNotificationsOpen(false);
+            setUserMenuOpen(false);
+          }}
+        />
+      )}
     </motion.header>
   );
 }
