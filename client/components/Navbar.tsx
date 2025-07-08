@@ -34,12 +34,19 @@ export default function Navbar({
     setUserMenuOpen(false);
   };
 
+  // Close menus when clicking outside
+  const handleClickOutside = () => {
+    setUserMenuOpen(false);
+    setNotificationsOpen(false);
+  };
+
   return (
     <motion.header
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.3 }}
       className="bg-white shadow-sm border-b border-gray-200 px-6 py-4"
+      onClick={handleClickOutside}
     >
       <div className="flex items-center justify-between">
         {/* Left side */}
@@ -104,6 +111,7 @@ export default function Navbar({
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
                   transition={{ duration: 0.2 }}
                   className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
+                  onClick={(e) => e.stopPropagation()}
                 >
                   <div className="px-4 py-2 border-b border-gray-200">
                     <h3 className="font-semibold text-gray-900">
@@ -175,6 +183,7 @@ export default function Navbar({
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
                   transition={{ duration: 0.2 }}
                   className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50"
+                  onClick={(e) => e.stopPropagation()}
                 >
                   {user?.email === "yusuf@bursahilal.com" && (
                     <>

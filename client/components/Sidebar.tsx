@@ -102,12 +102,8 @@ export default function Sidebar({ language }: SidebarProps) {
           transition={{ delay: 0.2 }}
           className="flex items-center space-x-3"
         >
-          <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center p-1">
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets%2Fbf5a031be6ad4459b45a03211af5ce40%2F1a79a6d76b7d49f281d62d90ebab9ba9?format=webp&width=800"
-              alt="Bursa Hilal Logo"
-              className="w-8 h-8 object-contain"
-            />
+          <div className="w-10 h-10 bg-gradient-to-br from-green-primary to-green-secondary rounded-lg flex items-center justify-center">
+            <span className="text-white font-bold text-lg">BH</span>
           </div>
           <div>
             <h1 className="text-xl font-bold text-gray-900">

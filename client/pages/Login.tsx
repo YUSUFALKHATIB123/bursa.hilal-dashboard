@@ -177,11 +177,6 @@ export default function Login() {
                   <strong>Production:</strong> production@bursahilal.com /
                   production123
                 </p>
-                <p>
-                  <strong>Workers:</strong> ghaith@bursahilal.com / worker123
-                </p>
-                <p>mohamedhaj@bursahilal.com / worker123</p>
-                <p>abdullah@bursahilal.com / worker123</p>
               </div>
             </motion.div>
           </motion.div>

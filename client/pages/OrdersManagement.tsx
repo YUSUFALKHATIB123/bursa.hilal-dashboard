@@ -139,6 +139,7 @@ export default function OrdersManagement() {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
+          onClick={() => alert("New Order form - Coming soon!")}
           className="mt-4 sm:mt-0 px-4 py-2 bg-green-primary text-white rounded-lg hover:bg-green-secondary transition-colors flex items-center space-x-2"
         >
           <Plus className="w-4 h-4" />
@@ -212,11 +213,17 @@ export default function OrdersManagement() {
             </select>
           </div>
           <div className="flex items-center space-x-3">
-            <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors flex items-center space-x-2">
+            <button
+              onClick={() => alert("Advanced filter options - Coming soon!")}
+              className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors flex items-center space-x-2"
+            >
               <Filter className="w-4 h-4" />
               <span>Filter</span>
             </button>
-            <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors flex items-center space-x-2">
+            <button
+              onClick={() => alert("Export to Excel/PDF - Coming soon!")}
+              className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors flex items-center space-x-2"
+            >
               <Download className="w-4 h-4" />
               <span>Export</span>
             </button>
@@ -306,10 +313,28 @@ export default function OrdersManagement() {
                     >
                       <ExternalLink className="w-4 h-4" />
                     </Link>
-                    <button className="text-blue-600 hover:text-blue-800 p-1 rounded transition-colors">
+                    <button
+                      onClick={() =>
+                        alert(`Edit order ${order.id} - Coming soon!`)
+                      }
+                      className="text-blue-600 hover:text-blue-800 p-1 rounded transition-colors"
+                      title="Edit Order"
+                    >
                       <Edit className="w-4 h-4" />
                     </button>
-                    <button className="text-red-600 hover:text-red-800 p-1 rounded transition-colors">
+                    <button
+                      onClick={() => {
+                        if (
+                          confirm(
+                            `Are you sure you want to delete order ${order.id}?`,
+                          )
+                        ) {
+                          alert("Delete functionality - Coming soon!");
+                        }
+                      }}
+                      className="text-red-600 hover:text-red-800 p-1 rounded transition-colors"
+                      title="Delete Order"
+                    >
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </td>

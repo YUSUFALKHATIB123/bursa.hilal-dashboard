@@ -82,36 +82,6 @@ const USERS: { [email: string]: { password: string; user: User } } = {
       permissions: ["track-order", "employees"],
     },
   },
-  "ghaith@bursahilal.com": {
-    password: "worker123",
-    user: {
-      id: "6",
-      name: "غيث ��لخطيب",
-      email: "ghaith@bursahilal.com",
-      role: "production",
-      permissions: ["track-order"],
-    },
-  },
-  "mohamedhaj@bursahilal.com": {
-    password: "worker123",
-    user: {
-      id: "7",
-      name: "محمد حج محمد",
-      email: "mohamedhaj@bursahilal.com",
-      role: "production",
-      permissions: ["track-order"],
-    },
-  },
-  "abdullah@bursahilal.com": {
-    password: "worker123",
-    user: {
-      id: "8",
-      name: "عبدالله الخطيب",
-      email: "abdullah@bursahilal.com",
-      role: "production",
-      permissions: ["track-order"],
-    },
-  },
 };
 
 export function AuthProvider({ children }: { children: ReactNode }) {
