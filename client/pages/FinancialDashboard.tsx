@@ -30,6 +30,37 @@ const expenseCategories = [
   { category: "Other", amount: 5000, color: "bg-red-500" },
 ];
 
+const topCountries = [
+  {
+    country: "Libya",
+    orders: 3,
+    revenue: 45000,
+    flag: "🇱🇾",
+    growth: "+15%",
+  },
+  {
+    country: "Algeria",
+    orders: 2,
+    revenue: 28000,
+    flag: "🇩🇿",
+    growth: "+8%",
+  },
+  {
+    country: "Egypt",
+    orders: 1,
+    revenue: 15000,
+    flag: "🇪🇬",
+    growth: "New",
+  },
+  {
+    country: "Tunisia",
+    orders: 1,
+    revenue: 12000,
+    flag: "🇹🇳",
+    growth: "New",
+  },
+];
+
 function MetricCard({
   title,
   value,
