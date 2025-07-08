@@ -202,28 +202,6 @@ function OrderCard({ order }: { order: OrderCard }) {
           </div>
         </div>
 
-        {/* Payment Status */}
-        <div>
-          <div className="flex justify-between text-sm mb-2">
-            <span className="text-gray-600">Payment Progress</span>
-            <span className="font-medium">
-              ${order.depositPaid.toLocaleString()} / $
-              {order.total.toLocaleString()}
-            </span>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
-            <div
-              className="bg-green-500 h-2 rounded-full transition-all duration-500"
-              style={{ width: `${paymentPercentage}%` }}
-            />
-          </div>
-          {order.remaining > 0 && (
-            <p className="text-xs text-orange-600 mt-1">
-              ${order.remaining.toLocaleString()} remaining
-            </p>
-          )}
-        </div>
-
         {/* Current Stage */}
         <div>
           <div className="flex items-center justify-between mb-2">
