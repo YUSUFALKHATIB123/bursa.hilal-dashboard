@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
+import AddCustomerModal from "../components/AddCustomerModal";
 import {
   Users,
   Plus,
@@ -12,6 +14,8 @@ import {
 } from "lucide-react";
 
 export default function Customers() {
+  const [showAddCustomerModal, setShowAddCustomerModal] = useState(false);
+
   return (
     <div className="space-y-6">
       {/* Breadcrumb */}
@@ -36,7 +40,7 @@ export default function Customers() {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => alert("Add Customer form - Coming soon!")}
+          onClick={() => setShowAddCustomerModal(true)}
           className="mt-4 sm:mt-0 px-4 py-2 bg-green-primary text-white rounded-lg hover:bg-green-secondary transition-colors flex items-center space-x-2"
         >
           <Plus className="w-4 h-4" />
@@ -219,6 +223,12 @@ export default function Customers() {
           </button>
         </div>
       </motion.div>
+
+      {/* Add Customer Modal */}
+      <AddCustomerModal
+        isOpen={showAddCustomerModal}
+        onClose={() => setShowAddCustomerModal(false)}
+      />
     </div>
   );
 }

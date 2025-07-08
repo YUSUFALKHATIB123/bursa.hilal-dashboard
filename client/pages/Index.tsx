@@ -17,6 +17,7 @@ import {
   CheckCircle,
   Globe,
   Flag,
+  MapPin,
 } from "lucide-react";
 
 const dashboardCards = [
@@ -24,7 +25,7 @@ const dashboardCards = [
     title: { en: "Orders Management", ar: "إدارة الطلبات" },
     description: {
       en: "View, add, track, and manage customer orders",
-      ar: "عرض وإضافة وتتبع وإ��ارة طلبات العملاء",
+      ar: "عرض وإضافة وتتبع وإدارة طلبات العملاء",
     },
     icon: ShoppingCart,
     path: "/orders",
@@ -43,15 +44,15 @@ const dashboardCards = [
     stats: "89",
   },
   {
-    title: { en: "Invoices", ar: "الفواتير" },
+    title: { en: "Track Order", ar: "تتبع الطلب" },
     description: {
-      en: "Upload, archive invoices and track payment status",
-      ar: "تحميل وأرشفة الفواتير وتتبع حالة الدفع",
+      en: "Track order progress and production stages",
+      ar: "تتبع تقدم الطلبات ومراحل الإنتاج",
     },
-    icon: FileText,
-    path: "/invoices",
+    icon: MapPin,
+    path: "/track-order",
     color: "from-green-500 to-green-600",
-    stats: "23",
+    stats: "6",
   },
   {
     title: { en: "Inventory", ar: "المخزون" },

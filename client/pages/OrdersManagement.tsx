@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import NewOrderModal from "../components/NewOrderModal";
 import {
   Plus,
   Search,
@@ -103,6 +104,7 @@ function StatusBadge({ status }: { status: keyof typeof orderStatuses }) {
 export default function OrdersManagement() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
+  const [showNewOrderModal, setShowNewOrderModal] = useState(false);
 
   const filteredOrders = mockOrders.filter((order) => {
     const matchesSearch =
@@ -139,7 +141,7 @@ export default function OrdersManagement() {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => alert("New Order form - Coming soon!")}
+          onClick={() => setShowNewOrderModal(true)}
           className="mt-4 sm:mt-0 px-4 py-2 bg-green-primary text-white rounded-lg hover:bg-green-secondary transition-colors flex items-center space-x-2"
         >
           <Plus className="w-4 h-4" />
