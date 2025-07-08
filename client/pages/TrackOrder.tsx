@@ -162,8 +162,6 @@ function OrderCard({ order }: { order: OrderCard }) {
   const StageIcon = getStageIcon(order.currentStage);
   const stageColor = getStageColor(order.currentStage);
 
-  const paymentPercentage = (order.depositPaid / order.total) * 100;
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
