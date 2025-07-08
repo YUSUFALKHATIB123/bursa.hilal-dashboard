@@ -187,24 +187,30 @@ export default function Navbar({
                 >
                   {user?.email === "yusuf@bursahilal.com" && (
                     <>
-                      <a
-                        href="#"
-                        className="flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      <button
+                        onClick={() => {
+                          alert("Profile page - Coming soon!");
+                          setUserMenuOpen(false);
+                        }}
+                        className="w-full flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       >
                         <User className="w-4 h-4" />
                         <span>
                           {language === "ar" ? "الملف الشخصي" : "Profile"}
                         </span>
-                      </a>
-                      <a
-                        href="#"
-                        className="flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      </button>
+                      <button
+                        onClick={() => {
+                          alert("Settings page - Coming soon!");
+                          setUserMenuOpen(false);
+                        }}
+                        className="w-full flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       >
                         <Settings className="w-4 h-4" />
                         <span>
                           {language === "ar" ? "الإعدادات" : "Settings"}
                         </span>
-                      </a>
+                      </button>
                     </>
                   )}
                   <hr className="my-1" />
