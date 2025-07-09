@@ -174,7 +174,9 @@ export default function EmployeeDetailModal({
                 <div className="bg-blue-50 rounded-lg p-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-blue-600 text-sm">ساعات العمل</p>
+                      <p className="text-blue-600 text-sm">
+                        {language === "ar" ? "ساعات العمل" : "Hours Worked"}
+                      </p>
                       <p className="text-2xl font-bold text-blue-800">
                         {employee.hoursWorked}
                       </p>
@@ -185,7 +187,9 @@ export default function EmployeeDetailModal({
                 <div className="bg-green-50 rounded-lg p-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-green-600 text-sm">الراتب المدفوع</p>
+                      <p className="text-green-600 text-sm">
+                        {language === "ar" ? "الراتب المدفوع" : "Paid Salary"}
+                      </p>
                       <p className="text-2xl font-bold text-green-800">
                         {employee.paid.toLocaleString()}
                       </p>
@@ -196,7 +200,9 @@ export default function EmployeeDetailModal({
                 <div className="bg-orange-50 rounded-lg p-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-orange-600 text-sm">الغيابات</p>
+                      <p className="text-orange-600 text-sm">
+                        {language === "ar" ? "الغيابات" : "Absences"}
+                      </p>
                       <p className="text-2xl font-bold text-orange-800">
                         {employee.absences}
                       </p>
@@ -208,11 +214,21 @@ export default function EmployeeDetailModal({
 
               <div className="bg-gray-50 rounded-lg p-4">
                 <h4 className="font-semibold text-gray-900 mb-2">
-                  معلومات الوردية
+                  {language === "ar" ? "معلومات الوردية" : "Shift Information"}
                 </h4>
-                <p className="text-gray-600">الوردية: {employee.shift}</p>
                 <p className="text-gray-600">
-                  ساعات إضافية: {employee.overtime} ساعة
+                  {language === "ar" ? "الوردية" : "Shift"}:{" "}
+                  {language === "ar"
+                    ? employee.shift
+                    : employee.shift === "الصباحية"
+                      ? "Morning"
+                      : employee.shift === "المسائية"
+                        ? "Evening"
+                        : "Night"}
+                </p>
+                <p className="text-gray-600">
+                  {language === "ar" ? "ساعات إضافية" : "Overtime"}:{" "}
+                  {employee.overtime} {language === "ar" ? "ساعة" : "hours"}
                 </p>
               </div>
             </div>
