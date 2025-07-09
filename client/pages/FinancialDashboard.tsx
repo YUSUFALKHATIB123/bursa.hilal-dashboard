@@ -95,6 +95,7 @@ function MetricCard({
   icon: any;
   color: string;
 }) {
+  const { language } = useLanguage();
   const isPositive = change.startsWith("+");
 
   return (
@@ -132,6 +133,7 @@ function MetricCard({
 }
 
 function SimpleBarChart() {
+  const { language, t } = useLanguage();
   const maxValue = Math.max(...monthlyData.map((d) => d.revenue));
 
   return (
