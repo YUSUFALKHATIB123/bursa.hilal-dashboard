@@ -39,16 +39,27 @@ const rawMaterialsCost = systemData.inventory.reduce(
   (sum, item) => sum + item.quantity * item.price * 0.3,
   0,
 ); // 30% of inventory value as monthly usage
-const expenseCategories = [
-  { category: "Labor", amount: totalEmployeeSalaries, color: "bg-green-500" },
+const getExpenseCategories = (
+  language: Language,
+  t: (key: string) => string,
+) => [
   {
-    category: "Raw Materials",
+    category: t("labor"),
+    amount: totalEmployeeSalaries,
+    color: "bg-green-500",
+  },
+  {
+    category: t("rawMaterials"),
     amount: Math.floor(rawMaterialsCost),
     color: "bg-blue-500",
   },
-  { category: "Utilities", amount: 4500, color: "bg-yellow-500" },
-  { category: "Equipment & Maintenance", amount: 2500, color: "bg-purple-500" },
-  { category: "Miscellaneous", amount: 2000, color: "bg-red-500" },
+  { category: t("utilities"), amount: 4500, color: "bg-yellow-500" },
+  {
+    category: `${t("equipment")} & ${t("maintenance")}`,
+    amount: 2500,
+    color: "bg-purple-500",
+  },
+  { category: t("miscellaneous"), amount: 2000, color: "bg-red-500" },
 ];
 
 const topCountries = [
@@ -118,7 +129,9 @@ function MetricCard({
             >
               {change}
             </span>
-            <span className="text-gray-500 text-sm ml-1">vs last month</span>
+            <span className="text-gray-500 text-sm ml-1">
+              {language === "ar" ? "مقارنة بالشهر الماضي" : "vs last month"}
+            </span>
           </div>
         </div>
         <div className={`p-4 rounded-lg ${color}`}>
@@ -136,11 +149,11 @@ function SimpleBarChart() {
     <div className="bg-white rounded-lg border border-gray-200 p-6">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-semibold text-gray-900">
-          Monthly Revenue & Expenses
+          {t("monthlyRevenue")} & {language === "ar" ? "المصروفات" : "Expenses"}
         </h3>
         <button className="flex items-center space-x-2 text-green-primary hover:text-green-secondary">
           <Download className="w-4 h-4" />
-          <span>Export</span>
+          <span>{t("export")}</span>
         </button>
       </div>
 
@@ -191,11 +204,15 @@ function SimpleBarChart() {
       <div className="mt-6 flex items-center justify-center space-x-6 text-sm">
         <div className="flex items-center space-x-2">
           <div className="w-3 h-3 bg-green-500 rounded-full" />
-          <span className="text-gray-600">Revenue</span>
+          <span className="text-gray-600">
+            {language === "ar" ? "الإيرادات" : "Revenue"}
+          </span>
         </div>
         <div className="flex items-center space-x-2">
           <div className="w-3 h-3 bg-red-400 rounded-full" />
-          <span className="text-gray-600">Expenses</span>
+          <span className="text-gray-600">
+            {language === "ar" ? "المصروفات" : "Expenses"}
+          </span>
         </div>
       </div>
     </div>
@@ -203,12 +220,14 @@ function SimpleBarChart() {
 }
 
 function ExpensePieChart() {
+  const { language, t } = useLanguage();
+  const expenseCategories = getExpenseCategories(language, t);
   const total = expenseCategories.reduce((sum, cat) => sum + cat.amount, 0);
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-6">
       <h3 className="text-lg font-semibold text-gray-900 mb-6">
-        Expense Breakdown
+        {t("expenseBreakdown")}
       </h3>
 
       <div className="space-y-4">
@@ -252,6 +271,7 @@ function ExpensePieChart() {
 export default function FinancialDashboard() {
   const { language, t } = useLanguage();
   const [timeRange, setTimeRange] = useState("month");
+  const expenseCategories = getExpenseCategories(language, t);
 
   return (
     <div className="space-y-6">
@@ -278,10 +298,18 @@ export default function FinancialDashboard() {
             onChange={(e) => setTimeRange(e.target.value)}
             className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-primary focus:border-transparent"
           >
-            <option value="week">This Week</option>
-            <option value="month">This Month</option>
-            <option value="quarter">This Quarter</option>
-            <option value="year">This Year</option>
+            <option value="week">
+              {language === "ar" ? "هذا الأسبوع" : "This Week"}
+            </option>
+            <option value="month">
+              {language === "ar" ? "هذا الشهر" : "This Month"}
+            </option>
+            <option value="quarter">
+              {language === "ar" ? "هذا الربع" : "This Quarter"}
+            </option>
+            <option value="year">
+              {language === "ar" ? "هذا العام" : "This Year"}
+            </option>
           </select>
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -315,7 +343,7 @@ export default function FinancialDashboard() {
             className="px-4 py-2 bg-green-primary text-white rounded-lg hover:bg-green-secondary transition-colors flex items-center space-x-2"
           >
             <Download className="w-4 h-4" />
-            <span>Export Report</span>
+            <span>{t("exportReport")}</span>
           </motion.button>
         </div>
       </motion.div>
@@ -323,28 +351,28 @@ export default function FinancialDashboard() {
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <MetricCard
-          title="Total Revenue"
+          title={t("totalRevenue")}
           value={`$${(systemData.financials.revenue / 1000).toFixed(1)}K`}
           change="+12.5%"
           icon={DollarSign}
           color="bg-green-500"
         />
         <MetricCard
-          title="Total Expenses"
+          title={t("totalExpenses")}
           value={`$${(systemData.financials.expenses / 1000).toFixed(1)}K`}
           change="+8.2%"
           icon={TrendingDown}
           color="bg-red-500"
         />
         <MetricCard
-          title="Net Profit"
+          title={t("netProfit")}
           value={`$${(systemData.financials.profit / 1000).toFixed(1)}K`}
           change="+18.7%"
           icon={TrendingUp}
           color="bg-blue-500"
         />
         <MetricCard
-          title="Profit Margin"
+          title={t("profitMargin")}
           value={`${systemData.financials.margin.toFixed(1)}%`}
           change="+2.1%"
           icon={PieChart}
@@ -371,7 +399,9 @@ export default function FinancialDashboard() {
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-gray-900 flex items-center">
             <Globe className="w-5 h-5 mr-2" />
-            Top Countries by Revenue
+            {language === "ar"
+              ? "أهم البلدان من حيث الإيرادات"
+              : "Top Countries by Revenue"}
           </h3>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -399,7 +429,7 @@ export default function FinancialDashboard() {
                 {country.country}
               </h4>
               <p className="text-sm text-gray-600 mb-2">
-                {country.orders} orders
+                {country.orders} {language === "ar" ? "طلبات" : "orders"}
               </p>
               <p className="font-bold text-lg text-gray-900">
                 ${(country.revenue / 1000).toFixed(0)}K
@@ -417,7 +447,9 @@ export default function FinancialDashboard() {
       >
         <div className="px-6 py-4 border-b border-gray-200">
           <h3 className="text-lg font-semibold text-gray-900">
-            Monthly Financial Summary
+            {language === "ar"
+              ? "الملخص المالي الشهري"
+              : "Monthly Financial Summary"}
           </h3>
         </div>
         <div className="overflow-x-auto">
@@ -425,19 +457,19 @@ export default function FinancialDashboard() {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Month
+                  {language === "ar" ? "الشهر" : "Month"}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Revenue
+                  {language === "ar" ? "الإيرادات" : "Revenue"}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Expenses
+                  {language === "ar" ? "المصروفات" : "Expenses"}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Profit
+                  {language === "ar" ? "الربح" : "Profit"}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Growth
+                  {language === "ar" ? "النمو" : "Growth"}
                 </th>
               </tr>
             </thead>
@@ -502,14 +534,20 @@ export default function FinancialDashboard() {
         className="bg-blue-50 border border-blue-200 rounded-lg p-6"
       >
         <h3 className="text-lg font-semibold text-blue-800 mb-2">
-          Financial Notes (Admin Only)
+          {language === "ar"
+            ? "ملاحظات مالية (مدير فقط)"
+            : "Financial Notes (Admin Only)"}
         </h3>
         <textarea
-          placeholder="Add financial notes and insights..."
+          placeholder={
+            language === "ar"
+              ? "إضافة ملاحظات ورؤى مالية..."
+              : "Add financial notes and insights..."
+          }
           className="w-full h-24 p-3 border border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none bg-white"
         />
         <button className="mt-3 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-          Save Notes
+          {language === "ar" ? "حفظ الملاحظات" : "Save Notes"}
         </button>
       </motion.div>
     </div>
