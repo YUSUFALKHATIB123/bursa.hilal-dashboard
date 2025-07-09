@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../contexts/AuthContext";
+import { useLanguage } from "../contexts/LanguageContext";
 import { useNotifications } from "../contexts/NotificationContext";
 import { useNavigate } from "react-router-dom";
 import {
@@ -21,22 +22,20 @@ import {
 interface NavbarProps {
   sidebarOpen: boolean;
   toggleSidebar: () => void;
-  language: "en" | "ar";
-  toggleLanguage: () => void;
 }
 
-export default function Navbar({
-  sidebarOpen,
-  toggleSidebar,
-  language,
-  toggleLanguage,
-}: NavbarProps) {
+export default function Navbar({ sidebarOpen, toggleSidebar }: NavbarProps) {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const { user, logout } = useAuth();
+  const { language, setLanguage, t } = useLanguage();
   const { notifications, unreadCount, markAsRead, markAllAsRead } =
     useNotifications();
   const navigate = useNavigate();
+
+  const toggleLanguage = () => {
+    setLanguage(language === "en" ? "ar" : "en");
+  };
 
   const handleLogout = () => {
     logout();
