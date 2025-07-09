@@ -39,27 +39,16 @@ const rawMaterialsCost = systemData.inventory.reduce(
   (sum, item) => sum + item.quantity * item.price * 0.3,
   0,
 ); // 30% of inventory value as monthly usage
-const getExpenseCategories = (
-  language: Language,
-  t: (key: string) => string,
-) => [
+const expenseCategories = [
+  { category: "Labor", amount: totalEmployeeSalaries, color: "bg-green-500" },
   {
-    category: t("labor"),
-    amount: totalEmployeeSalaries,
-    color: "bg-green-500",
-  },
-  {
-    category: t("rawMaterials"),
+    category: "Raw Materials",
     amount: Math.floor(rawMaterialsCost),
     color: "bg-blue-500",
   },
-  { category: t("utilities"), amount: 4500, color: "bg-yellow-500" },
-  {
-    category: `${t("equipment")} & ${t("maintenance")}`,
-    amount: 2500,
-    color: "bg-purple-500",
-  },
-  { category: t("miscellaneous"), amount: 2000, color: "bg-red-500" },
+  { category: "Utilities", amount: 4500, color: "bg-yellow-500" },
+  { category: "Equipment & Maintenance", amount: 2500, color: "bg-purple-500" },
+  { category: "Miscellaneous", amount: 2000, color: "bg-red-500" },
 ];
 
 const topCountries = [
