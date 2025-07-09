@@ -160,6 +160,7 @@ const getStageColor = (stage: string) => {
 };
 
 function OrderCard({ order }: { order: OrderCard }) {
+  const { language } = useLanguage();
   const StageIcon = getStageIcon(order.currentStage);
   const stageColor = getStageColor(order.currentStage);
 
