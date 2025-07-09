@@ -50,7 +50,7 @@ const translations = {
   },
   welcomeBack: { en: "Welcome Back", ar: "مرحباً بعودتك" },
   signIn: { en: "Sign In", ar: "تسجيل الدخول" },
-  emailAddress: { en: "Email Address", ar: "البريد الإلكتروني" },
+  emailAddress: { en: "Email Address", ar: "البر��د الإلكتروني" },
   password: { en: "Password", ar: "كلمة المرور" },
   enterEmail: { en: "Enter your email", ar: "أدخل بريدك الإلكتروني" },
   enterPassword: { en: "Enter your password", ar: "أدخل كلمة المرور" },
@@ -147,7 +147,7 @@ const translations = {
   bankTransfer: { en: "Bank Transfer", ar: "حوالة بنكية" },
   wireTransfer: { en: "Wire Transfer", ar: "حوالة مصرفية" },
   amountReceived: { en: "Amount Received", ar: "المبلغ المستلم" },
-  amountRemaining: { en: "Amount Remaining", ar: "المبلغ المتبقي" },
+  amountRemaining: { en: "Amount Remaining", ar: "��لمبلغ المتبقي" },
   dueDate: { en: "Due Date", ar: "تاريخ الاستحقاق" },
   overdue: { en: "Overdue", ar: "متأخر" },
 
@@ -238,7 +238,7 @@ const translations = {
   totalExpenses: { en: "Total Expenses", ar: "إجمالي المصروفات" },
   netProfit: { en: "Net Profit", ar: "صافي الربح" },
   profitMargin: { en: "Profit Margin", ar: "هامش الربح" },
-  monthlyRevenue: { en: "Monthly Revenue", ar: "الإيرادات الشهرية" },
+  monthlyRevenue: { en: "Monthly Revenue", ar: "الإيرادات ال��هرية" },
   expenseBreakdown: { en: "Expense Breakdown", ar: "تفصيل المصروفات" },
   labor: { en: "Labor", ar: "العمالة" },
   rawMaterials: { en: "Raw Materials", ar: "المواد الخام" },
@@ -262,7 +262,7 @@ const translations = {
 
   // Error Messages
   errorOccurred: { en: "An error occurred", ar: "حدث خطأ" },
-  tryAgain: { en: "Please try again", ar: "يرجى المحاولة مرة أخرى" },
+  tryAgain: { en: "Please try again", ar: "يرجى المحاولة مرة ��خرى" },
   invalidInput: { en: "Invalid input", ar: "إدخال غير صحيح" },
   requiredField: { en: "This field is required", ar: "هذا الحقل مطلوب" },
 
