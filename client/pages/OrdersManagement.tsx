@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { useLanguage } from "../contexts/LanguageContext";
 import NewOrderModal from "../components/NewOrderModal";
-import { systemData } from "./Index";
+import systemData from "../data/systemData";
 import {
   Plus,
   Search,

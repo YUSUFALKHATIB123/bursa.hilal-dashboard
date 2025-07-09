@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useLanguage } from "../contexts/LanguageContext";
 import EmployeeDetailModal from "../components/EmployeeDetailModal";
-import { systemData } from "./Index";
+import systemData from "../data/systemData";
 import {
   UserCheck,
   Plus,
