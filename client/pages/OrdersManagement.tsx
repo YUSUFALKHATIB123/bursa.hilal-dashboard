@@ -43,6 +43,7 @@ function StatusBadge({ status }: { status: keyof typeof orderStatuses }) {
 }
 
 export default function OrdersManagement() {
+  const { language, t } = useLanguage();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
   const [showNewOrderModal, setShowNewOrderModal] = useState(false);
@@ -73,9 +74,9 @@ export default function OrdersManagement() {
     <div className="space-y-6">
       {/* Breadcrumb */}
       <nav className="flex text-sm text-gray-500">
-        <span>Dashboard</span>
+        <span>{t("dashboard")}</span>
         <span className="mx-2">/</span>
-        <span className="text-gray-900">Orders Management</span>
+        <span className="text-gray-900">{t("ordersManagement")}</span>
       </nav>
 
       {/* Header */}
@@ -86,20 +87,18 @@ export default function OrdersManagement() {
       >
         <div>
           <h1 className="text-3xl font-bold text-gray-900">
-            Orders Management
+            {t("ordersManagement")}
           </h1>
-          <p className="text-gray-600 mt-1">
-            View, add, track, and manage customer orders
-          </p>
+          <p className="text-gray-600 mt-1">{t("ordersManagementDesc")}</p>
         </div>
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setShowNewOrderModal(true)}
-          className="mt-4 sm:mt-0 px-4 py-2 bg-green-primary text-white rounded-lg hover:bg-green-secondary transition-colors flex items-center space-x-2"
+          className={`mt-4 sm:mt-0 px-4 py-2 bg-green-primary text-white rounded-lg hover:bg-green-secondary transition-colors flex items-center ${language === "ar" ? "space-x-reverse space-x-2" : "space-x-2"}`}
         >
           <Plus className="w-4 h-4" />
-          <span>New Order</span>
+          <span>{t("newOrder")}</span>
         </motion.button>
       </motion.div>
 

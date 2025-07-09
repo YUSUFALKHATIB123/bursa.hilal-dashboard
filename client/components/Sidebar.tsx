@@ -33,7 +33,7 @@ const menuItems = [
   {
     path: "/track-order",
     icon: MapPin,
-    label: { en: "Track Order", ar: "تتبع ا��طلب" },
+    label: { en: "Track Order", ar: "تت��ع الطلب" },
     permission: "track-order",
   },
   {
@@ -106,7 +106,9 @@ export default function Sidebar({}: SidebarProps) {
             <span className="text-white font-bold text-lg">BH</span>
           </div>
           <div className={language === "ar" ? "rtl-content" : ""}>
-            <h1 className="text-xl font-bold text-gray-900">بورصة هلال</h1>
+            <h1 className="text-xl font-bold text-gray-900">
+              {language === "ar" ? "بورصة هلال" : "Bursa Hilal"}
+            </h1>
             <p className="text-sm text-gray-500">
               {language === "ar" ? "نظام إدارة المصنع" : "Factory Management"}
             </p>

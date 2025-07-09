@@ -77,6 +77,39 @@ const translations = {
   financial: { en: "Financial Dashboard", ar: "لوحة المالية" },
   suppliers: { en: "Supplier Management", ar: "إدارة الموردين" },
 
+  // Page headers and descriptions
+  ordersManagementDesc: {
+    en: "View, add, track, and manage customer orders",
+    ar: "عرض وإضافة وتتبع وإدارة طلبات العملاء",
+  },
+  trackOrderDesc: {
+    en: "Monitor all active orders and their progress at a glance",
+    ar: "مراقبة جميع الطلبات النشطة وتقدمها لمحة س��يعة",
+  },
+  customersDesc: {
+    en: "Manage customer profiles, order history, and contact information",
+    ar: "إدارة ملفات العملاء وتاريخ الطلبات ومعلومات الاتصال",
+  },
+  financialDesc: {
+    en: "Track earnings, expenses, and profit/loss with detailed analytics",
+    ar: "تتبع الأرباح والمصروفات والربح/الخسارة مع التحليلات التفصيلية",
+  },
+  suppliersDesc: {
+    en: "Manage external factories with files and ratings",
+    ar: "إدارة المصانع الخارجية مع الملفات والتقييمات",
+  },
+
+  // Track Order specific
+  trackOrders: { en: "Track Orders", ar: "تتبع الطلبات" },
+  monitorActiveOrders: {
+    en: "Monitor all active orders and their progress at a glance",
+    ar: "مراقبة جميع الطلبات النشطة وتقدمها لمحة سريعة",
+  },
+  showingOrders: { en: "Showing", ar: "عرض" },
+  of: { en: "of", ar: "من" },
+  orders: { en: "orders", ar: "طلبات" },
+  allStatus: { en: "All Status", ar: "جميع الحالات" },
+
   // Orders
   newOrder: { en: "New Order", ar: "طلب جديد" },
   orderID: { en: "Order ID", ar: "رقم الطلب" },
@@ -194,7 +227,7 @@ const translations = {
   lowPriority: { en: "Low Priority", ar: "أولوية منخفضة" },
   productionDelay: { en: "Production Delay", ar: "تأخير الإنتاج" },
   lowStockAlert: { en: "Low Stock Alert", ar: "تنبيه المخزون المنخفض" },
-  orderUpdate: { en: "Order Update", ar: "تحديث الطلب" },
+  orderUpdate: { en: "Order Update", ar: "��حديث الطلب" },
   taskCompleted: { en: "Task Completed", ar: "مهمة مكتملة" },
   invoiceDue: { en: "Invoice Due", ar: "فاتورة مستحقة" },
   systemAlert: { en: "System Alert", ar: "تنبيه النظام" },

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useLanguage } from "../contexts/LanguageContext";
 import AddCustomerModal from "../components/AddCustomerModal";
 import {
   Users,
@@ -14,15 +15,16 @@ import {
 } from "lucide-react";
 
 export default function Customers() {
+  const { language, t } = useLanguage();
   const [showAddCustomerModal, setShowAddCustomerModal] = useState(false);
 
   return (
     <div className="space-y-6">
       {/* Breadcrumb */}
       <nav className="flex text-sm text-gray-500">
-        <span>Dashboard</span>
+        <span>{t("dashboard")}</span>
         <span className="mx-2">/</span>
-        <span className="text-gray-900">Customers</span>
+        <span className="text-gray-900">{t("customers")}</span>
       </nav>
 
       {/* Header */}
@@ -32,19 +34,17 @@ export default function Customers() {
         className="flex flex-col sm:flex-row sm:items-center sm:justify-between"
       >
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Customers</h1>
-          <p className="text-gray-600 mt-1">
-            Manage customer profiles, order history, and contact information
-          </p>
+          <h1 className="text-3xl font-bold text-gray-900">{t("customers")}</h1>
+          <p className="text-gray-600 mt-1">{t("customersDesc")}</p>
         </div>
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setShowAddCustomerModal(true)}
-          className="mt-4 sm:mt-0 px-4 py-2 bg-green-primary text-white rounded-lg hover:bg-green-secondary transition-colors flex items-center space-x-2"
+          className={`mt-4 sm:mt-0 px-4 py-2 bg-green-primary text-white rounded-lg hover:bg-green-secondary transition-colors flex items-center ${language === "ar" ? "space-x-reverse space-x-2" : "space-x-2"}`}
         >
           <Plus className="w-4 h-4" />
-          <span>Add Customer</span>
+          <span>{t("addCustomer")}</span>
         </motion.button>
       </motion.div>
 

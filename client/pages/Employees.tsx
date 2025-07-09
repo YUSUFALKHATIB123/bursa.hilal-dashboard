@@ -242,9 +242,9 @@ export default function Employees() {
     <div className="space-y-6">
       {/* Breadcrumb */}
       <nav className="flex text-sm text-gray-500">
-        <span>Dashboard</span>
+        <span>{t("dashboard")}</span>
         <span className="mx-2">/</span>
-        <span className="text-gray-900">Employees & Tasks</span>
+        <span className="text-gray-900">{t("employees")}</span>
       </nav>
 
       {/* Header */}
@@ -254,9 +254,11 @@ export default function Employees() {
         className="flex flex-col sm:flex-row sm:items-center sm:justify-between"
       >
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">الموظفين والمهام</h1>
+          <h1 className="text-3xl font-bold text-gray-900">{t("employees")}</h1>
           <p className="text-gray-600 mt-1">
-            إدارة بيانات الموظفين والرواتب والمهام اليومية
+            {language === "ar"
+              ? "��دارة بيانات الموظفين والرواتب والمهام اليومية"
+              : "Manage employee data, salaries, and daily tasks"}
           </p>
         </div>
         <motion.button
@@ -266,7 +268,7 @@ export default function Employees() {
           className="mt-4 sm:mt-0 px-4 py-2 bg-green-primary text-white rounded-lg hover:bg-green-secondary transition-colors flex items-center space-x-2"
         >
           <Plus className="w-4 h-4" />
-          <span>إضافة موظف</span>
+          <span>{language === "ar" ? "إضافة موظف" : "Add Employee"}</span>
         </motion.button>
       </motion.div>
 
@@ -279,7 +281,9 @@ export default function Employees() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm">إجمالي الموظفين</p>
+              <p className="text-gray-600 text-sm">
+                {language === "ar" ? "إجمالي الموظفين" : "Total Employees"}
+              </p>
               <p className="text-2xl font-bold text-gray-900">
                 {employees.length}
               </p>
