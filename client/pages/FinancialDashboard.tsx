@@ -14,6 +14,10 @@ import {
   ArrowUpRight,
   ArrowDownRight,
   Globe,
+  CheckCircle,
+  AlertCircle,
+  AlertTriangle,
+  Clock,
 } from "lucide-react";
 
 // Use real monthly data from calculations
