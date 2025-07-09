@@ -80,8 +80,9 @@ const menuItems = [
   },
 ];
 
-export default function Sidebar({ language }: SidebarProps) {
+export default function Sidebar({}: SidebarProps) {
   const { hasPermission } = useAuth();
+  const { language } = useLanguage();
 
   const visibleMenuItems = menuItems.filter(
     (item) => item.permission === "*" || hasPermission(item.permission),
