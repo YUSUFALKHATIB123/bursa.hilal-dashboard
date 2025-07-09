@@ -506,6 +506,96 @@ export default function FinancialDashboard() {
         </div>
       </motion.div>
 
+      {/* Invoice and Payment Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="bg-white rounded-lg border border-gray-200 p-6"
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-gray-600 text-sm">
+                {language === "ar" ? "فواتير مدفوعة" : "Paid Invoices"}
+              </p>
+              <p className="text-2xl font-bold text-green-600">
+                {realFinancialData.paidInvoices}
+              </p>
+            </div>
+            <div className="p-3 rounded-lg bg-green-100 text-green-600">
+              <CheckCircle className="w-6 h-6" />
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.1 }}
+          className="bg-white rounded-lg border border-gray-200 p-6"
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-gray-600 text-sm">
+                {language === "ar" ? "فواتير غير مدفوعة" : "Unpaid Invoices"}
+              </p>
+              <p className="text-2xl font-bold text-red-600">
+                {realFinancialData.unpaidInvoices}
+              </p>
+            </div>
+            <div className="p-3 rounded-lg bg-red-100 text-red-600">
+              <AlertCircle className="w-6 h-6" />
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2 }}
+          className="bg-white rounded-lg border border-gray-200 p-6"
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-gray-600 text-sm">
+                {language === "ar" ? "مدفوعات معلقة" : "Outstanding Payments"}
+              </p>
+              <p className="text-2xl font-bold text-orange-600">
+                ${realFinancialData.outstandingPayments.toLocaleString()}
+              </p>
+            </div>
+            <div className="p-3 rounded-lg bg-orange-100 text-orange-600">
+              <Clock className="w-6 h-6" />
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.3 }}
+          className="bg-white rounded-lg border border-gray-200 p-6"
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-gray-600 text-sm">
+                {language === "ar" ? "فواتير متأخرة" : "Overdue Invoices"}
+              </p>
+              <p className="text-2xl font-bold text-red-600">
+                ${realFinancialData.overdueAmount.toLocaleString()}
+              </p>
+              <p className="text-xs text-gray-500">
+                {realFinancialData.overdueCount}{" "}
+                {language === "ar" ? "فاتورة" : "invoices"}
+              </p>
+            </div>
+            <div className="p-3 rounded-lg bg-red-100 text-red-600">
+              <AlertTriangle className="w-6 h-6" />
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
       {/* Admin Notes */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
