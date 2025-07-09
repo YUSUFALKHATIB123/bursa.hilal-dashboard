@@ -252,6 +252,7 @@ function EmployeeCard({
 }
 
 export default function Employees() {
+  const { language, t } = useLanguage();
   const [employees] = useState<Employee[]>(mockEmployees);
   const [showAddForm, setShowAddForm] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(
@@ -441,7 +442,7 @@ export default function Employees() {
               <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-primary focus:border-transparent">
                 <option>{language === "ar" ? "الوردية" : "Shift"}</option>
                 <option>{language === "ar" ? "الصباحية" : "Morning"}</option>
-                <option>{language === "ar" ? "المسائية" : "Evening"}</option>
+                <option>{language === "ar" ? "المسائ��ة" : "Evening"}</option>
                 <option>{language === "ar" ? "الليلية" : "Night"}</option>
               </select>
             </div>
