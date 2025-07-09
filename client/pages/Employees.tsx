@@ -124,10 +124,13 @@ function EmployeeCard({
         {/* Salary Info */}
         <div>
           <div className="flex justify-between text-sm mb-2">
-            <span className="text-gray-600">الراتب</span>
+            <span className="text-gray-600">
+              {language === "ar" ? "الراتب" : "Salary"}
+            </span>
             <span className="font-medium">
               {employee.paid.toLocaleString()} /{" "}
-              {employee.salary.toLocaleString()} ج.م
+              {employee.salary.toLocaleString()}{" "}
+              {language === "ar" ? "ج.م" : "EGP"}
             </span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
@@ -138,7 +141,9 @@ function EmployeeCard({
           </div>
           {employee.remaining > 0 && (
             <p className="text-xs text-orange-600 mt-1">
-              متبقي: {employee.remaining.toLocaleString()} ج.م
+              {language === "ar" ? "متبقي" : "Remaining"}:{" "}
+              {employee.remaining.toLocaleString()}{" "}
+              {language === "ar" ? "ج.م" : "EGP"}
             </p>
           )}
         </div>
@@ -146,18 +151,32 @@ function EmployeeCard({
         {/* Work Details */}
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
-            <p className="text-gray-600">ساعات العمل</p>
+            <p className="text-gray-600">
+              {language === "ar" ? "ساعات العمل" : "Hours Worked"}
+            </p>
             <p className="font-medium flex items-center">
               <Clock className="w-4 h-4 mr-1" />
               {employee.hoursWorked}
             </p>
           </div>
           <div>
-            <p className="text-gray-600">الوردية</p>
-            <p className="font-medium">{employee.shift}</p>
+            <p className="text-gray-600">
+              {language === "ar" ? "الوردية" : "Shift"}
+            </p>
+            <p className="font-medium">
+              {language === "ar"
+                ? employee.shift
+                : employee.shift === "الصباحية"
+                  ? "Morning"
+                  : employee.shift === "المسائية"
+                    ? "Evening"
+                    : "Night"}
+            </p>
           </div>
           <div>
-            <p className="text-gray-600">الغيابات</p>
+            <p className="text-gray-600">
+              {language === "ar" ? "الغيابات" : "Absences"}
+            </p>
             <p
               className={`font-medium flex items-center ${employee.absences > 2 ? "text-red-600" : "text-green-600"}`}
             >
@@ -166,9 +185,11 @@ function EmployeeCard({
             </p>
           </div>
           <div>
-            <p className="text-gray-600">الإضافي</p>
+            <p className="text-gray-600">
+              {language === "ar" ? "الإضافي" : "Overtime"}
+            </p>
             <p className="font-medium text-blue-600">
-              {employee.overtime} ساعة
+              {employee.overtime} {language === "ar" ? "ساعة" : "hours"}
             </p>
           </div>
         </div>
@@ -176,7 +197,9 @@ function EmployeeCard({
         {/* Performance Indicator */}
         <div className="mb-4">
           <div className="flex justify-between text-xs mb-1">
-            <span className="text-gray-600">مؤشر الأداء</span>
+            <span className="text-gray-600">
+              {language === "ar" ? "مؤشر الأداء" : "Performance"}
+            </span>
             <span className="font-medium">{performanceScore}%</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-1.5">
@@ -206,14 +229,21 @@ function EmployeeCard({
               }`}
             >
               {employee.status === "active"
-                ? "نشط"
+                ? language === "ar"
+                  ? "نشط"
+                  : "Active"
                 : employee.status === "on_leave"
-                  ? "إجازة"
-                  : "غائب"}
+                  ? language === "ar"
+                    ? "إجازة"
+                    : "On Leave"
+                  : language === "ar"
+                    ? "غائب"
+                    : "Absent"}
             </span>
           </div>
           <span className="text-xs text-gray-500">
-            آخر عمل: {employee.lastWorkDate}
+            {language === "ar" ? "آخر عمل" : "Last work"}:{" "}
+            {employee.lastWorkDate}
           </span>
         </div>
       </div>
@@ -302,7 +332,9 @@ export default function Employees() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm">إجمالي الرواتب</p>
+              <p className="text-gray-600 text-sm">
+                {language === "ar" ? "إجمالي الرواتب" : "Total Salaries"}
+              </p>
               <p className="text-2xl font-bold text-gray-900">
                 {totalSalaries.toLocaleString()}
               </p>
@@ -321,7 +353,9 @@ export default function Employees() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm">المدفوع</p>
+              <p className="text-gray-600 text-sm">
+                {language === "ar" ? "المدفوع" : "Paid"}
+              </p>
               <p className="text-2xl font-bold text-green-600">
                 {totalPaid.toLocaleString()}
               </p>
@@ -340,7 +374,9 @@ export default function Employees() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm">المتبقي</p>
+              <p className="text-gray-600 text-sm">
+                {language === "ar" ? "المتبقي" : "Remaining"}
+              </p>
               <p className="text-2xl font-bold text-orange-600">
                 {totalRemaining.toLocaleString()}
               </p>
@@ -384,29 +420,29 @@ export default function Employees() {
             className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6"
           >
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              إضافة موظف جديد
+              {language === "ar" ? "إضافة موظف جديد" : "Add New Employee"}
             </h3>
             <div className="space-y-4">
               <input
                 type="text"
-                placeholder="اسم الموظف"
+                placeholder={language === "ar" ? "اسم الموظف" : "Employee Name"}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-primary focus:border-transparent"
               />
               <input
                 type="text"
-                placeholder="المنصب"
+                placeholder={language === "ar" ? "المنصب" : "Position"}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-primary focus:border-transparent"
               />
               <input
                 type="number"
-                placeholder="الراتب"
+                placeholder={language === "ar" ? "الراتب" : "Salary"}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-primary focus:border-transparent"
               />
               <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-primary focus:border-transparent">
-                <option>الوردية</option>
-                <option>الصباحية</option>
-                <option>المسائية</option>
-                <option>الليلية</option>
+                <option>{language === "ar" ? "الوردية" : "Shift"}</option>
+                <option>{language === "ar" ? "الصباحية" : "Morning"}</option>
+                <option>{language === "ar" ? "المسائية" : "Evening"}</option>
+                <option>{language === "ar" ? "الليلية" : "Night"}</option>
               </select>
             </div>
             <div className="flex space-x-3 mt-6">
@@ -414,13 +450,13 @@ export default function Employees() {
                 onClick={() => setShowAddForm(false)}
                 className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
               >
-                إضافة
+                {language === "ar" ? "إضافة" : "Add"}
               </button>
               <button
                 onClick={() => setShowAddForm(false)}
                 className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
               >
-                إلغاء
+                {language === "ar" ? "إلغاء" : "Cancel"}
               </button>
             </div>
           </motion.div>
