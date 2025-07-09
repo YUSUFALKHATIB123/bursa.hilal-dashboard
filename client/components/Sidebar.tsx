@@ -33,7 +33,7 @@ const menuItems = [
   {
     path: "/track-order",
     icon: MapPin,
-    label: { en: "Track Order", ar: "تت��ع الطلب" },
+    label: { en: "Track Order", ar: "تتبع الطلبات" },
     permission: "track-order",
   },
   {
