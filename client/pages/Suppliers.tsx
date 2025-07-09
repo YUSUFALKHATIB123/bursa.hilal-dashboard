@@ -45,11 +45,12 @@ export default function Suppliers() {
           <Building2 className="w-8 h-8 text-gray-400" />
         </div>
         <h3 className="text-xl font-semibold text-gray-900 mb-2">
-          Supplier Management
+          {language === "ar" ? "إدارة الموردين" : "Supplier Management"}
         </h3>
         <p className="text-gray-600 mb-6 max-w-md mx-auto">
-          External factory management, file attachments, photos, and service
-          quality ratings.
+          {language === "ar"
+            ? "إدارة المصانع الخارجية مع مرفقات الملفات والصور وتقييمات جودة الخدمة."
+            : "External factory management, file attachments, photos, and service quality ratings."}
         </p>
       </motion.div>
 
