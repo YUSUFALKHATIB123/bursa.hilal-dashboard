@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { systemData } from "./Index";
 import {
   TrendingUp,
   TrendingDown,
@@ -13,21 +14,40 @@ import {
   Globe,
 } from "lucide-react";
 
+// Generate monthly data from system data
 const monthlyData = [
   { month: "Jan", revenue: 45000, expenses: 32000, profit: 13000 },
   { month: "Feb", revenue: 52000, expenses: 35000, profit: 17000 },
   { month: "Mar", revenue: 48000, expenses: 38000, profit: 10000 },
   { month: "Apr", revenue: 61000, expenses: 41000, profit: 20000 },
   { month: "May", revenue: 55000, expenses: 39000, profit: 16000 },
-  { month: "Jun", revenue: 67000, expenses: 44000, profit: 23000 },
+  {
+    month: "Jun",
+    revenue: systemData.financials.revenue,
+    expenses: systemData.financials.expenses,
+    profit: systemData.financials.profit,
+  },
 ];
 
+// Calculate real expense breakdown based on system data
+const totalEmployeeSalaries = systemData.employees.reduce(
+  (sum, emp) => sum + emp.salary,
+  0,
+);
+const rawMaterialsCost = systemData.inventory.reduce(
+  (sum, item) => sum + item.quantity * item.price * 0.3,
+  0,
+); // 30% of inventory value as monthly usage
 const expenseCategories = [
-  { category: "Raw Materials", amount: 25000, color: "bg-blue-500" },
-  { category: "Labor", amount: 18000, color: "bg-green-500" },
-  { category: "Utilities", amount: 8000, color: "bg-yellow-500" },
-  { category: "Equipment", amount: 12000, color: "bg-purple-500" },
-  { category: "Other", amount: 5000, color: "bg-red-500" },
+  { category: "Labor", amount: totalEmployeeSalaries, color: "bg-green-500" },
+  {
+    category: "Raw Materials",
+    amount: Math.floor(rawMaterialsCost),
+    color: "bg-blue-500",
+  },
+  { category: "Utilities", amount: 4500, color: "bg-yellow-500" },
+  { category: "Equipment & Maintenance", amount: 2500, color: "bg-purple-500" },
+  { category: "Miscellaneous", amount: 2000, color: "bg-red-500" },
 ];
 
 const topCountries = [
@@ -269,24 +289,30 @@ export default function FinancialDashboard() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => {
-              // Generate CSV/PDF export
-              const csvContent =
-                "data:text/csv;charset=utf-8," +
-                "Month,Revenue,Expenses,Profit\n" +
-                "Jan,45000,32000,13000\n" +
-                "Feb,52000,35000,17000\n" +
-                "Mar,48000,38000,10000\n" +
-                "Apr,61000,41000,20000\n" +
-                "May,55000,39000,16000\n" +
-                "Jun,67000,44000,23000";
+              // Generate CSV export with real data
+              const csvContent = [
+                "Month,Revenue,Expenses,Profit",
+                ...monthlyData.map(
+                  (data) =>
+                    `${data.month},${data.revenue},${data.expenses},${data.profit}`,
+                ),
+                "",
+                "Expense Breakdown",
+                "Category,Amount",
+                ...expenseCategories.map(
+                  (cat) => `${cat.category},${cat.amount}`,
+                ),
+              ].join("\n");
 
-              const encodedUri = encodeURI(csvContent);
+              const blob = new Blob([csvContent], { type: "text/csv" });
+              const url = window.URL.createObjectURL(blob);
               const link = document.createElement("a");
-              link.setAttribute("href", encodedUri);
-              link.setAttribute("download", "financial_report.csv");
+              link.href = url;
+              link.download = `financial_report_${new Date().toISOString().split("T")[0]}.csv`;
               document.body.appendChild(link);
               link.click();
               document.body.removeChild(link);
+              window.URL.revokeObjectURL(url);
             }}
             className="px-4 py-2 bg-green-primary text-white rounded-lg hover:bg-green-secondary transition-colors flex items-center space-x-2"
           >
@@ -300,28 +326,28 @@ export default function FinancialDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <MetricCard
           title="Total Revenue"
-          value="$67,200"
+          value={`$${(systemData.financials.revenue / 1000).toFixed(1)}K`}
           change="+12.5%"
           icon={DollarSign}
           color="bg-green-500"
         />
         <MetricCard
           title="Total Expenses"
-          value="$44,800"
+          value={`$${(systemData.financials.expenses / 1000).toFixed(1)}K`}
           change="+8.2%"
           icon={TrendingDown}
           color="bg-red-500"
         />
         <MetricCard
           title="Net Profit"
-          value="$22,400"
+          value={`$${(systemData.financials.profit / 1000).toFixed(1)}K`}
           change="+18.7%"
           icon={TrendingUp}
           color="bg-blue-500"
         />
         <MetricCard
           title="Profit Margin"
-          value="33.3%"
+          value={`${systemData.financials.margin.toFixed(1)}%`}
           change="+2.1%"
           icon={PieChart}
           color="bg-purple-500"

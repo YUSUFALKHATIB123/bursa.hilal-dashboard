@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import EmployeeDetailModal from "../components/EmployeeDetailModal";
+import { systemData } from "./Index";
 import {
   UserCheck,
   Plus,
@@ -9,6 +11,7 @@ import {
   Clock,
   AlertCircle,
   CheckCircle,
+  BarChart3,
 } from "lucide-react";
 
 interface Employee {
@@ -26,6 +29,7 @@ interface Employee {
   lastWorkDate: string;
 }
 
+// Extended employee data with additional fields for the modal
 const mockEmployees: Employee[] = [
   {
     id: "EMP-001",
@@ -71,15 +75,25 @@ const mockEmployees: Employee[] = [
   },
 ];
 
-function EmployeeCard({ employee }: { employee: Employee }) {
+function EmployeeCard({
+  employee,
+  onClick,
+}: {
+  employee: Employee;
+  onClick: () => void;
+}) {
   const paymentPercentage = (employee.paid / employee.salary) * 100;
+  const performanceScore = Math.floor(
+    85 + Math.random() * 15 - employee.absences * 3,
+  );
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -5, scale: 1.02 }}
-      className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
+      onClick={onClick}
+      className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden cursor-pointer"
     >
       {/* Header */}
       <div
@@ -158,6 +172,26 @@ function EmployeeCard({ employee }: { employee: Employee }) {
           </div>
         </div>
 
+        {/* Performance Indicator */}
+        <div className="mb-4">
+          <div className="flex justify-between text-xs mb-1">
+            <span className="text-gray-600">مؤشر الأداء</span>
+            <span className="font-medium">{performanceScore}%</span>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-1.5">
+            <div
+              className={`h-1.5 rounded-full transition-all duration-500 ${
+                performanceScore >= 90
+                  ? "bg-green-500"
+                  : performanceScore >= 70
+                    ? "bg-blue-500"
+                    : "bg-orange-500"
+              }`}
+              style={{ width: `${performanceScore}%` }}
+            />
+          </div>
+        </div>
+
         {/* Status and Actions */}
         <div className="flex justify-between items-center pt-2 border-t border-gray-100">
           <div>
@@ -189,10 +223,19 @@ function EmployeeCard({ employee }: { employee: Employee }) {
 export default function Employees() {
   const [employees] = useState<Employee[]>(mockEmployees);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(
+    null,
+  );
+  const [showEmployeeDetail, setShowEmployeeDetail] = useState(false);
 
   const totalSalaries = employees.reduce((sum, emp) => sum + emp.salary, 0);
   const totalPaid = employees.reduce((sum, emp) => sum + emp.paid, 0);
   const totalRemaining = employees.reduce((sum, emp) => sum + emp.remaining, 0);
+
+  const handleEmployeeClick = (employee: Employee) => {
+    setSelectedEmployee(employee);
+    setShowEmployeeDetail(true);
+  };
 
   return (
     <div className="space-y-6">
@@ -313,7 +356,10 @@ export default function Employees() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
           >
-            <EmployeeCard employee={employee} />
+            <EmployeeCard
+              employee={employee}
+              onClick={() => handleEmployeeClick(employee)}
+            />
           </motion.div>
         ))}
       </div>
@@ -375,6 +421,16 @@ export default function Employees() {
           </motion.div>
         </motion.div>
       )}
+
+      {/* Employee Detail Modal */}
+      <EmployeeDetailModal
+        isOpen={showEmployeeDetail}
+        onClose={() => {
+          setShowEmployeeDetail(false);
+          setSelectedEmployee(null);
+        }}
+        employee={selectedEmployee}
+      />
     </div>
   );
 }

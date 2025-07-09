@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import NewOrderModal from "../components/NewOrderModal";
+import { systemData } from "./Index";
 import {
   Plus,
   Search,
@@ -26,69 +27,8 @@ const orderStatuses = {
   cancelled: { label: "Cancelled", color: "bg-red-100 text-red-800" },
 };
 
-const mockOrders = [
-  {
-    id: "ORD-001",
-    customer: "Libya Textile Co.",
-    date: "2025-07-07",
-    status: "processing",
-    total: 18000,
-    items: 1,
-    deadline: "2025-07-25",
-    product: "Jacquard Velvet",
-    quantity: "1200 meters",
-    colors: "Gold, Cream, Beige",
-    depositPaid: 3000,
-    remaining: 15000,
-    paymentMethod: "Wire Transfer",
-    notes: "Special packaging requested",
-  },
-  {
-    id: "ORD-002",
-    customer: "Ahmed Textiles Ltd.",
-    date: "2024-01-15",
-    status: "processing",
-    total: 15420,
-    items: 3,
-    deadline: "2024-01-25",
-  },
-  {
-    id: "ORD-003",
-    customer: "Cairo Fashion House",
-    date: "2024-01-14",
-    status: "completed",
-    total: 8750,
-    items: 2,
-    deadline: "2024-01-20",
-  },
-  {
-    id: "ORD-004",
-    customer: "Alexandria Garments",
-    date: "2024-01-13",
-    status: "pending",
-    total: 22100,
-    items: 5,
-    deadline: "2024-01-30",
-  },
-  {
-    id: "ORD-005",
-    customer: "Modern Textiles Co.",
-    date: "2024-01-12",
-    status: "processing",
-    total: 12300,
-    items: 4,
-    deadline: "2024-01-28",
-  },
-  {
-    id: "ORD-006",
-    customer: "Elite Fashion",
-    date: "2024-01-11",
-    status: "cancelled",
-    total: 9800,
-    items: 2,
-    deadline: "2024-01-22",
-  },
-];
+// Using real system data
+const mockOrders = systemData.orders;
 
 function StatusBadge({ status }: { status: keyof typeof orderStatuses }) {
   const statusConfig = orderStatuses[status];
@@ -105,6 +45,19 @@ export default function OrdersManagement() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
   const [showNewOrderModal, setShowNewOrderModal] = useState(false);
+  const [showFilterModal, setShowFilterModal] = useState(false);
+
+  // Calculate real stats from system data
+  const totalOrders = mockOrders.length;
+  const processingOrders = mockOrders.filter(
+    (order) => order.status === "processing",
+  ).length;
+  const completedOrders = mockOrders.filter(
+    (order) => order.status === "completed",
+  ).length;
+  const cancelledOrders = mockOrders.filter(
+    (order) => order.status === "cancelled",
+  ).length;
 
   const filteredOrders = mockOrders.filter((order) => {
     const matchesSearch =
@@ -152,15 +105,30 @@ export default function OrdersManagement() {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {[
-          { title: "Total Orders", value: "142", icon: Package, color: "blue" },
-          { title: "Processing", value: "28", icon: Clock, color: "yellow" },
+          {
+            title: "Total Orders",
+            value: totalOrders.toString(),
+            icon: Package,
+            color: "blue",
+          },
+          {
+            title: "Processing",
+            value: processingOrders.toString(),
+            icon: Clock,
+            color: "yellow",
+          },
           {
             title: "Completed",
-            value: "89",
+            value: completedOrders.toString(),
             icon: CheckCircle,
             color: "green",
           },
-          { title: "Cancelled", value: "8", icon: AlertCircle, color: "red" },
+          {
+            title: "Cancelled",
+            value: cancelledOrders.toString(),
+            icon: AlertCircle,
+            color: "red",
+          },
         ].map((stat, index) => (
           <motion.div
             key={stat.title}
@@ -216,14 +184,33 @@ export default function OrdersManagement() {
           </div>
           <div className="flex items-center space-x-3">
             <button
-              onClick={() => alert("Advanced filter options - Coming soon!")}
+              onClick={() => setShowFilterModal(true)}
               className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors flex items-center space-x-2"
             >
               <Filter className="w-4 h-4" />
               <span>Filter</span>
             </button>
             <button
-              onClick={() => alert("Export to Excel/PDF - Coming soon!")}
+              onClick={() => {
+                // Generate CSV export
+                const csvContent = [
+                  "Order ID,Customer,Date,Status,Total,Deadline",
+                  ...filteredOrders.map(
+                    (order) =>
+                      `${order.id},${order.customer},${order.date},${order.status},${order.total},${order.deadline}`,
+                  ),
+                ].join("\n");
+
+                const blob = new Blob([csvContent], { type: "text/csv" });
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.href = url;
+                link.download = `orders_export_${new Date().toISOString().split("T")[0]}.csv`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(url);
+              }}
               className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors flex items-center space-x-2"
             >
               <Download className="w-4 h-4" />
@@ -364,6 +351,90 @@ export default function OrdersManagement() {
           Save Notes
         </button>
       </motion.div>
+
+      {/* Filter Modal */}
+      {showFilterModal && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+          onClick={() => setShowFilterModal(false)}
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6"
+          >
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              Advanced Filters
+            </h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Date Range
+                </label>
+                <div className="grid grid-cols-2 gap-2">
+                  <input
+                    type="date"
+                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-primary focus:border-transparent"
+                  />
+                  <input
+                    type="date"
+                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-primary focus:border-transparent"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Amount Range
+                </label>
+                <div className="grid grid-cols-2 gap-2">
+                  <input
+                    type="number"
+                    placeholder="Min"
+                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-primary focus:border-transparent"
+                  />
+                  <input
+                    type="number"
+                    placeholder="Max"
+                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-primary focus:border-transparent"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Customer
+                </label>
+                <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-primary focus:border-transparent">
+                  <option value="">All Customers</option>
+                  <option value="Libya Textile Co.">Libya Textile Co.</option>
+                  <option value="Ahmed Textiles Ltd.">
+                    Ahmed Textiles Ltd.
+                  </option>
+                  <option value="Cairo Fashion House">
+                    Cairo Fashion House
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div className="flex space-x-3 mt-6">
+              <button
+                onClick={() => setShowFilterModal(false)}
+                className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+              >
+                Apply Filters
+              </button>
+              <button
+                onClick={() => setShowFilterModal(false)}
+                className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
 
       {/* New Order Modal */}
       <NewOrderModal

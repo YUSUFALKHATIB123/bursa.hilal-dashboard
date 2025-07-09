@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useAuth } from "../contexts/AuthContext";
 import {
   ShoppingCart,
   Users,
@@ -8,169 +8,189 @@ import {
   UserCheck,
   Bell,
   TrendingUp,
-  Building2,
-  ArrowRight,
   Calendar,
   DollarSign,
   AlertTriangle,
   CheckCircle,
-  Globe,
-  Flag,
-  MapPin,
+  Clock,
+  FileText,
+  Target,
+  Activity,
 } from "lucide-react";
 
-const dashboardCards = [
-  {
-    title: { en: "Orders Management", ar: "إدارة الطلبات" },
-    description: {
-      en: "View, add, track, and manage customer orders",
-      ar: "عرض وإضافة وتتبع وإدارة طلبات العملاء",
+// Real system data that will be used throughout the system
+export const systemData = {
+  orders: [
+    {
+      id: "ORD-001",
+      customer: "Libya Textile Co.",
+      date: "2025-01-15",
+      status: "processing",
+      total: 18000,
+      items: 1,
+      deadline: "2025-01-25",
     },
-    icon: ShoppingCart,
-    path: "/orders",
-    color: "from-blue-500 to-blue-600",
-    stats: "143",
-  },
-  {
-    title: { en: "Customers", ar: "العملاء" },
-    description: {
-      en: "Detailed profiles, order history, and contact info",
-      ar: "ملفات تعريف مفصلة وتاريخ الطلبات ومعلومات الاتصال",
+    {
+      id: "ORD-002",
+      customer: "Ahmed Textiles Ltd.",
+      date: "2025-01-14",
+      status: "processing",
+      total: 15420,
+      items: 3,
+      deadline: "2025-01-22",
     },
-    icon: Users,
-    path: "/customers",
-    color: "from-purple-500 to-purple-600",
-    stats: "89",
-  },
-  {
-    title: { en: "Track Order", ar: "تتبع الطلب" },
-    description: {
-      en: "Track order progress and production stages",
-      ar: "تتبع تقدم الطلبات ومراحل الإنتاج",
+    {
+      id: "ORD-003",
+      customer: "Cairo Fashion House",
+      date: "2025-01-13",
+      status: "completed",
+      total: 8750,
+      items: 2,
+      deadline: "2025-01-20",
     },
-    icon: MapPin,
-    path: "/track-order",
-    color: "from-green-500 to-green-600",
-    stats: "6",
-  },
-  {
-    title: { en: "Inventory", ar: "المخزون" },
-    description: {
-      en: "Manage stock by fabric type/color with alerts",
-      ar: "إدارة المخزون حسب نوع ولون القماش مع التنبيهات",
+    {
+      id: "ORD-004",
+      customer: "Alexandria Garments",
+      date: "2025-01-12",
+      status: "pending",
+      total: 22100,
+      items: 5,
+      deadline: "2025-01-30",
     },
-    icon: Package,
-    path: "/inventory",
-    color: "from-orange-500 to-orange-600",
-    stats: "567",
-  },
-  {
-    title: { en: "Employees & Tasks", ar: "الموظفين والمهام" },
-    description: {
-      en: "Track salaries, payments, and daily assignments",
-      ar: "تتبع الرواتب والمدفوعات والمهام اليومية",
+    {
+      id: "ORD-005",
+      customer: "Modern Textiles Co.",
+      date: "2025-01-11",
+      status: "processing",
+      total: 12300,
+      items: 4,
+      deadline: "2025-01-28",
     },
-    icon: UserCheck,
-    path: "/employees",
-    color: "from-indigo-500 to-indigo-600",
-    stats: "34",
-  },
-  {
-    title: { en: "Smart Notifications", ar: "الإشعارات الذكية" },
-    description: {
-      en: "System alerts for delays, low stock, pending tasks",
-      ar: "تنبيهات النظام للتأخير ونقص المخزون والمهام المعلقة",
+    {
+      id: "ORD-006",
+      customer: "Elite Fashion",
+      date: "2025-01-10",
+      status: "cancelled",
+      total: 9800,
+      items: 2,
+      deadline: "2025-01-22",
     },
-    icon: Bell,
-    path: "/notifications",
-    color: "from-red-500 to-red-600",
-    stats: "12",
-  },
-  {
-    title: { en: "Financial Dashboard", ar: "لوحة المالية" },
-    description: {
-      en: "Earnings, expenses, profit/loss with charts",
-      ar: "الأرباح والمصروفات والربح/الخسارة مع المخططات",
+  ],
+  customers: [
+    {
+      id: "CUST-001",
+      name: "Libya Textile Co.",
+      totalOrders: 3,
+      totalRevenue: 45000,
     },
-    icon: TrendingUp,
-    path: "/financial",
-    color: "from-teal-500 to-teal-600",
-    stats: "$45.2K",
-  },
-  {
-    title: { en: "Supplier Management", ar: "إدارة الموردين" },
-    description: {
-      en: "Manage external factories with files and ratings",
-      ar: "إدارة المصانع الخارجية مع الملفات والتقييمات",
+    {
+      id: "CUST-002",
+      name: "Ahmed Textiles Ltd.",
+      totalOrders: 2,
+      totalRevenue: 28000,
     },
-    icon: Building2,
-    path: "/suppliers",
-    color: "from-pink-500 to-pink-600",
-    stats: "15",
+    {
+      id: "CUST-003",
+      name: "Cairo Fashion House",
+      totalOrders: 2,
+      totalRevenue: 15000,
+    },
+  ],
+  inventory: [
+    {
+      type: "Jacquard",
+      color: "Green",
+      quantity: 5000,
+      unit: "meters",
+      price: 4.5,
+    },
+    {
+      type: "Velvet",
+      color: "Red",
+      quantity: 2300,
+      unit: "meters",
+      price: 6.2,
+    },
+    {
+      type: "Nubuk",
+      color: "Beige",
+      quantity: 1500,
+      unit: "meters",
+      price: 5.8,
+    },
+    {
+      type: "Babyface",
+      color: "Blue",
+      quantity: 800,
+      unit: "meters",
+      price: 7.1,
+    },
+    {
+      type: "Bouclé",
+      color: "White",
+      quantity: 1200,
+      unit: "meters",
+      price: 5.4,
+    },
+  ],
+  employees: [
+    {
+      id: "EMP-001",
+      name: "غيث الخطيب",
+      position: "مشغل آلة",
+      salary: 9000,
+      paid: 5000,
+    },
+    {
+      id: "EMP-002",
+      name: "محمد حج محمد",
+      position: "مراقب جودة",
+      salary: 8500,
+      paid: 8500,
+    },
+    {
+      id: "EMP-003",
+      name: "عبدالله الخطيب",
+      position: "فني صيانة",
+      salary: 7500,
+      paid: 3000,
+    },
+  ],
+  notifications: [
+    {
+      id: 1,
+      type: "low_stock",
+      message: "Babyface Blue below 1000 meters",
+      priority: "high",
+    },
+    {
+      id: 2,
+      type: "order_due",
+      message: "Order ORD-002 due in 3 days",
+      priority: "medium",
+    },
+    {
+      id: 3,
+      type: "payment_pending",
+      message: "Libya Textile Co. payment pending",
+      priority: "high",
+    },
+    {
+      id: 4,
+      type: "quality_check",
+      message: "Batch #145 needs quality inspection",
+      priority: "low",
+    },
+  ],
+  financials: {
+    revenue: 67200,
+    expenses: 44800,
+    profit: 22400,
+    margin: 33.3,
+    monthlyRevenue: [45000, 52000, 48000, 61000, 55000, 67200],
+    monthlyExpenses: [32000, 35000, 38000, 41000, 39000, 44800],
   },
-];
-
-const quickStats = [
-  {
-    label: { en: "Today's Orders", ar: "طلبات ا��يوم" },
-    value: 13,
-    change: "+8%",
-    icon: ShoppingCart,
-    color: "text-blue-600 bg-blue-100",
-  },
-  {
-    label: { en: "Total Revenue", ar: "إجمالي الإيرادات" },
-    value: 63200,
-    change: "+40%",
-    icon: DollarSign,
-    color: "text-green-600 bg-green-100",
-  },
-  {
-    label: { en: "Pending Tasks", ar: "المهام المعلقة" },
-    value: 9,
-    change: "+12%",
-    icon: AlertTriangle,
-    color: "text-orange-600 bg-orange-100",
-  },
-  {
-    label: { en: "Completed Orders", ar: "الطلبات المكتملة" },
-    value: 135,
-    change: "+6%",
-    icon: CheckCircle,
-    color: "text-green-600 bg-green-100",
-  },
-];
-
-const topCountries = [
-  {
-    country: "Libya",
-    orders: 3,
-    revenue: 45000,
-    flag: "🇱🇾",
-    growth: "+15%",
-  },
-  {
-    country: "Algeria",
-    orders: 2,
-    revenue: 28000,
-    flag: "🇩🇿",
-    growth: "+8%",
-  },
-  {
-    country: "Egypt",
-    orders: 1,
-    revenue: 15000,
-    flag: "🇪🇬",
-    growth: "New",
-  },
-  {
-    country: "Tunisia",
-    orders: 1,
-    revenue: 12000,
-    flag: "🇹🇳",
-    growth: "New",
-  },
-];
+};
 
 function AnimatedCounter({
   value,
@@ -206,8 +226,281 @@ function AnimatedCounter({
   );
 }
 
+function RoleBasedCard({
+  title,
+  description,
+  icon: Icon,
+  value,
+  color,
+  trend,
+}: {
+  title: string;
+  description: string;
+  icon: any;
+  value: string | number;
+  color: string;
+  trend?: string;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ y: -5, scale: 1.02 }}
+      className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-all duration-300"
+    >
+      <div className="flex items-center justify-between mb-4">
+        <div className={`p-3 rounded-lg ${color}`}>
+          <Icon className="w-6 h-6 text-white" />
+        </div>
+        <div className="text-right">
+          <div className="text-2xl font-bold text-gray-900">
+            {typeof value === "number" ? (
+              <AnimatedCounter value={value} />
+            ) : (
+              value
+            )}
+          </div>
+          {trend && (
+            <div
+              className={`text-sm ${trend.startsWith("+") ? "text-green-600" : "text-red-600"}`}
+            >
+              {trend}
+            </div>
+          )}
+        </div>
+      </div>
+      <h3 className="text-lg font-semibold text-gray-900 mb-2">{title}</h3>
+      <p className="text-gray-600 text-sm">{description}</p>
+    </motion.div>
+  );
+}
+
 export default function Index() {
   const [language] = useState<"en" | "ar">("en");
+  const { user } = useAuth();
+
+  // Calculate real-time stats from system data
+  const todayOrders = systemData.orders.filter(
+    (order) => order.date === "2025-01-15",
+  ).length;
+
+  const processingOrders = systemData.orders.filter(
+    (order) => order.status === "processing",
+  ).length;
+
+  const completedOrders = systemData.orders.filter(
+    (order) => order.status === "completed",
+  ).length;
+
+  const lowStockItems = systemData.inventory.filter(
+    (item) => item.quantity < 1000,
+  ).length;
+
+  const activeAlerts = systemData.notifications.filter(
+    (notif) => notif.priority === "high",
+  ).length;
+
+  const totalRevenue = systemData.financials.revenue;
+  const pendingPayments = systemData.orders
+    .filter((order) => order.status !== "completed")
+    .reduce((sum, order) => sum + order.total, 0);
+
+  const unpaidSalaries = systemData.employees.reduce(
+    (sum, emp) => sum + (emp.salary - emp.paid),
+    0,
+  );
+
+  // Role-based dashboard content
+  const getDashboardContent = () => {
+    switch (user?.role) {
+      case "admin":
+      case "owner":
+        return [
+          {
+            title: language === "ar" ? "إجمالي الطلبات" : "Total Orders",
+            description:
+              language === "ar"
+                ? "جميع الطلبات في النظام"
+                : "All orders in system",
+            icon: ShoppingCart,
+            value: systemData.orders.length,
+            color: "bg-blue-500",
+            trend: "+12%",
+          },
+          {
+            title: language === "ar" ? "إجمالي الإيرادات" : "Total Revenue",
+            description:
+              language === "ar" ? "الإيرادات الشهرية" : "Monthly revenue",
+            icon: DollarSign,
+            value: `$${(totalRevenue / 1000).toFixed(1)}K`,
+            color: "bg-green-500",
+            trend: "+18%",
+          },
+          {
+            title: language === "ar" ? "المخزون المنخفض" : "Low Stock Items",
+            description:
+              language === "ar"
+                ? "عناصر تحتاج إعادة تموين"
+                : "Items need restocking",
+            icon: AlertTriangle,
+            value: lowStockItems,
+            color: "bg-orange-500",
+            trend: lowStockItems > 0 ? "Alert" : "Good",
+          },
+          {
+            title: language === "ar" ? "التنبيهات النشطة" : "Active Alerts",
+            description:
+              language === "ar"
+                ? "تنبيهات عالية الأولوية"
+                : "High priority alerts",
+            icon: Bell,
+            value: activeAlerts,
+            color: "bg-red-500",
+            trend: activeAlerts > 0 ? "Action needed" : "All clear",
+          },
+          {
+            title:
+              language === "ar" ? "الطلبات قيد التنفيذ" : "Processing Orders",
+            description:
+              language === "ar"
+                ? "طلبات في مراحل الإنتاج"
+                : "Orders in production",
+            icon: Clock,
+            value: processingOrders,
+            color: "bg-purple-500",
+            trend: "+5%",
+          },
+          {
+            title: language === "ar" ? "الموظفون النشطون" : "Active Employees",
+            description:
+              language === "ar"
+                ? "موظفون في العمل اليوم"
+                : "Employees working today",
+            icon: UserCheck,
+            value: systemData.employees.length,
+            color: "bg-indigo-500",
+            trend: "100%",
+          },
+        ];
+
+      case "accountant":
+        return [
+          {
+            title: language === "ar" ? "إجمالي الإيرادات" : "Total Revenue",
+            description:
+              language === "ar" ? "الإيرادات الشهرية" : "Monthly revenue",
+            icon: DollarSign,
+            value: `$${(totalRevenue / 1000).toFixed(1)}K`,
+            color: "bg-green-500",
+            trend: "+18%",
+          },
+          {
+            title: language === "ar" ? "المدفوعات المعلقة" : "Pending Payments",
+            description:
+              language === "ar"
+                ? "مدفوعات في انتظار التحصيل"
+                : "Payments awaiting collection",
+            icon: Clock,
+            value: `$${(pendingPayments / 1000).toFixed(1)}K`,
+            color: "bg-orange-500",
+            trend: "Due",
+          },
+          {
+            title: language === "ar" ? "الفواتير اليوم" : "Today's Invoices",
+            description:
+              language === "ar"
+                ? "فواتير مُصدرة اليوم"
+                : "Invoices issued today",
+            icon: FileText,
+            value: 3,
+            color: "bg-blue-500",
+            trend: "+2",
+          },
+          {
+            title: language === "ar" ? "رواتب معلقة" : "Unpaid Salaries",
+            description:
+              language === "ar"
+                ? "مبالغ رواتب غير مدفوعة"
+                : "Outstanding salary amounts",
+            icon: AlertTriangle,
+            value: `$${(unpaidSalaries / 1000).toFixed(1)}K`,
+            color: "bg-red-500",
+            trend: "Pay due",
+          },
+        ];
+
+      case "production":
+        return [
+          {
+            title:
+              language === "ar" ? "طلبات للإنتاج" : "Orders for Production",
+            description:
+              language === "ar" ? "طلبات جاهزة للبدء" : "Orders ready to start",
+            icon: Target,
+            value: processingOrders,
+            color: "bg-blue-500",
+            trend: "Priority",
+          },
+          {
+            title: language === "ar" ? "مراحل الإنتاج" : "Production Stages",
+            description:
+              language === "ar"
+                ? "مراحل نشطة حاليًا"
+                : "Currently active stages",
+            icon: Activity,
+            value: 8,
+            color: "bg-purple-500",
+            trend: "Active",
+          },
+          {
+            title: language === "ar" ? "المخزون المطلوب" : "Required Stock",
+            description:
+              language === "ar" ? "مواد خام مطلوبة" : "Raw materials needed",
+            icon: Package,
+            value: 5,
+            color: "bg-orange-500",
+            trend: "Check",
+          },
+          {
+            title: language === "ar" ? "معدات الإنتاج" : "Production Equipment",
+            description:
+              language === "ar"
+                ? "معدات جاهزة للعمل"
+                : "Equipment ready for work",
+            icon: CheckCircle,
+            value: 12,
+            color: "bg-green-500",
+            trend: "Ready",
+          },
+        ];
+
+      default:
+        return [
+          {
+            title: language === "ar" ? "المهام اليوم" : "Today's Tasks",
+            description:
+              language === "ar"
+                ? "مهام مُحددة لك اليوم"
+                : "Tasks assigned to you today",
+            icon: CheckCircle,
+            value: 4,
+            color: "bg-blue-500",
+            trend: "2 completed",
+          },
+          {
+            title: language === "ar" ? "الإنجاز الأسبوعي" : "Weekly Progress",
+            description:
+              language === "ar"
+                ? "نسبة إنجاز المهام هذا الأسبوع"
+                : "Task completion rate this week",
+            icon: TrendingUp,
+            value: "87%",
+            color: "bg-green-500",
+            trend: "+5%",
+          },
+        ];
+    }
+  };
 
   return (
     <div className="space-y-8">
@@ -219,13 +512,13 @@ export default function Index() {
       >
         <h1 className="text-4xl font-bold mb-2">
           {language === "ar"
-            ? "مرحباً بك في بورصة هلال"
-            : "Welcome to Bursa Hilal"}
+            ? `مرحباً ${user?.name.split(" ")[0]}`
+            : `Welcome ${user?.name.split(" ")[0]}`}
         </h1>
         <p className="text-green-100 text-lg">
           {language === "ar"
-            ? "نظام إدارة المصنع المتكامل"
-            : "Comprehensive Factory Management System"}
+            ? `لوحة التحكم الذكية - ${user?.role === "admin" ? "مدير النظام" : user?.role === "owner" ? "مالك الشركة" : user?.role === "accountant" ? "محاسب" : user?.role === "production" ? "مدير الإنتاج" : "مساعد مدير"}`
+            : `Smart Dashboard - ${user?.role === "admin" ? "System Administrator" : user?.role === "owner" ? "Company Owner" : user?.role === "accountant" ? "Accountant" : user?.role === "production" ? "Production Manager" : "Assistant Manager"}`}
         </p>
         <div className="mt-4 flex items-center space-x-2 text-green-100">
           <Calendar className="w-5 h-5" />
@@ -243,112 +536,25 @@ export default function Index() {
         </div>
       </motion.div>
 
-      {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {quickStats.map((stat, index) => (
+      {/* Role-based Dashboard Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {getDashboardContent().map((card, index) => (
           <motion.div
-            key={index}
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-            className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow"
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-600 text-sm mb-1">
-                  {stat.label[language]}
-                </p>
-                <div className="text-2xl font-bold text-gray-900 animate-counter">
-                  {typeof stat.value === "number" && stat.value > 100 ? (
-                    <AnimatedCounter
-                      value={stat.value}
-                      suffix={stat.value > 1000 ? "K" : ""}
-                    />
-                  ) : (
-                    <AnimatedCounter value={stat.value} />
-                  )}
-                </div>
-                <span
-                  className={`text-sm ${stat.change.startsWith("+") ? "text-green-600" : "text-red-600"}`}
-                >
-                  {stat.change}
-                </span>
-              </div>
-              <div className={`p-3 rounded-lg ${stat.color}`}>
-                <stat.icon className="w-6 h-6" />
-              </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Main Dashboard Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {dashboardCards.map((card, index) => (
-          <motion.div
-            key={card.path}
+            key={card.title}
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1, duration: 0.5 }}
-            whileHover={{ y: -5, scale: 1.02 }}
-            className="group"
           >
-            <Link to={card.path}>
-              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 h-full hover:shadow-lg transition-all duration-300 overflow-hidden relative">
-                {/* Background gradient */}
-                <div
-                  className={`absolute inset-0 bg-gradient-to-br ${card.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}
-                />
-
-                {/* Content */}
-                <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-4">
-                    <div
-                      className={`p-3 rounded-lg bg-gradient-to-br ${card.color} text-white`}
-                    >
-                      <card.icon className="w-6 h-6" />
-                    </div>
-                    <div className="text-right">
-                      <div className="text-2xl font-bold text-gray-900">
-                        {card.stats}
-                      </div>
-                    </div>
-                  </div>
-
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-green-primary transition-colors">
-                    {card.title[language]}
-                  </h3>
-
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                    {card.description[language]}
-                  </p>
-
-                  <div className="flex items-center text-green-primary group-hover:translate-x-1 transition-transform">
-                    <span className="text-sm font-medium mr-2">
-                      {language === "ar" ? "فتح" : "Open"}
-                    </span>
-                    <ArrowRight className="w-4 h-4" />
-                  </div>
-                </div>
-
-                {/* Hover effect */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-20"
-                  initial={{ x: "-100%" }}
-                  whileHover={{ x: "100%" }}
-                  transition={{ duration: 0.6 }}
-                />
-              </div>
-            </Link>
+            <RoleBasedCard {...card} />
           </motion.div>
         ))}
       </div>
 
-      {/* Today's Overview */}
+      {/* Today's Overview - Real Data */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1 }}
+        transition={{ delay: 0.8 }}
         className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
       >
         <h2 className="text-xl font-semibold text-gray-900 mb-4">
@@ -357,7 +563,7 @@ export default function Index() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="text-center p-4 bg-blue-50 rounded-lg">
             <div className="text-3xl font-bold text-blue-600 mb-2">
-              <AnimatedCounter value={9} />
+              <AnimatedCounter value={todayOrders} />
             </div>
             <p className="text-blue-800 font-medium">
               {language === "ar" ? "طلبات جديدة" : "New Orders"}
@@ -365,15 +571,15 @@ export default function Index() {
           </div>
           <div className="text-center p-4 bg-green-50 rounded-lg">
             <div className="text-3xl font-bold text-green-600 mb-2">
-              <AnimatedCounter value={16} />
+              <AnimatedCounter value={completedOrders} />
             </div>
             <p className="text-green-800 font-medium">
-              {language === "ar" ? "مهام مكتملة" : "Tasks Completed"}
+              {language === "ar" ? "طلبات مكتملة" : "Completed Orders"}
             </p>
           </div>
           <div className="text-center p-4 bg-orange-50 rounded-lg">
             <div className="text-3xl font-bold text-orange-600 mb-2">
-              <AnimatedCounter value={4} />
+              <AnimatedCounter value={activeAlerts} />
             </div>
             <p className="text-orange-800 font-medium">
               {language === "ar" ? "تنبيهات نشطة" : "Active Alerts"}
@@ -381,6 +587,48 @@ export default function Index() {
           </div>
         </div>
       </motion.div>
+
+      {/* Quick Actions for specific roles */}
+      {(user?.role === "admin" || user?.role === "owner") && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.2 }}
+          className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200 p-6"
+        >
+          <h3 className="text-lg font-semibold text-blue-900 mb-4">
+            {language === "ar" ? "إجراءات سريعة" : "Quick Actions"}
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="text-center p-3 bg-white rounded-lg border border-blue-200 hover:shadow-md transition-shadow cursor-pointer">
+              <div className="text-sm font-medium text-blue-800">
+                {language === "ar" ? "طلبات متأخرة" : "Overdue Orders"}
+              </div>
+              <div className="text-xl font-bold text-blue-600">2</div>
+            </div>
+            <div className="text-center p-3 bg-white rounded-lg border border-blue-200 hover:shadow-md transition-shadow cursor-pointer">
+              <div className="text-sm font-medium text-blue-800">
+                {language === "ar" ? "مخزون منخفض" : "Low Stock"}
+              </div>
+              <div className="text-xl font-bold text-orange-600">
+                {lowStockItems}
+              </div>
+            </div>
+            <div className="text-center p-3 bg-white rounded-lg border border-blue-200 hover:shadow-md transition-shadow cursor-pointer">
+              <div className="text-sm font-medium text-blue-800">
+                {language === "ar" ? "دفعات معلقة" : "Pending Payments"}
+              </div>
+              <div className="text-xl font-bold text-red-600">3</div>
+            </div>
+            <div className="text-center p-3 bg-white rounded-lg border border-blue-200 hover:shadow-md transition-shadow cursor-pointer">
+              <div className="text-sm font-medium text-blue-800">
+                {language === "ar" ? "معدل الإنتاج" : "Production Rate"}
+              </div>
+              <div className="text-xl font-bold text-green-600">94%</div>
+            </div>
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 }
