@@ -301,7 +301,7 @@ export default function TrackOrder() {
       </motion.div>
 
       {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="responsive-grid container-safe">
         {[
           {
             label: language === "ar" ? "إجمالي الطلبات" : "Total Orders",
@@ -386,7 +386,7 @@ export default function TrackOrder() {
       </motion.div>
 
       {/* Orders Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="responsive-grid container-safe">
         {filteredOrders.map((order, index) => (
           <motion.div
             key={order.id}
