@@ -168,7 +168,7 @@ export default function Index() {
             title: language === "ar" ? "المخزون المنخفض" : "Low Stock Items",
             description:
               language === "ar"
-                ? "عناصر تحتاج إعادة تموين"
+                ? "عناصر تحتاج إع��دة تموين"
                 : "Items need restocking",
             icon: AlertTriangle,
             value: lowStockItems,
@@ -346,7 +346,9 @@ export default function Index() {
             ? `لوحة التحكم الذكية - ${user?.role === "admin" ? "مدير النظام" : user?.role === "owner" ? "مالك الشركة" : user?.role === "accountant" ? "محاسب" : user?.role === "production" ? "مدير الإنتاج" : "مساعد مدير"}`
             : `Smart Dashboard - ${user?.role === "admin" ? "System Administrator" : user?.role === "owner" ? "Company Owner" : user?.role === "accountant" ? "Accountant" : user?.role === "production" ? "Production Manager" : "Assistant Manager"}`}
         </p>
-        <div className="mt-4 flex items-center space-x-2 text-green-100">
+        <div
+          className={`mt-4 flex items-center ${language === "ar" ? "space-x-reverse space-x-2" : "space-x-2"} text-green-100`}
+        >
           <Calendar className="w-5 h-5" />
           <span>
             {new Date().toLocaleDateString(

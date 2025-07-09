@@ -106,9 +106,7 @@ export default function Sidebar({}: SidebarProps) {
             <span className="text-white font-bold text-lg">BH</span>
           </div>
           <div>
-            <h1 className="text-xl font-bold text-gray-900">
-              {language === "ar" ? "بورصة هلال" : "Bursa Hilal"}
-            </h1>
+            <h1 className="text-xl font-bold text-gray-900">بورصة هلال</h1>
             <p className="text-sm text-gray-500">
               {language === "ar" ? "نظام إدارة المصنع" : "Factory Management"}
             </p>

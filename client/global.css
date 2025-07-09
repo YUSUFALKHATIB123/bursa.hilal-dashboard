@@ -164,6 +164,37 @@
     text-align: center;
   }
 
+  /* Better RTL support for flex layouts */
+  [dir="rtl"] .justify-between {
+    direction: rtl;
+  }
+
+  /* Fix for card layouts in RTL */
+  [dir="rtl"] .grid {
+    direction: rtl;
+  }
+
+  /* Ensure proper text alignment in RTL */
+  [dir="rtl"] h1,
+  [dir="rtl"] h2,
+  [dir="rtl"] h3,
+  [dir="rtl"] h4,
+  [dir="rtl"] h5,
+  [dir="rtl"] h6 {
+    text-align: right;
+  }
+
+  [dir="rtl"] p,
+  [dir="rtl"] span {
+    text-align: right;
+  }
+
+  /* Center text for buttons and certain elements */
+  [dir="rtl"] button,
+  [dir="rtl"] .text-center {
+    text-align: center !important;
+  }
+
   [dir="rtl"] .flex {
     flex-direction: row-reverse;
   }
