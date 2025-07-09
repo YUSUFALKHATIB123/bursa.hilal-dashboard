@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useLanguage, Language } from "../contexts/LanguageContext";
 import systemData from "../data/systemData";
+import { realFinancialData } from "../utils/financialCalculations";
 import {
   TrendingUp,
   TrendingDown,
@@ -15,20 +16,8 @@ import {
   Globe,
 } from "lucide-react";
 
-// Generate monthly data from system data
-const monthlyData = [
-  { month: "Jan", revenue: 45000, expenses: 32000, profit: 13000 },
-  { month: "Feb", revenue: 52000, expenses: 35000, profit: 17000 },
-  { month: "Mar", revenue: 48000, expenses: 38000, profit: 10000 },
-  { month: "Apr", revenue: 61000, expenses: 41000, profit: 20000 },
-  { month: "May", revenue: 55000, expenses: 39000, profit: 16000 },
-  {
-    month: "Jun",
-    revenue: systemData.financials.revenue,
-    expenses: systemData.financials.expenses,
-    profit: systemData.financials.profit,
-  },
-];
+// Use real monthly data from calculations
+const monthlyData = realFinancialData.monthlyData;
 
 // Calculate real expense breakdown based on system data
 const totalEmployeeSalaries = systemData.employees.reduce(
@@ -360,29 +349,29 @@ export default function FinancialDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <MetricCard
           title={t("totalRevenue")}
-          value={`$${(systemData.financials.revenue / 1000).toFixed(1)}K`}
+          value={`$${(realFinancialData.totalRevenue / 1000).toFixed(1)}K`}
           change="+12.5%"
           icon={DollarSign}
           color="bg-green-500"
         />
         <MetricCard
           title={t("totalExpenses")}
-          value={`$${(systemData.financials.expenses / 1000).toFixed(1)}K`}
+          value={`$${(realFinancialData.totalExpenses / 1000).toFixed(1)}K`}
           change="+8.2%"
           icon={TrendingDown}
           color="bg-red-500"
         />
         <MetricCard
           title={t("netProfit")}
-          value={`$${(systemData.financials.profit / 1000).toFixed(1)}K`}
-          change="+18.7%"
+          value={`$${(realFinancialData.netProfit / 1000).toFixed(1)}K`}
+          change={realFinancialData.netProfit > 0 ? "+18.7%" : "-5.2%"}
           icon={TrendingUp}
-          color="bg-blue-500"
+          color={realFinancialData.netProfit > 0 ? "bg-blue-500" : "bg-red-500"}
         />
         <MetricCard
           title={t("profitMargin")}
-          value={`${systemData.financials.margin.toFixed(1)}%`}
-          change="+2.1%"
+          value={`${realFinancialData.profitMargin.toFixed(1)}%`}
+          change={realFinancialData.profitMargin > 20 ? "+2.1%" : "-1.8%"}
           icon={PieChart}
           color="bg-purple-500"
         />
