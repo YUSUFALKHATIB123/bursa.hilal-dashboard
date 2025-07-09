@@ -18,9 +18,8 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <div
       className={`min-h-screen bg-gray-50 ${language === "ar" ? "font-arabic" : ""}`}
-      dir={dir}
     >
-      <div className="flex">
+      <div className="flex ltr-layout">
         <AnimatePresence>
           {sidebarOpen && (
             <motion.div
@@ -28,15 +27,19 @@ export default function Layout({ children }: LayoutProps) {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: language === "ar" ? 300 : -300, opacity: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="fixed inset-y-0 z-40 md:relative"
+              className={`fixed inset-y-0 z-40 md:relative ${language === "ar" ? "right-0" : "left-0"}`}
             >
-              <Sidebar />
+              <div dir={dir}>
+                <Sidebar />
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
 
         <div className="flex-1 flex flex-col min-h-screen">
-          <Navbar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+          <div dir={dir}>
+            <Navbar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+          </div>
 
           <main className="flex-1 p-6 overflow-auto">
             <motion.div
@@ -44,6 +47,7 @@ export default function Layout({ children }: LayoutProps) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               className="max-w-7xl mx-auto"
+              dir={dir}
             >
               {children || <Outlet />}
             </motion.div>
