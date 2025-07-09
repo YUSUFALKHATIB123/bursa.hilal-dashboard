@@ -2,6 +2,8 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useLanguage } from "../contexts/LanguageContext";
 import AddStockModal from "../components/AddStockModal";
+import UpdateStockModal from "../components/UpdateStockModal";
+import ReorderStockModal from "../components/ReorderStockModal";
 import systemData from "../data/systemData";
 import {
   Package,
@@ -25,6 +27,9 @@ interface InventoryItem {
 export default function Inventory() {
   const { language, t } = useLanguage();
   const [showAddStockModal, setShowAddStockModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [showReorderModal, setShowReorderModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedType, setSelectedType] = useState<string>("all");
 
@@ -307,10 +312,22 @@ export default function Inventory() {
                 <div
                   className={`flex ${language === "ar" ? "space-x-reverse space-x-2" : "space-x-2"} pt-2 border-t border-gray-100`}
                 >
-                  <button className="flex-1 px-3 py-2 bg-green-100 text-green-800 rounded-lg hover:bg-green-200 transition-colors text-sm font-medium">
+                  <button
+                    onClick={() => {
+                      setSelectedItem(item);
+                      setShowReorderModal(true);
+                    }}
+                    className="flex-1 px-3 py-2 bg-green-100 text-green-800 rounded-lg hover:bg-green-200 transition-colors text-sm font-medium"
+                  >
                     {t("reorder")}
                   </button>
-                  <button className="flex-1 px-3 py-2 bg-blue-100 text-blue-800 rounded-lg hover:bg-blue-200 transition-colors text-sm font-medium">
+                  <button
+                    onClick={() => {
+                      setSelectedItem(item);
+                      setShowUpdateModal(true);
+                    }}
+                    className="flex-1 px-3 py-2 bg-blue-100 text-blue-800 rounded-lg hover:bg-blue-200 transition-colors text-sm font-medium"
+                  >
                     {t("update")}
                   </button>
                 </div>
@@ -351,7 +368,13 @@ export default function Inventory() {
                       {t("remaining")}
                     </p>
                   </div>
-                  <button className="px-3 py-1 bg-red-600 text-white rounded text-sm hover:bg-red-700 transition-colors">
+                  <button
+                    onClick={() => {
+                      setSelectedItem(item);
+                      setShowReorderModal(true);
+                    }}
+                    className="px-3 py-1 bg-red-600 text-white rounded text-sm hover:bg-red-700 transition-colors"
+                  >
                     {t("reorder")}
                   </button>
                 </div>
@@ -364,6 +387,24 @@ export default function Inventory() {
       <AddStockModal
         isOpen={showAddStockModal}
         onClose={() => setShowAddStockModal(false)}
+      />
+
+      <UpdateStockModal
+        isOpen={showUpdateModal}
+        onClose={() => {
+          setShowUpdateModal(false);
+          setSelectedItem(null);
+        }}
+        item={selectedItem}
+      />
+
+      <ReorderStockModal
+        isOpen={showReorderModal}
+        onClose={() => {
+          setShowReorderModal(false);
+          setSelectedItem(null);
+        }}
+        item={selectedItem}
       />
     </div>
   );

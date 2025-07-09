@@ -127,7 +127,7 @@ const translations = {
   jacquard: { en: "Jacquard", ar: "جاكار" },
   velvet: { en: "Velvet", ar: "مخمل" },
   nubuk: { en: "Nubuk", ar: "نوبوك" },
-  babyface: { en: "Babyface", ar: "بيبي فيس" },
+  babyface: { en: "Babyface", ar: "ب��بي فيس" },
   boucle: { en: "Bouclé", ar: "بوكليه" },
   reorder: { en: "Reorder", ar: "إعادة طلب" },
   update: { en: "Update", ar: "تحديث" },
@@ -153,7 +153,7 @@ const translations = {
   low: { en: "Low", ar: "منخفض" },
   belowMinimumThreshold: {
     en: "Below minimum threshold",
-    ar: "أقل من الحد الأدنى",
+    ar: "أقل م�� الحد الأدنى",
   },
   lowStockAlerts: { en: "Low Stock Alerts", ar: "تنبيهات المخزون المنخفض" },
   onlyRemaining: { en: "Only", ar: "فقط" },
@@ -175,7 +175,7 @@ const translations = {
   absences: { en: "Absences", ar: "الغيابات" },
   overtime: { en: "Overtime", ar: "ساعات إضافية" },
   active: { en: "Active", ar: "نشط" },
-  onLeave: { en: "On Leave", ar: "في إجازة" },
+  onLeave: { en: "On Leave", ar: "في إ��ازة" },
   absent: { en: "Absent", ar: "غائب" },
   performance: { en: "Performance", ar: "الأداء" },
   attendance: { en: "Attendance", ar: "الحضور" },
@@ -243,7 +243,7 @@ const translations = {
   black: { en: "Black", ar: "أسود" },
   red: { en: "Red", ar: "أحمر" },
   blue: { en: "Blue", ar: "أزرق" },
-  green: { en: "Green", ar: "أخضر" },
+  green: { en: "Green", ar: "أ��ضر" },
   yellow: { en: "Yellow", ar: "أصفر" },
   orange: { en: "Orange", ar: "برتقالي" },
   purple: { en: "Purple", ar: "بنفسجي" },
@@ -276,9 +276,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage, t, dir }}>
-      <div dir={dir} className={language === "ar" ? "font-arabic" : ""}>
-        {children}
-      </div>
+      {children}
     </LanguageContext.Provider>
   );
 }

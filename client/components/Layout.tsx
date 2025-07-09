@@ -17,7 +17,7 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <div
-      className={`min-h-screen bg-gray-50 ${dir === "rtl" ? "rtl" : "ltr"}`}
+      className={`min-h-screen bg-gray-50 ${language === "ar" ? "font-arabic" : ""}`}
       dir={dir}
     >
       <div className="flex">
