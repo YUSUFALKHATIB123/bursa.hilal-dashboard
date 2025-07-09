@@ -33,7 +33,7 @@ const menuItems = [
   {
     path: "/track-order",
     icon: MapPin,
-    label: { en: "Track Order", ar: "تتبع الطلب" },
+    label: { en: "Track Order", ar: "تتبع ا��طلب" },
     permission: "track-order",
   },
   {
@@ -92,7 +92,7 @@ export default function Sidebar({}: SidebarProps) {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="w-72 bg-white shadow-xl border-r border-gray-200 h-screen"
+      className={`w-72 bg-white shadow-xl ${language === "ar" ? "border-l" : "border-r"} border-gray-200 h-screen sidebar-container`}
     >
       {/* Logo */}
       <div className="p-6 border-b border-gray-200">
@@ -100,12 +100,12 @@ export default function Sidebar({}: SidebarProps) {
           initial={{ scale: 0.8 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.2 }}
-          className="flex items-center space-x-3"
+          className={`flex items-center ${language === "ar" ? "space-x-reverse space-x-3" : "space-x-3"}`}
         >
           <div className="w-10 h-10 bg-gradient-to-br from-green-primary to-green-secondary rounded-lg flex items-center justify-center">
             <span className="text-white font-bold text-lg">BH</span>
           </div>
-          <div>
+          <div className={language === "ar" ? "rtl-content" : ""}>
             <h1 className="text-xl font-bold text-gray-900">بورصة هلال</h1>
             <p className="text-sm text-gray-500">
               {language === "ar" ? "نظام إدارة المصنع" : "Factory Management"}

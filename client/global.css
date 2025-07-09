@@ -129,24 +129,39 @@
     word-spacing: normal;
   }
 
-  /* Fix spacing in RTL */
-  [dir="rtl"] .space-x-2 > :not([hidden]) ~ :not([hidden]) {
+  /* Prevent layout shifts with specific spacing fixes */
+  .rtl-safe-spacing > :not([hidden]) ~ :not([hidden]) {
+    margin-left: 0.5rem;
+  }
+
+  [dir="rtl"] .rtl-safe-spacing > :not([hidden]) ~ :not([hidden]) {
+    margin-left: 0;
     margin-right: 0.5rem;
-    margin-left: 0;
   }
 
-  [dir="rtl"] .space-x-3 > :not([hidden]) ~ :not([hidden]) {
-    margin-right: 0.75rem;
-    margin-left: 0;
+  /* Safe RTL containers that don't shift layout */
+  .rtl-content {
+    direction: rtl;
+    text-align: right;
   }
 
-  [dir="rtl"] .space-x-4 > :not([hidden]) ~ :not([hidden]) {
-    margin-right: 1rem;
-    margin-left: 0;
+  .ltr-layout {
+    direction: ltr;
   }
 
-  [dir="rtl"] .space-x-reverse > :not([hidden]) ~ :not([hidden]) {
-    --tw-space-x-reverse: 1;
+  /* Prevent sidebar positioning issues */
+  [dir="rtl"] .sidebar-container {
+    position: relative;
+  }
+
+  /* Fix flex layouts without causing shifts */
+  [dir="rtl"] .safe-flex {
+    display: flex;
+    flex-direction: row;
+  }
+
+  [dir="rtl"] .safe-flex.reverse {
+    flex-direction: row-reverse;
   }
 
   [dir="rtl"] input,
@@ -164,35 +179,45 @@
     text-align: center;
   }
 
-  /* Better RTL support for flex layouts */
-  [dir="rtl"] .justify-between {
-    direction: rtl;
+  /* Better RTL support - remove direction override that causes shifting */
+  [dir="rtl"] .flex {
+    flex-direction: row;
   }
 
-  /* Fix for card layouts in RTL */
-  [dir="rtl"] .grid {
-    direction: rtl;
+  /* Prevent content shifting by not overriding layout direction */
+  [dir="rtl"] .container,
+  [dir="rtl"] .main-content {
+    direction: ltr;
   }
 
-  /* Ensure proper text alignment in RTL */
-  [dir="rtl"] h1,
-  [dir="rtl"] h2,
-  [dir="rtl"] h3,
-  [dir="rtl"] h4,
-  [dir="rtl"] h5,
-  [dir="rtl"] h6 {
+  /* Only apply RTL to text content, not layout */
+  [dir="rtl"] .text-content {
+    direction: rtl;
     text-align: right;
   }
 
-  [dir="rtl"] p,
-  [dir="rtl"] span {
+  /* Selective RTL text alignment - only for specific content */
+  [dir="rtl"] .sidebar h1,
+  [dir="rtl"] .sidebar h2,
+  [dir="rtl"] .sidebar p {
     text-align: right;
   }
 
-  /* Center text for buttons and certain elements */
+  [dir="rtl"] .card-title,
+  [dir="rtl"] .card-description {
+    text-align: right;
+  }
+
+  /* Keep buttons centered always */
   [dir="rtl"] button,
   [dir="rtl"] .text-center {
     text-align: center !important;
+  }
+
+  /* Keep main layout containers LTR to prevent shifting */
+  [dir="rtl"] .layout-container,
+  [dir="rtl"] .main-wrapper {
+    direction: ltr;
   }
 
   [dir="rtl"] .flex {

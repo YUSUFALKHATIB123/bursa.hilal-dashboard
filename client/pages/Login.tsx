@@ -38,18 +38,20 @@ export default function Login() {
 
   return (
     <div
-      className="min-h-screen bg-gradient-to-br from-green-50 to-gray-100 flex items-center justify-center p-4"
+      className={`min-h-screen bg-gradient-to-br from-green-50 to-gray-100 flex items-center justify-center p-4 ${language === "ar" ? "font-arabic" : ""}`}
       dir={dir}
     >
       {/* Language Toggle */}
       <motion.button
         onClick={() => setLanguage(language === "en" ? "ar" : "en")}
-        className="fixed top-4 right-4 z-50 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-shadow"
+        className={`fixed top-4 ${language === "ar" ? "left-4" : "right-4"} z-50 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-shadow`}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
         <Globe className="w-5 h-5 text-green-primary" />
-        <span className="ml-2 text-sm font-medium text-green-primary">
+        <span
+          className={`${language === "ar" ? "mr-2" : "ml-2"} text-sm font-medium text-green-primary`}
+        >
           {language === "en" ? "عربي" : "English"}
         </span>
       </motion.button>
@@ -185,7 +187,7 @@ export default function Login() {
                   yusuf@bursahilal.com / admin123
                 </p>
                 <p>
-                  <strong>{language === "ar" ? "الما��ك" : "Owner"}:</strong>{" "}
+                  <strong>{language === "ar" ? "المالك" : "Owner"}:</strong>{" "}
                   mustafa@bursahilal.com / owner123
                 </p>
                 <p>
