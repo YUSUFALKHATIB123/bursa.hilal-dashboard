@@ -195,7 +195,9 @@ function OrderCard({ order }: { order: OrderCard }) {
               <Package className="w-4 h-4 mr-2" />
               {order.quantity}
             </p>
-            <p>Colors: {order.colors}</p>
+            <p>
+              {language === "ar" ? "الألوان" : "Colors"}: {order.colors}
+            </p>
             <p className="flex items-center">
               <Calendar className="w-4 h-4 mr-2" />
               {order.date}
@@ -206,7 +208,9 @@ function OrderCard({ order }: { order: OrderCard }) {
         {/* Current Stage */}
         <div>
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm text-gray-600">Current Stage</span>
+            <span className="text-sm text-gray-600">
+              {language === "ar" ? "المرحلة الحالية" : "Current Stage"}
+            </span>
             <span
               className={`px-2 py-1 rounded-full text-xs font-medium ${
                 order.status === "completed"
@@ -230,7 +234,7 @@ function OrderCard({ order }: { order: OrderCard }) {
             />
           </div>
           <p className="text-xs text-gray-600 mt-1">
-            {order.progress}% complete
+            {order.progress}% {language === "ar" ? "مكتمل" : "complete"}
           </p>
         </div>
 
@@ -241,9 +245,11 @@ function OrderCard({ order }: { order: OrderCard }) {
             className="flex items-center space-x-2 text-green-primary hover:text-green-secondary text-sm font-medium"
           >
             <Eye className="w-4 h-4" />
-            <span>View Details</span>
+            <span>{language === "ar" ? "��رض التفاصيل" : "View Details"}</span>
           </Link>
-          <span className="text-xs text-gray-500">Updated today</span>
+          <span className="text-xs text-gray-500">
+            {language === "ar" ? "تم التحديث اليوم" : "Updated today"}
+          </span>
         </div>
       </div>
     </motion.div>
@@ -296,19 +302,23 @@ export default function TrackOrder() {
       {/* Stats Overview */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {[
-          { label: "Total Orders", value: orders.length, color: "blue" },
           {
-            label: "In Progress",
+            label: language === "ar" ? "إجمالي الطلبات" : "Total Orders",
+            value: orders.length,
+            color: "blue",
+          },
+          {
+            label: language === "ar" ? "قيد التنفيذ" : "In Progress",
             value: orders.filter((o) => o.status === "processing").length,
             color: "yellow",
           },
           {
-            label: "Completed",
+            label: language === "ar" ? "مكتمل" : "Completed",
             value: orders.filter((o) => o.status === "completed").length,
             color: "green",
           },
           {
-            label: "Pending",
+            label: language === "ar" ? "معلق" : "Pending",
             value: orders.filter((o) => o.status === "pending").length,
             color: "red",
           },
@@ -347,7 +357,9 @@ export default function TrackOrder() {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
               <input
                 type="text"
-                placeholder="Search orders..."
+                placeholder={
+                  language === "ar" ? "بحث عن الطلبات..." : "Search orders..."
+                }
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-primary focus:border-transparent w-64"
@@ -365,7 +377,9 @@ export default function TrackOrder() {
             </select>
           </div>
           <div className="text-sm text-gray-600">
-            Showing {filteredOrders.length} of {orders.length} orders
+            {language === "ar"
+              ? `عرض ${filteredOrders.length} من ${orders.length} طلبات`
+              : `Showing ${filteredOrders.length} of ${orders.length} orders`}
           </div>
         </div>
       </motion.div>
@@ -392,10 +406,12 @@ export default function TrackOrder() {
         >
           <Package className="w-12 h-12 text-gray-400 mx-auto mb-4" />
           <h3 className="text-lg font-semibold text-gray-900 mb-2">
-            No orders found
+            {language === "ar" ? "لم يتم العثور على طلبات" : "No orders found"}
           </h3>
           <p className="text-gray-600">
-            Try adjusting your search or filter criteria.
+            {language === "ar"
+              ? "حاول تعديل معايير البحث أو التصفية."
+              : "Try adjusting your search or filter criteria."}
           </p>
         </motion.div>
       )}
