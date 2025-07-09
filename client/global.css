@@ -42,19 +42,12 @@
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -241,7 +234,29 @@
       @apply flex-row;
     }
   }
-}
+
+  /* Mobile-specific adjustments */
+  @media (max-width: 640px) {
+    .grid {
+      grid-template-columns: 1fr !important;
+    }
+
+    .text-3xl {
+      @apply text-2xl;
+    }
+
+    .text-2xl {
+      @apply text-xl;
+    }
+
+    .px-6 {
+      @apply px-4;
+    }
+
+    .py-6 {
+      @apply py-4;
+    }
+  }
 
   /* Prevent sidebar positioning issues */
   [dir="rtl"] .sidebar-container {
@@ -276,107 +291,5 @@
   /* Better RTL support - remove direction override that causes shifting */
   [dir="rtl"] .flex {
     flex-direction: row;
-  }
-
-  /* Prevent content shifting by not overriding layout direction */
-  [dir="rtl"] .container,
-  [dir="rtl"] .main-content {
-    direction: ltr;
-  }
-
-  /* Only apply RTL to text content, not layout */
-  [dir="rtl"] .text-content {
-    direction: rtl;
-    text-align: right;
-  }
-
-  /* Selective RTL text alignment - only for specific content */
-  [dir="rtl"] .sidebar h1,
-  [dir="rtl"] .sidebar h2,
-  [dir="rtl"] .sidebar p {
-    text-align: right;
-  }
-
-  [dir="rtl"] .card-title,
-  [dir="rtl"] .card-description {
-    text-align: right;
-  }
-
-  /* Keep buttons centered always */
-  [dir="rtl"] button,
-  [dir="rtl"] .text-center {
-    text-align: center !important;
-  }
-
-  /* Keep main layout containers LTR to prevent shifting */
-  [dir="rtl"] .layout-container,
-  [dir="rtl"] .main-wrapper {
-    direction: ltr;
-  }
-
-  [dir="rtl"] .flex {
-    flex-direction: row-reverse;
-  }
-
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  ::-webkit-scrollbar-track {
-    @apply bg-gray-100;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    @apply bg-gray-300 rounded-full;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-gray-400;
-  }
-
-  /* Animation utilities */
-  .animate-fade-in {
-    animation: fadeIn 0.5s ease-in-out;
-  }
-
-  .animate-slide-up {
-    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .animate-counter {
-    animation: counter 2s ease-out;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  @keyframes slideUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes counter {
-    from {
-      transform: scale(0.8);
-      opacity: 0;
-    }
-    to {
-      transform: scale(1);
-      opacity: 1;
-    }
   }
 }
