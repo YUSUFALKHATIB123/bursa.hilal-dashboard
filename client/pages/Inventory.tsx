@@ -104,12 +104,12 @@ export default function Inventory() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-red-800 font-medium">Low Stock Alert</p>
+              <p className="text-red-800 font-medium">{t("lowStockAlert")}</p>
               <p className="text-3xl font-bold text-red-600">
                 {lowStockItems.length}
               </p>
               <p className="text-red-600 text-sm">
-                Items below {lowStockThreshold} {lowStockItems[0]?.unit}
+                {t("itemsBelow")} {lowStockThreshold} {t("meters")}
               </p>
             </div>
             <AlertTriangle className="w-12 h-12 text-red-500" />
@@ -124,9 +124,9 @@ export default function Inventory() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-blue-800 font-medium">Total Items</p>
+              <p className="text-blue-800 font-medium">{t("totalItems")}</p>
               <p className="text-3xl font-bold text-blue-600">{totalItems}</p>
-              <p className="text-blue-600 text-sm">Fabric types in stock</p>
+              <p className="text-blue-600 text-sm">{t("fabricTypesInStock")}</p>
             </div>
             <Package className="w-12 h-12 text-blue-500" />
           </div>
@@ -140,11 +140,13 @@ export default function Inventory() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-green-800 font-medium">Stock Value</p>
+              <p className="text-green-800 font-medium">{t("stockValue")}</p>
               <p className="text-3xl font-bold text-green-600">
                 ${(totalValue / 1000).toFixed(1)}K
               </p>
-              <p className="text-green-600 text-sm">Total inventory value</p>
+              <p className="text-green-600 text-sm">
+                {t("totalInventoryValue")}
+              </p>
             </div>
             <DollarSign className="w-12 h-12 text-green-500" />
           </div>
@@ -158,7 +160,7 @@ export default function Inventory() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-purple-800 font-medium">Avg Unit Price</p>
+              <p className="text-purple-800 font-medium">{t("avgUnitPrice")}</p>
               <p className="text-3xl font-bold text-purple-600">
                 $
                 {(
@@ -166,7 +168,7 @@ export default function Inventory() {
                   inventoryItems.reduce((sum, item) => sum + item.quantity, 0)
                 ).toFixed(2)}
               </p>
-              <p className="text-purple-600 text-sm">Per meter average</p>
+              <p className="text-purple-600 text-sm">{t("perMeterAverage")}</p>
             </div>
             <Archive className="w-12 h-12 text-purple-500" />
           </div>
@@ -180,15 +182,19 @@ export default function Inventory() {
         className="bg-white rounded-lg border border-gray-200 p-6"
       >
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
-          <div className="flex items-center space-x-4">
+          <div
+            className={`flex items-center ${language === "ar" ? "space-x-reverse space-x-4" : "space-x-4"}`}
+          >
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <Search
+                className={`absolute ${language === "ar" ? "right-3" : "left-3"} top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4`}
+              />
               <input
                 type="text"
-                placeholder="Search fabrics..."
+                placeholder={t("searchFabrics")}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-primary focus:border-transparent w-64"
+                className={`${language === "ar" ? "pr-10 pl-4" : "pl-10 pr-4"} py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-primary focus:border-transparent w-64`}
               />
             </div>
             <select
@@ -196,18 +202,22 @@ export default function Inventory() {
               onChange={(e) => setSelectedType(e.target.value)}
               className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-primary focus:border-transparent"
             >
-              <option value="all">All Types</option>
-              <option value="Jacquard">Jacquard</option>
-              <option value="Velvet">Velvet</option>
-              <option value="Nubuk">Nubuk</option>
-              <option value="Babyface">Babyface</option>
-              <option value="Bouclé">Bouclé</option>
+              <option value="all">{t("allTypes")}</option>
+              <option value="Jacquard">{t("jacquard")}</option>
+              <option value="Velvet">{t("velvet")}</option>
+              <option value="Nubuk">{t("nubuk")}</option>
+              <option value="Babyface">{t("babyface")}</option>
+              <option value="Bouclé">{t("boucle")}</option>
             </select>
           </div>
-          <div className="flex items-center space-x-3">
-            <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors flex items-center space-x-2">
+          <div
+            className={`flex items-center ${language === "ar" ? "space-x-reverse space-x-3" : "space-x-3"}`}
+          >
+            <button
+              className={`px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors flex items-center ${language === "ar" ? "space-x-reverse space-x-2" : "space-x-2"}`}
+            >
               <Filter className="w-4 h-4" />
-              <span>More Filters</span>
+              <span>{t("moreFilters")}</span>
             </button>
           </div>
         </div>
@@ -243,10 +253,10 @@ export default function Inventory() {
                     className={`px-2 py-1 rounded-full text-xs font-medium ${stockStatus.color}`}
                   >
                     {stockStatus.status === "low"
-                      ? "Low Stock"
+                      ? t("low")
                       : stockStatus.status === "medium"
-                        ? "Medium"
-                        : "Good"}
+                        ? t("medium")
+                        : t("good")}
                   </span>
                 </div>
               </div>
@@ -256,9 +266,9 @@ export default function Inventory() {
                 {/* Quantity Info */}
                 <div>
                   <div className="flex justify-between text-sm mb-2">
-                    <span className="text-gray-600">Quantity</span>
+                    <span className="text-gray-600">{t("quantity")}</span>
                     <span className="font-medium">
-                      {item.quantity.toLocaleString()} {item.unit}
+                      {item.quantity.toLocaleString()} {t("meters")}
                     </span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
@@ -268,9 +278,13 @@ export default function Inventory() {
                     />
                   </div>
                   {item.quantity < lowStockThreshold && (
-                    <p className="text-xs text-red-600 mt-1 flex items-center">
-                      <AlertTriangle className="w-3 h-3 mr-1" />
-                      Below minimum threshold
+                    <p
+                      className={`text-xs text-red-600 mt-1 flex items-center ${language === "ar" ? "flex-row-reverse" : ""}`}
+                    >
+                      <AlertTriangle
+                        className={`w-3 h-3 ${language === "ar" ? "ml-1" : "mr-1"}`}
+                      />
+                      {t("belowMinimumThreshold")}
                     </p>
                   )}
                 </div>
@@ -278,11 +292,11 @@ export default function Inventory() {
                 {/* Pricing Info */}
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
-                    <p className="text-gray-600">Unit Price</p>
+                    <p className="text-gray-600">{t("unitPrice")}</p>
                     <p className="font-medium">${item.price}</p>
                   </div>
                   <div>
-                    <p className="text-gray-600">Total Value</p>
+                    <p className="text-gray-600">{t("totalValue")}</p>
                     <p className="font-medium text-green-600">
                       ${totalItemValue.toLocaleString()}
                     </p>
@@ -290,12 +304,14 @@ export default function Inventory() {
                 </div>
 
                 {/* Actions */}
-                <div className="flex space-x-2 pt-2 border-t border-gray-100">
+                <div
+                  className={`flex ${language === "ar" ? "space-x-reverse space-x-2" : "space-x-2"} pt-2 border-t border-gray-100`}
+                >
                   <button className="flex-1 px-3 py-2 bg-green-100 text-green-800 rounded-lg hover:bg-green-200 transition-colors text-sm font-medium">
-                    Reorder
+                    {t("reorder")}
                   </button>
                   <button className="flex-1 px-3 py-2 bg-blue-100 text-blue-800 rounded-lg hover:bg-blue-200 transition-colors text-sm font-medium">
-                    Update
+                    {t("update")}
                   </button>
                 </div>
               </div>
@@ -311,9 +327,13 @@ export default function Inventory() {
           animate={{ opacity: 1, y: 0 }}
           className="bg-red-50 border border-red-200 rounded-lg p-6"
         >
-          <h3 className="text-lg font-semibold text-red-800 mb-4 flex items-center">
-            <AlertTriangle className="w-5 h-5 mr-2" />
-            Low Stock Alerts
+          <h3
+            className={`text-lg font-semibold text-red-800 mb-4 flex items-center ${language === "ar" ? "flex-row-reverse" : ""}`}
+          >
+            <AlertTriangle
+              className={`w-5 h-5 ${language === "ar" ? "ml-2" : "mr-2"}`}
+            />
+            {t("lowStockAlerts")}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {lowStockItems.map((item, index) => (
@@ -327,11 +347,12 @@ export default function Inventory() {
                       {item.type} - {item.color}
                     </p>
                     <p className="text-sm text-red-600">
-                      Only {item.quantity} {item.unit} remaining
+                      {t("onlyRemaining")}: {item.quantity} {t("meters")}{" "}
+                      {t("remaining")}
                     </p>
                   </div>
                   <button className="px-3 py-1 bg-red-600 text-white rounded text-sm hover:bg-red-700 transition-colors">
-                    Reorder
+                    {t("reorder")}
                   </button>
                 </div>
               </div>
