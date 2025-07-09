@@ -332,7 +332,7 @@ export default function FinancialDashboard() {
       </motion.div>
 
       {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="responsive-grid container-safe">
         <MetricCard
           title={t("totalRevenue")}
           value={`$${(realFinancialData.totalRevenue / 1000).toFixed(1)}K`}
@@ -364,7 +364,7 @@ export default function FinancialDashboard() {
       </div>
 
       {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 container-safe">
         <div className="lg:col-span-2">
           <SimpleBarChart />
         </div>
@@ -387,7 +387,7 @@ export default function FinancialDashboard() {
               : "Top Countries by Revenue"}
           </h3>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="responsive-grid container-safe gap-4">
           {topCountries.map((country, index) => (
             <motion.div
               key={country.country}
@@ -435,7 +435,7 @@ export default function FinancialDashboard() {
               : "Monthly Financial Summary"}
           </h3>
         </div>
-        <div className="overflow-x-auto">
+        <div className="table-responsive">
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
@@ -511,7 +511,7 @@ export default function FinancialDashboard() {
       </motion.div>
 
       {/* Invoice and Payment Statistics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="responsive-grid container-safe">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
