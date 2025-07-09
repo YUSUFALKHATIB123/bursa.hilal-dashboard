@@ -251,6 +251,7 @@ function OrderCard({ order }: { order: OrderCard }) {
 }
 
 export default function TrackOrder() {
+  const { language, t } = useLanguage();
   const [orders] = useState<OrderCard[]>(getAllOrders());
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -272,10 +273,10 @@ export default function TrackOrder() {
       {/* Breadcrumb */}
       <nav className="flex text-sm text-gray-500">
         <Link to="/" className="hover:text-gray-700">
-          Dashboard
+          {t("dashboard")}
         </Link>
         <span className="mx-2">/</span>
-        <span className="text-gray-900">Track Order</span>
+        <span className="text-gray-900">{t("trackOrder")}</span>
       </nav>
 
       {/* Header */}
@@ -285,10 +286,10 @@ export default function TrackOrder() {
         className="flex flex-col sm:flex-row sm:items-center sm:justify-between"
       >
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Track Orders</h1>
-          <p className="text-gray-600 mt-1">
-            Monitor all active orders and their progress at a glance
-          </p>
+          <h1 className="text-3xl font-bold text-gray-900">
+            {t("trackOrders")}
+          </h1>
+          <p className="text-gray-600 mt-1">{t("monitorActiveOrders")}</p>
         </div>
       </motion.div>
 
@@ -357,10 +358,10 @@ export default function TrackOrder() {
               onChange={(e) => setStatusFilter(e.target.value)}
               className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-primary focus:border-transparent"
             >
-              <option value="all">All Status</option>
-              <option value="pending">Pending</option>
-              <option value="processing">Processing</option>
-              <option value="completed">Completed</option>
+              <option value="all">{t("allStatus")}</option>
+              <option value="pending">{t("pending")}</option>
+              <option value="processing">{t("processing")}</option>
+              <option value="completed">{t("completed")}</option>
             </select>
           </div>
           <div className="text-sm text-gray-600">

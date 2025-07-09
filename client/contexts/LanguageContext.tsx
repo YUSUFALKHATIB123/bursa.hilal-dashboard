@@ -84,7 +84,7 @@ const translations = {
   },
   trackOrderDesc: {
     en: "Monitor all active orders and their progress at a glance",
-    ar: "مراقبة جميع الطلبات النشطة وتقدمها لمحة س��يعة",
+    ar: "مراقبة جميع الطلبات النشطة وتقدمها لمحة سريعة",
   },
   customersDesc: {
     en: "Manage customer profiles, order history, and contact information",
@@ -98,6 +98,7 @@ const translations = {
     en: "Manage external factories with files and ratings",
     ar: "إدارة المصانع الخارجية مع الملفات والتقييمات",
   },
+  addSupplier: { en: "Add Supplier", ar: "إضافة مورد" },
 
   // Track Order specific
   trackOrders: { en: "Track Orders", ar: "تتبع الطلبات" },
@@ -119,7 +120,7 @@ const translations = {
   processing: { en: "Processing", ar: "قيد التنفيذ" },
   completed: { en: "Completed", ar: "مكتمل" },
   cancelled: { en: "Cancelled", ar: "ملغي" },
-  pending: { en: "Pending", ar: "معلق" },
+  pending: { en: "Pending", ar: "مع��ق" },
   orderDetails: { en: "Order Details", ar: "تفاصيل الطلب" },
   items: { en: "Items", ar: "العناصر" },
 
@@ -164,7 +165,7 @@ const translations = {
   boucle: { en: "Bouclé", ar: "بوكليه" },
   reorder: { en: "Reorder", ar: "إعادة طلب" },
   update: { en: "Update", ar: "تحديث" },
-  lowStockAlert: { en: "Low Stock Alert", ar: "تنبيه المخزون المنخفض" },
+  lowStockAlert: { en: "Low Stock Alert", ar: "تنبيه المخزون المنخ��ض" },
   totalItems: { en: "Total Items", ar: "إجمالي العناصر" },
   fabricTypesInStock: {
     en: "Fabric types in stock",
@@ -227,7 +228,7 @@ const translations = {
   lowPriority: { en: "Low Priority", ar: "أولوية منخفضة" },
   productionDelay: { en: "Production Delay", ar: "تأخير الإنتاج" },
   lowStockAlert: { en: "Low Stock Alert", ar: "تنبيه المخزون المنخفض" },
-  orderUpdate: { en: "Order Update", ar: "��حديث الطلب" },
+  orderUpdate: { en: "Order Update", ar: "تحديث الطلب" },
   taskCompleted: { en: "Task Completed", ar: "مهمة مكتملة" },
   invoiceDue: { en: "Invoice Due", ar: "فاتورة مستحقة" },
   systemAlert: { en: "System Alert", ar: "تنبيه النظام" },

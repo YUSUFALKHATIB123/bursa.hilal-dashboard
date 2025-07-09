@@ -11,9 +11,9 @@ export default function Suppliers() {
   return (
     <div className="space-y-6">
       <nav className="flex text-sm text-gray-500">
-        <span>Dashboard</span>
+        <span>{t("dashboard")}</span>
         <span className="mx-2">/</span>
-        <span className="text-gray-900">Supplier Management</span>
+        <span className="text-gray-900">{t("suppliers")}</span>
       </nav>
 
       <motion.div
@@ -22,12 +22,8 @@ export default function Suppliers() {
         className="flex flex-col sm:flex-row sm:items-center sm:justify-between"
       >
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">
-            Supplier Management
-          </h1>
-          <p className="text-gray-600 mt-1">
-            Manage external factories with files and service quality ratings
-          </p>
+          <h1 className="text-3xl font-bold text-gray-900">{t("suppliers")}</h1>
+          <p className="text-gray-600 mt-1">{t("suppliersDesc")}</p>
         </div>
         <motion.button
           whileHover={{ scale: 1.05 }}
@@ -36,7 +32,7 @@ export default function Suppliers() {
           className="mt-4 sm:mt-0 px-4 py-2 bg-green-primary text-white rounded-lg hover:bg-green-secondary transition-colors flex items-center space-x-2"
         >
           <Plus className="w-4 h-4" />
-          <span>Add Supplier</span>
+          <span>{t("addSupplier")}</span>
         </motion.button>
       </motion.div>
 
