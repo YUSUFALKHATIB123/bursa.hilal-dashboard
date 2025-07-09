@@ -1,12 +1,6 @@
-import "./global.css";
-
-import { Toaster } from "@/components/ui/toaster";
-import { createRoot } from "react-dom/client";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
+import { LanguageProvider } from "./contexts/LanguageContext";
 import { NotificationProvider } from "./contexts/NotificationContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/Layout";
@@ -15,153 +9,118 @@ import Index from "./pages/Index";
 import OrdersManagement from "./pages/OrdersManagement";
 import TrackOrder from "./pages/TrackOrder";
 import TrackOrderDetails from "./pages/TrackOrderDetails";
-import FinancialDashboard from "./pages/FinancialDashboard";
 import Customers from "./pages/Customers";
 import Invoices from "./pages/Invoices";
 import Inventory from "./pages/Inventory";
 import Employees from "./pages/Employees";
 import Notifications from "./pages/Notifications";
+import FinancialDashboard from "./pages/FinancialDashboard";
 import Suppliers from "./pages/Suppliers";
-import NotFound from "./pages/NotFound";
 
-const queryClient = new QueryClient();
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
+export default function App() {
+  return (
+    <Router>
       <AuthProvider>
-        <NotificationProvider>
-          <BrowserRouter>
+        <LanguageProvider>
+          <NotificationProvider>
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route
-                path="/"
+                path="/*"
                 element={
                   <ProtectedRoute>
                     <Layout>
-                      <Index />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/orders"
-                element={
-                  <ProtectedRoute requiredPermission="orders">
-                    <Layout>
-                      <OrdersManagement />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/track-order"
-                element={
-                  <ProtectedRoute requiredPermission="track-order">
-                    <Layout>
-                      <TrackOrder />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/track-order/:orderId/details"
-                element={
-                  <ProtectedRoute requiredPermission="track-order">
-                    <Layout>
-                      <TrackOrderDetails />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/financial"
-                element={
-                  <ProtectedRoute requiredPermission="financial">
-                    <Layout>
-                      <FinancialDashboard />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/customers"
-                element={
-                  <ProtectedRoute requiredPermission="customers">
-                    <Layout>
-                      <Customers />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/invoices"
-                element={
-                  <ProtectedRoute requiredPermission="invoices">
-                    <Layout>
-                      <Invoices />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/inventory"
-                element={
-                  <ProtectedRoute requiredPermission="inventory">
-                    <Layout>
-                      <Inventory />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/employees"
-                element={
-                  <ProtectedRoute requiredPermission="employees">
-                    <Layout>
-                      <Employees />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/notifications"
-                element={
-                  <ProtectedRoute requiredPermission="notifications">
-                    <Layout>
-                      <Notifications />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/suppliers"
-                element={
-                  <ProtectedRoute requiredPermission="suppliers">
-                    <Layout>
-                      <Suppliers />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="*"
-                element={
-                  <ProtectedRoute>
-                    <Layout>
-                      <NotFound />
+                      <Routes>
+                        <Route path="/" element={<Index />} />
+                        <Route
+                          path="/orders"
+                          element={
+                            <ProtectedRoute permission="orders">
+                              <OrdersManagement />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="/track-order"
+                          element={
+                            <ProtectedRoute permission="track-order">
+                              <TrackOrder />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="/track-order/:orderId/details"
+                          element={
+                            <ProtectedRoute permission="track-order">
+                              <TrackOrderDetails />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="/customers"
+                          element={
+                            <ProtectedRoute permission="customers">
+                              <Customers />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="/invoices"
+                          element={
+                            <ProtectedRoute permission="invoices">
+                              <Invoices />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="/inventory"
+                          element={
+                            <ProtectedRoute permission="inventory">
+                              <Inventory />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="/employees"
+                          element={
+                            <ProtectedRoute permission="employees">
+                              <Employees />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="/notifications"
+                          element={
+                            <ProtectedRoute permission="notifications">
+                              <Notifications />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="/financial"
+                          element={
+                            <ProtectedRoute permission="financial">
+                              <FinancialDashboard />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="/suppliers"
+                          element={
+                            <ProtectedRoute permission="suppliers">
+                              <Suppliers />
+                            </ProtectedRoute>
+                          }
+                        />
+                      </Routes>
                     </Layout>
                   </ProtectedRoute>
                 }
               />
             </Routes>
-          </BrowserRouter>
-        </NotificationProvider>
+          </NotificationProvider>
+        </LanguageProvider>
       </AuthProvider>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
-
-createRoot(document.getElementById("root")!).render(<App />);
+    </Router>
+  );
+}

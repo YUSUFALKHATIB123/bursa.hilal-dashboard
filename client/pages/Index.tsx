@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useAuth } from "../contexts/AuthContext";
+import { useLanguage } from "../contexts/LanguageContext";
+import systemData from "../data/systemData";
 import {
   ShoppingCart,
   Users,
@@ -17,180 +19,6 @@ import {
   Target,
   Activity,
 } from "lucide-react";
-
-// Real system data that will be used throughout the system
-export const systemData = {
-  orders: [
-    {
-      id: "ORD-001",
-      customer: "Libya Textile Co.",
-      date: "2025-01-15",
-      status: "processing",
-      total: 18000,
-      items: 1,
-      deadline: "2025-01-25",
-    },
-    {
-      id: "ORD-002",
-      customer: "Ahmed Textiles Ltd.",
-      date: "2025-01-14",
-      status: "processing",
-      total: 15420,
-      items: 3,
-      deadline: "2025-01-22",
-    },
-    {
-      id: "ORD-003",
-      customer: "Cairo Fashion House",
-      date: "2025-01-13",
-      status: "completed",
-      total: 8750,
-      items: 2,
-      deadline: "2025-01-20",
-    },
-    {
-      id: "ORD-004",
-      customer: "Alexandria Garments",
-      date: "2025-01-12",
-      status: "pending",
-      total: 22100,
-      items: 5,
-      deadline: "2025-01-30",
-    },
-    {
-      id: "ORD-005",
-      customer: "Modern Textiles Co.",
-      date: "2025-01-11",
-      status: "processing",
-      total: 12300,
-      items: 4,
-      deadline: "2025-01-28",
-    },
-    {
-      id: "ORD-006",
-      customer: "Elite Fashion",
-      date: "2025-01-10",
-      status: "cancelled",
-      total: 9800,
-      items: 2,
-      deadline: "2025-01-22",
-    },
-  ],
-  customers: [
-    {
-      id: "CUST-001",
-      name: "Libya Textile Co.",
-      totalOrders: 3,
-      totalRevenue: 45000,
-    },
-    {
-      id: "CUST-002",
-      name: "Ahmed Textiles Ltd.",
-      totalOrders: 2,
-      totalRevenue: 28000,
-    },
-    {
-      id: "CUST-003",
-      name: "Cairo Fashion House",
-      totalOrders: 2,
-      totalRevenue: 15000,
-    },
-  ],
-  inventory: [
-    {
-      type: "Jacquard",
-      color: "Green",
-      quantity: 5000,
-      unit: "meters",
-      price: 4.5,
-    },
-    {
-      type: "Velvet",
-      color: "Red",
-      quantity: 2300,
-      unit: "meters",
-      price: 6.2,
-    },
-    {
-      type: "Nubuk",
-      color: "Beige",
-      quantity: 1500,
-      unit: "meters",
-      price: 5.8,
-    },
-    {
-      type: "Babyface",
-      color: "Blue",
-      quantity: 800,
-      unit: "meters",
-      price: 7.1,
-    },
-    {
-      type: "Bouclé",
-      color: "White",
-      quantity: 1200,
-      unit: "meters",
-      price: 5.4,
-    },
-  ],
-  employees: [
-    {
-      id: "EMP-001",
-      name: "غيث الخطيب",
-      position: "مشغل آلة",
-      salary: 9000,
-      paid: 5000,
-    },
-    {
-      id: "EMP-002",
-      name: "محمد حج محمد",
-      position: "مراقب جودة",
-      salary: 8500,
-      paid: 8500,
-    },
-    {
-      id: "EMP-003",
-      name: "عبدالله الخطيب",
-      position: "فني صيانة",
-      salary: 7500,
-      paid: 3000,
-    },
-  ],
-  notifications: [
-    {
-      id: 1,
-      type: "low_stock",
-      message: "Babyface Blue below 1000 meters",
-      priority: "high",
-    },
-    {
-      id: 2,
-      type: "order_due",
-      message: "Order ORD-002 due in 3 days",
-      priority: "medium",
-    },
-    {
-      id: 3,
-      type: "payment_pending",
-      message: "Libya Textile Co. payment pending",
-      priority: "high",
-    },
-    {
-      id: 4,
-      type: "quality_check",
-      message: "Batch #145 needs quality inspection",
-      priority: "low",
-    },
-  ],
-  financials: {
-    revenue: 67200,
-    expenses: 44800,
-    profit: 22400,
-    margin: 33.3,
-    monthlyRevenue: [45000, 52000, 48000, 61000, 55000, 67200],
-    monthlyExpenses: [32000, 35000, 38000, 41000, 39000, 44800],
-  },
-};
 
 function AnimatedCounter({
   value,
@@ -276,7 +104,7 @@ function RoleBasedCard({
 }
 
 export default function Index() {
-  const [language] = useState<"en" | "ar">("en");
+  const { language, t } = useLanguage();
   const { user } = useAuth();
 
   // Calculate real-time stats from system data
@@ -511,9 +339,7 @@ export default function Index() {
         className="bg-gradient-to-r from-green-primary to-green-secondary text-white rounded-2xl p-8"
       >
         <h1 className="text-4xl font-bold mb-2">
-          {language === "ar"
-            ? `مرحباً ${user?.name.split(" ")[0]}`
-            : `Welcome ${user?.name.split(" ")[0]}`}
+          {`${t("welcome")} ${user?.name.split(" ")[0]}`}
         </h1>
         <p className="text-green-100 text-lg">
           {language === "ar"
@@ -558,32 +384,28 @@ export default function Index() {
         className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
       >
         <h2 className="text-xl font-semibold text-gray-900 mb-4">
-          {language === "ar" ? "نظرة عامة على اليوم" : "Today's Overview"}
+          {t("todaysOverview")}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="text-center p-4 bg-blue-50 rounded-lg">
             <div className="text-3xl font-bold text-blue-600 mb-2">
               <AnimatedCounter value={todayOrders} />
             </div>
-            <p className="text-blue-800 font-medium">
-              {language === "ar" ? "طلبات جديدة" : "New Orders"}
-            </p>
+            <p className="text-blue-800 font-medium">{t("newOrders")}</p>
           </div>
           <div className="text-center p-4 bg-green-50 rounded-lg">
             <div className="text-3xl font-bold text-green-600 mb-2">
               <AnimatedCounter value={completedOrders} />
             </div>
             <p className="text-green-800 font-medium">
-              {language === "ar" ? "طلبات مكتملة" : "Completed Orders"}
+              {t("completed")} {t("ordersManagement")}
             </p>
           </div>
           <div className="text-center p-4 bg-orange-50 rounded-lg">
             <div className="text-3xl font-bold text-orange-600 mb-2">
               <AnimatedCounter value={activeAlerts} />
             </div>
-            <p className="text-orange-800 font-medium">
-              {language === "ar" ? "تنبيهات نشطة" : "Active Alerts"}
-            </p>
+            <p className="text-orange-800 font-medium">{t("activeAlerts")}</p>
           </div>
         </div>
       </motion.div>
@@ -597,18 +419,18 @@ export default function Index() {
           className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200 p-6"
         >
           <h3 className="text-lg font-semibold text-blue-900 mb-4">
-            {language === "ar" ? "إجراءات سريعة" : "Quick Actions"}
+            {t("quickActions")}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="text-center p-3 bg-white rounded-lg border border-blue-200 hover:shadow-md transition-shadow cursor-pointer">
               <div className="text-sm font-medium text-blue-800">
-                {language === "ar" ? "طلبات متأخرة" : "Overdue Orders"}
+                {t("overdueOrders")}
               </div>
               <div className="text-xl font-bold text-blue-600">2</div>
             </div>
             <div className="text-center p-3 bg-white rounded-lg border border-blue-200 hover:shadow-md transition-shadow cursor-pointer">
               <div className="text-sm font-medium text-blue-800">
-                {language === "ar" ? "مخزون منخفض" : "Low Stock"}
+                {t("lowStock")}
               </div>
               <div className="text-xl font-bold text-orange-600">
                 {lowStockItems}
@@ -616,13 +438,13 @@ export default function Index() {
             </div>
             <div className="text-center p-3 bg-white rounded-lg border border-blue-200 hover:shadow-md transition-shadow cursor-pointer">
               <div className="text-sm font-medium text-blue-800">
-                {language === "ar" ? "دفعات معلقة" : "Pending Payments"}
+                {t("pendingPayments")}
               </div>
               <div className="text-xl font-bold text-red-600">3</div>
             </div>
             <div className="text-center p-3 bg-white rounded-lg border border-blue-200 hover:shadow-md transition-shadow cursor-pointer">
               <div className="text-sm font-medium text-blue-800">
-                {language === "ar" ? "معدل الإنتاج" : "Production Rate"}
+                {t("productionRate")}
               </div>
               <div className="text-xl font-bold text-green-600">94%</div>
             </div>
