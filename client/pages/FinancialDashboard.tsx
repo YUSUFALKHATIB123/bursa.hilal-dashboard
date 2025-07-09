@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { useLanguage } from "../contexts/LanguageContext";
+import { useLanguage, Language } from "../contexts/LanguageContext";
 import systemData from "../data/systemData";
 import {
   TrendingUp,
