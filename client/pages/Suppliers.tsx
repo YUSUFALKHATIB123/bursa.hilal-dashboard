@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useLanguage } from "../contexts/LanguageContext";
 import AddSupplierModal from "../components/AddSupplierModal";
 import { Building2, Plus, Star, Upload } from "lucide-react";
 
 export default function Suppliers() {
+  const { language, t } = useLanguage();
   const [showAddSupplierModal, setShowAddSupplierModal] = useState(false);
 
   return (

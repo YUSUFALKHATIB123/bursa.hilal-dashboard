@@ -250,15 +250,16 @@ function ExpensePieChart() {
 }
 
 export default function FinancialDashboard() {
+  const { language, t } = useLanguage();
   const [timeRange, setTimeRange] = useState("month");
 
   return (
     <div className="space-y-6">
       {/* Breadcrumb */}
       <nav className="flex text-sm text-gray-500">
-        <span>Dashboard</span>
+        <span>{t("dashboard")}</span>
         <span className="mx-2">/</span>
-        <span className="text-gray-900">Financial Dashboard</span>
+        <span className="text-gray-900">{t("financial")}</span>
       </nav>
 
       {/* Header */}
@@ -268,12 +269,8 @@ export default function FinancialDashboard() {
         className="flex flex-col sm:flex-row sm:items-center sm:justify-between"
       >
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">
-            Financial Dashboard
-          </h1>
-          <p className="text-gray-600 mt-1">
-            Track earnings, expenses, and profit/loss with detailed analytics
-          </p>
+          <h1 className="text-3xl font-bold text-gray-900">{t("financial")}</h1>
+          <p className="text-gray-600 mt-1">{t("financialDesc")}</p>
         </div>
         <div className="mt-4 sm:mt-0 flex items-center space-x-3">
           <select
