@@ -2,10 +2,12 @@ import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuth } from "../contexts/AuthContext";
-import { Eye, EyeOff, LogIn, AlertCircle } from "lucide-react";
+import { useLanguage } from "../contexts/LanguageContext";
+import { Eye, EyeOff, LogIn, AlertCircle, Globe } from "lucide-react";
 
 export default function Login() {
   const { login, isAuthenticated } = useAuth();
+  const { language, setLanguage, t, dir } = useLanguage();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -35,7 +37,23 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-gray-100 flex items-center justify-center p-4">
+    <div
+      className="min-h-screen bg-gradient-to-br from-green-50 to-gray-100 flex items-center justify-center p-4"
+      dir={dir}
+    >
+      {/* Language Toggle */}
+      <motion.button
+        onClick={() => setLanguage(language === "en" ? "ar" : "en")}
+        className="fixed top-4 right-4 z-50 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-shadow"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <Globe className="w-5 h-5 text-green-primary" />
+        <span className="ml-2 text-sm font-medium text-green-primary">
+          {language === "en" ? "عربي" : "English"}
+        </span>
+      </motion.button>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -55,8 +73,8 @@ export default function Login() {
               className="w-16 h-16 object-contain"
             />
           </motion.div>
-          <h1 className="text-2xl font-bold mb-2">Bursa Hilal</h1>
-          <p className="text-green-100">Factory Management System</p>
+          <h1 className="text-2xl font-bold mb-2">{t("bursaHilal")}</h1>
+          <p className="text-green-100">{t("factoryManagement")}</p>
         </div>
 
         {/* Login Form */}
@@ -67,14 +85,14 @@ export default function Login() {
             transition={{ delay: 0.3 }}
           >
             <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
-              Welcome Back
+              {t("welcomeBack")}
             </h2>
 
             {error && (
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center space-x-2 text-red-700"
+                className={`mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center ${language === "ar" ? "space-x-reverse space-x-2" : "space-x-2"} text-red-700`}
               >
                 <AlertCircle className="w-5 h-5" />
                 <span className="text-sm">{error}</span>
@@ -87,7 +105,7 @@ export default function Login() {
                   htmlFor="email"
                   className="block text-sm font-medium text-gray-700 mb-2"
                 >
-                  Email Address
+                  {t("emailAddress")}
                 </label>
                 <input
                   id="email"
@@ -96,7 +114,7 @@ export default function Login() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-primary focus:border-transparent transition-colors"
-                  placeholder="Enter your email"
+                  placeholder={t("enterEmail")}
                 />
               </div>
 
@@ -105,7 +123,7 @@ export default function Login() {
                   htmlFor="password"
                   className="block text-sm font-medium text-gray-700 mb-2"
                 >
-                  Password
+                  {t("password")}
                 </label>
                 <div className="relative">
                   <input
@@ -114,13 +132,13 @@ export default function Login() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-primary focus:border-transparent transition-colors pr-12"
-                    placeholder="Enter your password"
+                    className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-primary focus:border-transparent transition-colors ${language === "ar" ? "pl-12 pr-4" : "pr-12 pl-4"}`}
+                    placeholder={t("enterPassword")}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    className={`absolute ${language === "ar" ? "left-3" : "right-3"} top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600`}
                   >
                     {showPassword ? (
                       <EyeOff className="w-5 h-5" />
@@ -136,14 +154,14 @@ export default function Login() {
                 whileTap={{ scale: 0.98 }}
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-gradient-to-r from-green-primary to-green-secondary text-white py-3 px-4 rounded-lg font-medium hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                className={`w-full bg-gradient-to-r from-green-primary to-green-secondary text-white py-3 px-4 rounded-lg font-medium hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center ${language === "ar" ? "space-x-reverse space-x-2" : "space-x-2"}`}
               >
                 {isLoading ? (
                   <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
                 ) : (
                   <>
                     <LogIn className="w-5 h-5" />
-                    <span>Sign In</span>
+                    <span>{t("signIn")}</span>
                   </>
                 )}
               </motion.button>
@@ -157,25 +175,36 @@ export default function Login() {
               className="mt-8 p-4 bg-gray-50 rounded-lg"
             >
               <h3 className="text-sm font-medium text-gray-700 mb-2">
-                Demo Accounts:
+                {t("demoAccounts")}
               </h3>
               <div className="text-xs text-gray-600 space-y-1">
                 <p>
-                  <strong>Admin:</strong> yusuf@bursahilal.com / admin123
+                  <strong>
+                    {language === "ar" ? "مدير النظام" : "Admin"}:
+                  </strong>{" "}
+                  yusuf@bursahilal.com / admin123
                 </p>
                 <p>
-                  <strong>Owner:</strong> mustafa@bursahilal.com / owner123
+                  <strong>{language === "ar" ? "الما��ك" : "Owner"}:</strong>{" "}
+                  mustafa@bursahilal.com / owner123
                 </p>
                 <p>
-                  <strong>Manager:</strong> mohammad@bursahilal.com / manager123
+                  <strong>
+                    {language === "ar" ? "المدير المساعد" : "Manager"}:
+                  </strong>{" "}
+                  mohammad@bursahilal.com / manager123
                 </p>
                 <p>
-                  <strong>Accountant:</strong> accountant@bursahilal.com /
-                  account123
+                  <strong>
+                    {language === "ar" ? "المحاسب" : "Accountant"}:
+                  </strong>{" "}
+                  accountant@bursahilal.com / account123
                 </p>
                 <p>
-                  <strong>Production:</strong> production@bursahilal.com /
-                  production123
+                  <strong>
+                    {language === "ar" ? "مدير الإنتاج" : "Production"}:
+                  </strong>{" "}
+                  production@bursahilal.com / production123
                 </p>
               </div>
             </motion.div>

@@ -23,6 +23,7 @@ interface InventoryItem {
 }
 
 export default function Inventory() {
+  const { language, t } = useLanguage();
   const [showAddStockModal, setShowAddStockModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedType, setSelectedType] = useState<string>("all");
@@ -66,9 +67,9 @@ export default function Inventory() {
     <div className="space-y-6">
       {/* Breadcrumb */}
       <nav className="flex text-sm text-gray-500">
-        <span>Dashboard</span>
+        <span>{t("dashboard")}</span>
         <span className="mx-2">/</span>
-        <span className="text-gray-900">Inventory</span>
+        <span className="text-gray-900">{t("inventory")}</span>
       </nav>
 
       {/* Header */}
@@ -79,20 +80,18 @@ export default function Inventory() {
       >
         <div>
           <h1 className="text-3xl font-bold text-gray-900">
-            Inventory Management
+            {t("inventoryManagement")}
           </h1>
-          <p className="text-gray-600 mt-1">
-            Manage fabric stock by type and color with automated alerts
-          </p>
+          <p className="text-gray-600 mt-1">{t("manageFabricStock")}</p>
         </div>
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setShowAddStockModal(true)}
-          className="mt-4 sm:mt-0 px-4 py-2 bg-green-primary text-white rounded-lg hover:bg-green-secondary transition-colors flex items-center space-x-2"
+          className={`mt-4 sm:mt-0 px-4 py-2 bg-green-primary text-white rounded-lg hover:bg-green-secondary transition-colors flex items-center ${language === "ar" ? "space-x-reverse space-x-2" : "space-x-2"}`}
         >
           <Plus className="w-4 h-4" />
-          <span>Add Stock</span>
+          <span>{t("addStock")}</span>
         </motion.button>
       </motion.div>
 

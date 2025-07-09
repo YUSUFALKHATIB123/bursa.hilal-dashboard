@@ -40,6 +40,31 @@ const translations = {
   phone: { en: "Phone", ar: "الهاتف" },
   address: { en: "Address", ar: "العنوان" },
   notes: { en: "Notes", ar: "الملاحظات" },
+  actions: { en: "Actions", ar: "الإجراءات" },
+
+  // Company & System
+  bursaHilal: { en: "Bursa Hilal", ar: "بورصة هلال" },
+  factoryManagement: {
+    en: "Factory Management System",
+    ar: "نظام إدارة المصنع",
+  },
+  welcomeBack: { en: "Welcome Back", ar: "مرحباً بعودتك" },
+  signIn: { en: "Sign In", ar: "تسجيل الدخول" },
+  emailAddress: { en: "Email Address", ar: "البريد الإلكتروني" },
+  password: { en: "Password", ar: "كلمة المرور" },
+  enterEmail: { en: "Enter your email", ar: "أدخل بريدك الإلكتروني" },
+  enterPassword: { en: "Enter your password", ar: "أدخل كلمة المرور" },
+  demoAccounts: { en: "Demo Accounts:", ar: "حسابات تجريبية:" },
+
+  // Page Headers
+  inventoryManagement: { en: "Inventory Management", ar: "إدارة المخزون" },
+  manageFabricStock: {
+    en: "Manage fabric stock by type and color with automated alerts",
+    ar: "إدارة مخزون الأقمشة حسب النوع واللون مع التنبيهات التلقائية",
+  },
+
+  // Breadcrumbs and Navigation
+  home: { en: "Home", ar: "الرئيسية" },
 
   // Navigation
   ordersManagement: { en: "Orders Management", ar: "إدارة الطلبات" },
@@ -106,6 +131,34 @@ const translations = {
   boucle: { en: "Bouclé", ar: "بوكليه" },
   reorder: { en: "Reorder", ar: "إعادة طلب" },
   update: { en: "Update", ar: "تحديث" },
+  lowStockAlert: { en: "Low Stock Alert", ar: "تنبيه المخزون المنخفض" },
+  totalItems: { en: "Total Items", ar: "إجمالي العناصر" },
+  fabricTypesInStock: {
+    en: "Fabric types in stock",
+    ar: "أنواع الأقمشة في المخزون",
+  },
+  totalInventoryValue: {
+    en: "Total inventory value",
+    ar: "إجمالي قيمة المخزون",
+  },
+  avgUnitPrice: { en: "Avg Unit Price", ar: "متوسط سعر الوحدة" },
+  perMeterAverage: { en: "Per meter average", ar: "متوسط لكل متر" },
+  searchFabrics: { en: "Search fabrics...", ar: "بحث عن الأقمشة..." },
+  allTypes: { en: "All Types", ar: "جميع الأنواع" },
+  moreFilters: { en: "More Filters", ar: "مزيد من التصفية" },
+  unitPrice: { en: "Unit Price", ar: "سعر الوحدة" },
+  totalValue: { en: "Total Value", ar: "القيمة الإجمالية" },
+  good: { en: "Good", ar: "جيد" },
+  medium: { en: "Medium", ar: "متوسط" },
+  low: { en: "Low", ar: "منخفض" },
+  belowMinimumThreshold: {
+    en: "Below minimum threshold",
+    ar: "أقل من الحد الأدنى",
+  },
+  lowStockAlerts: { en: "Low Stock Alerts", ar: "تنبيهات المخزون المنخفض" },
+  onlyRemaining: { en: "Only", ar: "فقط" },
+  remaining: { en: "remaining", ar: "متبقي" },
+  itemsBelow: { en: "Items below", ar: "عناصر أقل من" },
 
   // Employees
   addEmployee: { en: "Add Employee", ar: "إضافة موظف" },
