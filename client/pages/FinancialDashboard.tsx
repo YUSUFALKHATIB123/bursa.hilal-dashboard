@@ -221,8 +221,24 @@ function SimpleBarChart() {
 
 function ExpensePieChart() {
   const { language, t } = useLanguage();
-  const expenseCategories = getExpenseCategories(language, t);
   const total = expenseCategories.reduce((sum, cat) => sum + cat.amount, 0);
+
+  const getTranslatedCategory = (category: string) => {
+    switch (category) {
+      case "Labor":
+        return t("labor");
+      case "Raw Materials":
+        return t("rawMaterials");
+      case "Utilities":
+        return t("utilities");
+      case "Equipment & Maintenance":
+        return `${t("equipment")} & ${t("maintenance")}`;
+      case "Miscellaneous":
+        return t("miscellaneous");
+      default:
+        return category;
+    }
+  };
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-6">
@@ -243,7 +259,9 @@ function ExpensePieChart() {
             >
               <div className="flex items-center space-x-3">
                 <div className={`w-4 h-4 rounded-full ${category.color}`}></div>
-                <span className="text-gray-700">{category.category}</span>
+                <span className="text-gray-700">
+                  {getTranslatedCategory(category.category)}
+                </span>
               </div>
               <div className="text-right">
                 <div className="font-semibold text-gray-900">
@@ -271,7 +289,6 @@ function ExpensePieChart() {
 export default function FinancialDashboard() {
   const { language, t } = useLanguage();
   const [timeRange, setTimeRange] = useState("month");
-  const expenseCategories = getExpenseCategories(language, t);
 
   return (
     <div className="space-y-6">
