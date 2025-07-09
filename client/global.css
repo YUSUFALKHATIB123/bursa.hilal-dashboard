@@ -149,6 +149,100 @@
     direction: ltr;
   }
 
+  /* Responsive design improvements */
+  .responsive-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .responsive-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .responsive-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  /* Card responsive improvements */
+  .responsive-card {
+    @apply w-full min-w-0;
+    max-width: 100%;
+  }
+
+  /* Text responsive improvements */
+  .responsive-text {
+    @apply text-sm;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  @media (min-width: 768px) {
+    .responsive-text {
+      @apply text-base;
+    }
+  }
+
+  /* Prevent horizontal overflow on small screens */
+  .container-safe {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Mobile-friendly spacing */
+  .mobile-padding {
+    @apply px-4 py-2;
+  }
+
+  @media (min-width: 768px) {
+    .mobile-padding {
+      @apply px-6 py-4;
+    }
+  }
+
+  /* Button responsive sizing */
+  .btn-responsive {
+    @apply px-3 py-2 text-sm;
+  }
+
+  @media (min-width: 768px) {
+    .btn-responsive {
+      @apply px-4 py-2 text-base;
+    }
+  }
+
+  /* Table responsive wrapper */
+  .table-responsive {
+    overflow-x: auto;
+    max-width: 100%;
+  }
+
+  .table-responsive table {
+    min-width: 600px;
+  }
+
+  /* Flex responsive improvements */
+  .flex-responsive {
+    @apply flex flex-col;
+  }
+
+  @media (min-width: 768px) {
+    .flex-responsive {
+      @apply flex-row;
+    }
+  }
+  }
+
   /* Prevent sidebar positioning issues */
   [dir="rtl"] .sidebar-container {
     position: relative;
