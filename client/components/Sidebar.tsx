@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuth } from "../contexts/AuthContext";
+import { useLanguage } from "../contexts/LanguageContext";
 import {
   LayoutDashboard,
   ShoppingCart,
@@ -14,9 +15,7 @@ import {
   MapPin,
 } from "lucide-react";
 
-interface SidebarProps {
-  language: "en" | "ar";
-}
+interface SidebarProps {}
 
 const menuItems = [
   {

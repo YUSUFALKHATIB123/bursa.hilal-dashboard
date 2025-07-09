@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLanguage } from "../contexts/LanguageContext";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
 
@@ -10,15 +11,14 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [language, setLanguage] = useState<"en" | "ar">("en");
+  const { language, dir } = useLanguage();
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
-  const toggleLanguage = () => setLanguage(language === "en" ? "ar" : "en");
 
   return (
     <div
-      className={`min-h-screen bg-gray-50 ${language === "ar" ? "rtl" : "ltr"}`}
-      dir={language}
+      className={`min-h-screen bg-gray-50 ${dir === "rtl" ? "rtl" : "ltr"}`}
+      dir={dir}
     >
       <div className="flex">
         <AnimatePresence>
@@ -30,18 +30,13 @@ export default function Layout({ children }: LayoutProps) {
               transition={{ duration: 0.3, ease: "easeInOut" }}
               className="fixed inset-y-0 z-40 md:relative"
             >
-              <Sidebar language={language} />
+              <Sidebar />
             </motion.div>
           )}
         </AnimatePresence>
 
         <div className="flex-1 flex flex-col min-h-screen">
-          <Navbar
-            sidebarOpen={sidebarOpen}
-            toggleSidebar={toggleSidebar}
-            language={language}
-            toggleLanguage={toggleLanguage}
-          />
+          <Navbar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
 
           <main className="flex-1 p-6 overflow-auto">
             <motion.div
