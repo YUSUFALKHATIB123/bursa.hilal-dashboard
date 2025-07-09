@@ -201,7 +201,7 @@ function InvoiceDetailModal({
           {/* Items */}
           <div className="mb-6">
             <h3 className="font-semibold text-gray-900 mb-3">{t("items")}</h3>
-            <div className="overflow-x-auto">
+            <div className="table-responsive">
               <table className="w-full border border-gray-200 rounded-lg">
                 <thead className="bg-gray-50">
                   <tr>
@@ -490,7 +490,7 @@ export default function Invoices() {
         animate={{ opacity: 1, y: 0 }}
         className="bg-white rounded-lg border border-gray-200 overflow-hidden"
       >
-        <div className="overflow-x-auto">
+        <div className="table-responsive">
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
