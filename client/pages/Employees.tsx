@@ -83,6 +83,7 @@ function EmployeeCard({
   employee: Employee;
   onClick: () => void;
 }) {
+  const { language } = useLanguage();
   const paymentPercentage = (employee.paid / employee.salary) * 100;
   const performanceScore = Math.floor(
     85 + Math.random() * 15 - employee.absences * 3,
