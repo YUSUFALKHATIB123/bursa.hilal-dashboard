@@ -241,7 +241,7 @@
       @apply flex-row;
     }
   }
-  }
+}
 
   /* Prevent sidebar positioning issues */
   [dir="rtl"] .sidebar-container {
