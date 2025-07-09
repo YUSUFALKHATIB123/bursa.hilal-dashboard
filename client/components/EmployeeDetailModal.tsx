@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useLanguage } from "../contexts/LanguageContext";
 import {
   X,
   DollarSign,
@@ -42,6 +43,7 @@ export default function EmployeeDetailModal({
   onClose,
   employee,
 }: EmployeeDetailModalProps) {
+  const { language, t } = useLanguage();
   const [activeTab, setActiveTab] = useState("overview");
   const [salaryAdjustment, setSalaryAdjustment] = useState(0);
   const [adjustmentReason, setAdjustmentReason] = useState("");
@@ -58,11 +60,31 @@ export default function EmployeeDetailModal({
   );
 
   const tabs = [
-    { id: "overview", label: "نظرة عامة", icon: User },
-    { id: "salary", label: "الراتب", icon: DollarSign },
-    { id: "attendance", label: "الحضور", icon: Clock },
-    { id: "notes", label: "الملاحظات", icon: FileText },
-    { id: "performance", label: "الأداء", icon: TrendingUp },
+    {
+      id: "overview",
+      label: language === "ar" ? "نظرة عامة" : "Overview",
+      icon: User,
+    },
+    {
+      id: "salary",
+      label: language === "ar" ? "الراتب" : "Salary",
+      icon: DollarSign,
+    },
+    {
+      id: "attendance",
+      label: language === "ar" ? "الحضور" : "Attendance",
+      icon: Clock,
+    },
+    {
+      id: "notes",
+      label: language === "ar" ? "الملاحظات" : "Notes",
+      icon: FileText,
+    },
+    {
+      id: "performance",
+      label: language === "ar" ? "الأداء" : "Performance",
+      icon: TrendingUp,
+    },
   ];
 
   return (
@@ -89,7 +111,8 @@ export default function EmployeeDetailModal({
               <div className="flex items-center mt-2 space-x-4 text-green-100">
                 <span className="flex items-center">
                   <Calendar className="w-4 h-4 mr-1" />
-                  آخر عمل: {employee.lastWorkDate}
+                  {language === "ar" ? "آخر عمل" : "Last work"}:{" "}
+                  {employee.lastWorkDate}
                 </span>
                 <span
                   className={`px-2 py-1 rounded-full text-xs ${
@@ -101,10 +124,16 @@ export default function EmployeeDetailModal({
                   }`}
                 >
                   {employee.status === "active"
-                    ? "نشط"
+                    ? language === "ar"
+                      ? "نشط"
+                      : "Active"
                     : employee.status === "on_leave"
-                      ? "إجازة"
-                      : "غائب"}
+                      ? language === "ar"
+                        ? "إجازة"
+                        : "On Leave"
+                      : language === "ar"
+                        ? "غائب"
+                        : "Absent"}
                 </span>
               </div>
             </div>
