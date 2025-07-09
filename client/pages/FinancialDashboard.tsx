@@ -19,26 +19,8 @@ import {
 // Use real monthly data from calculations
 const monthlyData = realFinancialData.monthlyData;
 
-// Calculate real expense breakdown based on system data
-const totalEmployeeSalaries = systemData.employees.reduce(
-  (sum, emp) => sum + emp.salary,
-  0,
-);
-const rawMaterialsCost = systemData.inventory.reduce(
-  (sum, item) => sum + item.quantity * item.price * 0.3,
-  0,
-); // 30% of inventory value as monthly usage
-const expenseCategories = [
-  { category: "Labor", amount: totalEmployeeSalaries, color: "bg-green-500" },
-  {
-    category: "Raw Materials",
-    amount: Math.floor(rawMaterialsCost),
-    color: "bg-blue-500",
-  },
-  { category: "Utilities", amount: 4500, color: "bg-yellow-500" },
-  { category: "Equipment & Maintenance", amount: 2500, color: "bg-purple-500" },
-  { category: "Miscellaneous", amount: 2000, color: "bg-red-500" },
-];
+// Use real expense breakdown from calculations
+const expenseCategories = realFinancialData.expenseBreakdown;
 
 const topCountries = [
   {
