@@ -305,7 +305,7 @@ export default function Employees() {
       </motion.div>
 
       {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="responsive-grid container-safe">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -391,7 +391,7 @@ export default function Employees() {
       </div>
 
       {/* Employees Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="responsive-grid container-safe">
         {employees.map((employee, index) => (
           <motion.div
             key={employee.id}
