@@ -10,7 +10,7 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
-  const [sidebarOpen, setSidebarOpen] = useState(false); // Start closed on all devices
+  const [sidebarOpen, setSidebarOpen] = useState(true); // Start open on desktop
   const [isMobile, setIsMobile] = useState(false);
   const { language } = useLanguage();
 
@@ -18,8 +18,11 @@ export default function Layout({ children }: LayoutProps) {
     const checkMobile = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
+      // Set initial sidebar state based on device type
       if (mobile) {
-        setSidebarOpen(false); // Always close on mobile
+        setSidebarOpen(false); // Closed on mobile
+      } else {
+        setSidebarOpen(true); // Open on desktop
       }
     };
 
@@ -30,9 +33,12 @@ export default function Layout({ children }: LayoutProps) {
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
-  // Enhanced close function for better mobile experience
+  // Close sidebar only on mobile - desktop keeps it open
   const closeSidebar = () => {
-    setSidebarOpen(false);
+    if (isMobile) {
+      setSidebarOpen(false);
+    }
+    // On desktop, do nothing - sidebar stays open
   };
 
   return (

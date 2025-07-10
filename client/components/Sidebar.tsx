@@ -141,8 +141,9 @@ export default function Sidebar({ onItemClick }: SidebarProps) {
             <NavLink
               to={item.path}
               onClick={(e) => {
-                // Close sidebar immediately on mobile for better UX
-                if (onItemClick) {
+                // Only close sidebar on mobile devices
+                const isMobile = window.innerWidth < 768;
+                if (isMobile && onItemClick) {
                   onItemClick();
                 }
                 // Let React Router handle navigation normally
