@@ -78,11 +78,11 @@ export default function ReorderStockModal({
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
         onClick={(e) => e.stopPropagation()}
-        className="bg-white rounded-2xl shadow-2xl max-w-lg w-full"
+        className="bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[85vh] overflow-y-auto"
         dir={language === "ar" ? "rtl" : "ltr"}
       >
         {/* Header */}
-        <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-6 rounded-t-2xl">
+        <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 rounded-t-2xl">
           <div className="flex justify-between items-center">
             <h2 className="text-xl font-bold">
               {language === "ar" ? "إعادة طلب المخزون" : "Reorder Stock"}
