@@ -147,7 +147,7 @@ export default function Customers() {
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-gray-600">
-                    {language === "ar" ? "المبلغ المدفوع" : "Amount Paid"}
+                    {language === "ar" ? "المبلغ الم��فوع" : "Amount Paid"}
                   </span>
                   <span className="font-semibold text-green-600">$30,000</span>
                 </div>
@@ -219,25 +219,47 @@ export default function Customers() {
 
           <div className="flex space-x-3 pt-4 border-t border-gray-200">
             <button
-              onClick={() =>
-                alert(
+              onClick={() => {
+                const email = "contact@libyatextile.com";
+                const phone = "+218-912-345-678";
+                const subject = "Inquiry from Bursa Hilal Factory";
+                const body =
+                  "Dear Libya Textile Co., we would like to discuss your recent orders.";
+
+                const choice = confirm(
                   language === "ar"
-                    ? "تواصل مع العميل عبر واتساب/إيميل - قريباً!"
-                    : "Contact customer via WhatsApp/Email - Coming soon!",
-                )
-              }
+                    ? "اختر طريقة التواصل:\nOK للإيميل\nCancel للهاتف"
+                    : "Choose contact method:\nOK for Email\nCancel for Phone",
+                );
+
+                if (choice) {
+                  // Open email
+                  window.open(
+                    `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`,
+                  );
+                } else {
+                  // Open phone
+                  window.open(`tel:${phone}`);
+                }
+              }}
               className="px-4 py-2 bg-green-primary text-white rounded-lg hover:bg-green-secondary transition-colors"
             >
               {language === "ar" ? "تواصل مع العميل" : "Contact Customer"}
             </button>
             <button
-              onClick={() =>
-                alert(
-                  language === "ar"
-                    ? "عرض جميع طلبات العميل - قريباً!"
-                    : "View all customer orders - Coming soon!",
-                )
-              }
+              onClick={() => {
+                const customerOrders = `
+Customer: Libya Textile Co.
+Orders Summary:
+• ORD-001: Jacquard Velvet - $18,000 (Processing)
+• ORD-002: Cotton Blend - $15,420 (Processing)
+• ORD-003: Silk Fabric - $8,750 (Completed)
+
+Total Orders: 3
+Total Value: $42,170
+                `;
+                alert(customerOrders);
+              }}
               className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
             >
               {language === "ar" ? "عرض جميع الطلبات" : "View All Orders"}
