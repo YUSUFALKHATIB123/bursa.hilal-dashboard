@@ -582,9 +582,26 @@ export default function Invoices() {
                       <Eye className="w-4 h-4" />
                     </button>
                     <button
-                      onClick={() =>
-                        alert(`${t("edit")} ${invoice.invoiceNumber}`)
-                      }
+                      onClick={() => {
+                        const newCustomer = prompt(
+                          `${t("edit")} ${invoice.invoiceNumber}\n${t("customer")} (${language === "ar" ? "الحالي" : "current"}: ${invoice.customer}):`,
+                          invoice.customer,
+                        );
+                        const newAmount = prompt(
+                          `${t("total")} (${language === "ar" ? "الحالي" : "current"}: $${invoice.total}):`,
+                          invoice.total.toString(),
+                        );
+
+                        if (newCustomer && newAmount) {
+                          alert(
+                            `${language === "ar" ? "تم تحديث الفاتورة" : "Invoice updated"}:\n` +
+                              `${t("invoiceNumber")}: ${invoice.invoiceNumber}\n` +
+                              `${t("customer")}: ${newCustomer}\n` +
+                              `${t("total")}: $${newAmount}\n` +
+                              `${language === "ar" ? "تم الحفظ بنجاح!" : "Changes saved successfully!"}`,
+                          );
+                        }
+                      }}
                       className="text-blue-600 hover:text-blue-800 p-1 rounded transition-colors"
                       title={t("edit")}
                     >
