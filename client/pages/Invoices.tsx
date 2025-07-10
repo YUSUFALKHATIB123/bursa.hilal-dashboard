@@ -573,55 +573,57 @@ export default function Invoices() {
                       language={language}
                     />
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                    <button
-                      onClick={() => handleInvoiceClick(invoice)}
-                      className="text-green-primary hover:text-green-secondary p-1 rounded transition-colors inline-flex items-center"
-                      title={t("view")}
-                    >
-                      <Eye className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => {
-                        const newCustomer = prompt(
-                          `${t("edit")} ${invoice.invoiceNumber}\n${t("customer")} (${language === "ar" ? "الحالي" : "current"}: ${invoice.customer}):`,
-                          invoice.customer,
-                        );
-                        const newAmount = prompt(
-                          `${t("total")} (${language === "ar" ? "الحالي" : "current"}: $${invoice.total}):`,
-                          invoice.total.toString(),
-                        );
-
-                        if (newCustomer && newAmount) {
-                          alert(
-                            `${language === "ar" ? "تم تحديث الفاتورة" : "Invoice updated"}:\n` +
-                              `${t("invoiceNumber")}: ${invoice.invoiceNumber}\n` +
-                              `${t("customer")}: ${newCustomer}\n` +
-                              `${t("total")}: $${newAmount}\n` +
-                              `${language === "ar" ? "تم الحفظ بنجاح!" : "Changes saved successfully!"}`,
+                  <td className="px-6 py-4 whitespace-nowrap text-center actions-column">
+                    <div className="action-buttons">
+                      <button
+                        onClick={() => handleInvoiceClick(invoice)}
+                        className="text-green-primary hover:text-green-secondary p-1 rounded transition-colors inline-flex items-center"
+                        title={t("view")}
+                      >
+                        <Eye className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          const newCustomer = prompt(
+                            `${t("edit")} ${invoice.invoiceNumber}\n${t("customer")} (${language === "ar" ? "الحالي" : "current"}: ${invoice.customer}):`,
+                            invoice.customer,
                           );
-                        }
-                      }}
-                      className="text-blue-600 hover:text-blue-800 p-1 rounded transition-colors"
-                      title={t("edit")}
-                    >
-                      <Edit className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => {
-                        if (
-                          confirm(
-                            `${language === "ar" ? "هل أنت متأكد من حذف" : "Are you sure you want to delete"} ${invoice.invoiceNumber}?`,
-                          )
-                        ) {
-                          alert(`${t("delete")} ${invoice.invoiceNumber}`);
-                        }
-                      }}
-                      className="text-red-600 hover:text-red-800 p-1 rounded transition-colors"
-                      title={t("delete")}
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                          const newAmount = prompt(
+                            `${t("total")} (${language === "ar" ? "الحالي" : "current"}: $${invoice.total}):`,
+                            invoice.total.toString(),
+                          );
+
+                          if (newCustomer && newAmount) {
+                            alert(
+                              `${language === "ar" ? "تم تحديث الفاتورة" : "Invoice updated"}:\n` +
+                                `${t("invoiceNumber")}: ${invoice.invoiceNumber}\n` +
+                                `${t("customer")}: ${newCustomer}\n` +
+                                `${t("total")}: $${newAmount}\n` +
+                                `${language === "ar" ? "تم الحفظ بنجاح!" : "Changes saved successfully!"}`,
+                            );
+                          }
+                        }}
+                        className="text-blue-600 hover:text-blue-800 p-1 rounded transition-colors"
+                        title={t("edit")}
+                      >
+                        <Edit className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (
+                            confirm(
+                              `${language === "ar" ? "هل أنت متأكد من حذف" : "Are you sure you want to delete"} ${invoice.invoiceNumber}?`,
+                            )
+                          ) {
+                            alert(`${t("delete")} ${invoice.invoiceNumber}`);
+                          }
+                        }}
+                        className="text-red-600 hover:text-red-800 p-1 rounded transition-colors"
+                        title={t("delete")}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   </td>
                 </motion.tr>
               ))}
