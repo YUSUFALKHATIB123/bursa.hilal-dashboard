@@ -15,7 +15,9 @@ import {
   MapPin,
 } from "lucide-react";
 
-interface SidebarProps {}
+interface SidebarProps {
+  onItemClick?: () => void;
+}
 
 const menuItems = [
   {
@@ -80,7 +82,7 @@ const menuItems = [
   },
 ];
 
-export default function Sidebar({}: SidebarProps) {
+export default function Sidebar({ onItemClick }: SidebarProps) {
   const { hasPermission } = useAuth();
   const { language } = useLanguage();
 
