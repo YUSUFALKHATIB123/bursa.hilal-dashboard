@@ -303,6 +303,17 @@
     user-select: none;
   }
 
+  /* Fix double-tap issues on mobile */
+  a,
+  button,
+  [role="button"],
+  .clickable {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
   /* Allow text selection for inputs and content areas */
   input,
   textarea,
