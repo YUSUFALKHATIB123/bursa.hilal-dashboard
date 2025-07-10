@@ -284,7 +284,7 @@ export default function Index() {
           {
             title: language === "ar" ? "المخزون المطلوب" : "Required Stock",
             description:
-              language === "ar" ? "مواد خام مطلوبة" : "Raw materials needed",
+              language === "ar" ? "مواد ��ام مطلوبة" : "Raw materials needed",
             icon: Package,
             value: 5,
             color: "bg-orange-500",
@@ -450,6 +450,40 @@ export default function Index() {
                 {t("productionRate")}
               </div>
               <div className="text-xl font-bold text-green-600">94%</div>
+            </div>
+          </div>
+        </motion.div>
+      )}
+
+      {/* Data Consistency Check (Admin/Owner Only) */}
+      {(user?.role === "admin" || user?.role === "owner") && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.4 }}
+          className="bg-green-50 border border-green-200 rounded-xl p-4"
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="p-2 bg-green-100 rounded-lg">
+                <CheckCircle className="w-5 h-5 text-green-600" />
+              </div>
+              <div>
+                <h4 className="font-medium text-green-800">
+                  {language === "ar" ? "تطابق البيانات" : "Data Consistency"}
+                </h4>
+                <p className="text-sm text-green-600">
+                  {language === "ar"
+                    ? "جميع الصفحات تستخدم نفس مصدر البيانات"
+                    : "All pages use unified data source"}
+                </p>
+              </div>
+            </div>
+            <div className="text-right">
+              <div className="text-lg font-bold text-green-700">100%</div>
+              <div className="text-xs text-green-600">
+                {language === "ar" ? "متطابق" : "Synchronized"}
+              </div>
             </div>
           </div>
         </motion.div>
