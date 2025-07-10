@@ -94,10 +94,11 @@ export default function Sidebar({ onItemClick }: SidebarProps) {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className={`w-72 bg-white shadow-xl ${language === "ar" ? "border-l" : "border-r"} border-gray-200 h-full flex flex-col sidebar-container`}
+      className="w-64 bg-white shadow-lg border-r border-gray-200 h-full flex flex-col relative z-10"
       style={{
         touchAction: "pan-y",
         WebkitOverflowScrolling: "touch",
+        minWidth: "256px",
       }}
     >
       {/* Logo */}
