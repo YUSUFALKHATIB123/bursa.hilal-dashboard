@@ -92,7 +92,11 @@ export default function Sidebar({}: SidebarProps) {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className={`w-72 bg-white shadow-xl ${language === "ar" ? "border-l" : "border-r"} border-gray-200 h-screen sidebar-container`}
+      className={`w-72 bg-white shadow-xl ${language === "ar" ? "border-l" : "border-r"} border-gray-200 h-full flex flex-col sidebar-container`}
+      style={{
+        touchAction: "pan-y",
+        WebkitOverflowScrolling: "touch",
+      }}
     >
       {/* Logo */}
       <div className="p-6 border-b border-gray-200">
@@ -117,7 +121,13 @@ export default function Sidebar({}: SidebarProps) {
       </div>
 
       {/* Navigation */}
-      <nav className="p-4 space-y-2">
+      <nav
+        className="flex-1 p-4 space-y-2 overflow-y-auto"
+        style={{
+          touchAction: "pan-y",
+          WebkitOverflowScrolling: "touch",
+        }}
+      >
         {visibleMenuItems.map((item, index) => (
           <motion.div
             key={item.path}
@@ -127,13 +137,21 @@ export default function Sidebar({}: SidebarProps) {
           >
             <NavLink
               to={item.path}
+              onClick={onItemClick}
               className={({ isActive }) =>
-                `flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group ${
+                `flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group select-none ${
                   isActive
                     ? "bg-gradient-to-r from-green-primary to-green-secondary text-white shadow-lg"
-                    : "text-gray-700 hover:bg-gray-100 hover:text-green-primary"
+                    : "text-gray-700 hover:bg-gray-100 hover:text-green-primary active:bg-green-50"
                 }`
               }
+              style={{
+                touchAction: "manipulation",
+                WebkitTapHighlightColor: "transparent",
+                WebkitTouchCallout: "none",
+                WebkitUserSelect: "none",
+                userSelect: "none",
+              }}
             >
               <item.icon className="w-5 h-5" />
               <span className="font-medium">{item.label[language]}</span>
@@ -151,7 +169,7 @@ export default function Sidebar({}: SidebarProps) {
       </nav>
 
       {/* Footer */}
-      <div className="absolute bottom-4 left-4 right-4">
+      <div className="p-4 border-t border-gray-200 mt-auto">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
