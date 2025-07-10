@@ -71,7 +71,7 @@ export default function UpdateStockModal({
         dir={language === "ar" ? "rtl" : "ltr"}
       >
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-primary to-blue-secondary text-white p-6 rounded-t-2xl">
+        <div className="bg-gradient-to-r from-blue-primary to-blue-secondary text-white p-4 rounded-t-2xl">
           <div className="flex justify-between items-center">
             <h2 className="text-xl font-bold">
               {language === "ar" ? "تحديث المخزون" : "Update Stock"}
