@@ -22,9 +22,14 @@ import {
 interface NavbarProps {
   sidebarOpen: boolean;
   toggleSidebar: () => void;
+  isMobile?: boolean;
 }
 
-export default function Navbar({ sidebarOpen, toggleSidebar }: NavbarProps) {
+export default function Navbar({
+  sidebarOpen,
+  toggleSidebar,
+  isMobile,
+}: NavbarProps) {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const { user, logout } = useAuth();
@@ -98,18 +103,29 @@ export default function Navbar({ sidebarOpen, toggleSidebar }: NavbarProps) {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={toggleSidebar}
-            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            className={`p-2 rounded-lg transition-colors ${
+              isMobile
+                ? "hover:bg-gray-100 active:bg-gray-200"
+                : "hover:bg-gray-100"
+            }`}
+            style={{
+              touchAction: "manipulation",
+              WebkitTapHighlightColor: "transparent",
+            }}
           >
             <Menu className="w-5 h-5" />
           </motion.button>
 
           {/* Search */}
-          <div className="relative hidden md:block">
+          <div className="relative hidden lg:block">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
             <input
               type="text"
               placeholder={language === "ar" ? "بحث..." : "Search..."}
-              className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-primary focus:border-transparent w-80"
+              className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-primary focus:border-transparent w-64 xl:w-80"
+              style={{
+                touchAction: "manipulation",
+              }}
             />
           </div>
         </div>
@@ -121,7 +137,15 @@ export default function Navbar({ sidebarOpen, toggleSidebar }: NavbarProps) {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={toggleLanguage}
-            className="p-2 rounded-lg hover:bg-gray-100 transition-colors flex items-center space-x-1"
+            className={`p-2 rounded-lg transition-colors flex items-center space-x-1 ${
+              isMobile
+                ? "hover:bg-gray-100 active:bg-gray-200"
+                : "hover:bg-gray-100"
+            }`}
+            style={{
+              touchAction: "manipulation",
+              WebkitTapHighlightColor: "transparent",
+            }}
           >
             <Globe className="w-4 h-4" />
             <span className="text-sm font-medium">
