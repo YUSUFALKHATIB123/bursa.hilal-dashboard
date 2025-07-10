@@ -294,38 +294,40 @@ export default function OrdersManagement() {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {order.deadline}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                    <Link
-                      to={`/track-order/${order.id}/details`}
-                      className="text-green-primary hover:text-green-secondary p-1 rounded transition-colors inline-flex items-center"
-                      title="Track Order"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                    </Link>
-                    <button
-                      onClick={() =>
-                        alert(`Edit order ${order.id} - Coming soon!`)
-                      }
-                      className="text-blue-600 hover:text-blue-800 p-1 rounded transition-colors"
-                      title="Edit Order"
-                    >
-                      <Edit className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => {
-                        if (
-                          confirm(
-                            `Are you sure you want to delete order ${order.id}?`,
-                          )
-                        ) {
-                          alert("Delete functionality - Coming soon!");
+                  <td className="px-6 py-4 whitespace-nowrap text-center actions-column">
+                    <div className="action-buttons">
+                      <Link
+                        to={`/track-order/${order.id}/details`}
+                        className="text-green-primary hover:text-green-secondary p-1 rounded transition-colors inline-flex items-center"
+                        title="Track Order"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                      </Link>
+                      <button
+                        onClick={() =>
+                          alert(`Edit order ${order.id} - Coming soon!`)
                         }
-                      }}
-                      className="text-red-600 hover:text-red-800 p-1 rounded transition-colors"
-                      title="Delete Order"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                        className="text-blue-600 hover:text-blue-800 p-1 rounded transition-colors"
+                        title="Edit Order"
+                      >
+                        <Edit className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (
+                            confirm(
+                              `Are you sure you want to delete order ${order.id}?`,
+                            )
+                          ) {
+                            alert("Delete functionality - Coming soon!");
+                          }
+                        }}
+                        className="text-red-600 hover:text-red-800 p-1 rounded transition-colors"
+                        title="Delete Order"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   </td>
                 </motion.tr>
               ))}
