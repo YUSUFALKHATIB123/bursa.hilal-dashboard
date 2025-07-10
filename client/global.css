@@ -292,4 +292,150 @@
   [dir="rtl"] .flex {
     flex-direction: row;
   }
+
+  /* Enhanced Mobile Touch Optimizations */
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  /* Allow text selection for inputs and content areas */
+  input,
+  textarea,
+  [contenteditable],
+  .selectable {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+  }
+
+  /* Improve touch targets for mobile */
+  button,
+  [role="button"],
+  .clickable {
+    min-height: 44px;
+    min-width: 44px;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  /* Performance optimizations */
+  .gpu-accelerated {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  /* Smooth scrolling with momentum */
+  .smooth-scroll {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  /* Fast click - reduce 300ms delay on mobile */
+  .fast-click {
+    touch-action: manipulation;
+  }
+
+  /* Mobile-optimized cards */
+  .mobile-card {
+    @apply rounded-lg border border-gray-200 bg-white shadow-sm;
+    touch-action: manipulation;
+    transform: translateZ(0);
+    transition: all 0.2s ease-out;
+  }
+
+  @media (hover: hover) {
+    .mobile-card:hover {
+      @apply shadow-md;
+      transform: translateZ(0) translateY(-1px);
+    }
+  }
+
+  .mobile-card:active {
+    @apply shadow-sm;
+    transform: translateZ(0) scale(0.98);
+  }
+
+  /* Improved button states for mobile */
+  .mobile-button {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200;
+    touch-action: manipulation;
+    transform: translateZ(0);
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media (hover: hover) {
+    .mobile-button:hover {
+      transform: translateZ(0) scale(1.02);
+    }
+  }
+
+  .mobile-button:active {
+    transform: translateZ(0) scale(0.98);
+  }
+
+  /* Fix viewport issues on mobile */
+  @media screen and (max-width: 768px) {
+    .mobile-viewport-fix {
+      min-height: 100vh;
+      min-height: -webkit-fill-available;
+    }
+
+    /* Prevent zoom on inputs on iOS */
+    input,
+    select,
+    textarea {
+      font-size: 16px;
+    }
+  }
+
+  /* Better focus states for keyboard navigation */
+  .focus-visible:focus-visible {
+    outline: 2px solid theme("colors.green.500");
+    outline-offset: 2px;
+  }
+
+  /* Loading states */
+  .loading-shimmer {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  /* Performance: Enable hardware acceleration for animated elements */
+  .will-change-transform {
+    will-change: transform;
+  }
+
+  .will-change-opacity {
+    will-change: opacity;
+  }
+
+  /* Reduce animations on slow devices */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
