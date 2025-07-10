@@ -55,9 +55,14 @@ export const calculateFinancials = () => {
     percentage: item.percentage,
   }));
 
-  // Calculate outstanding payments
+  // Calculate outstanding payments from invoices
   const outstandingPayments = systemData.invoices.reduce((sum, invoice) => {
     return sum + invoice.amountRemaining;
+  }, 0);
+
+  // Calculate received payments to ensure consistency
+  const receivedPayments = systemData.invoices.reduce((sum, invoice) => {
+    return sum + invoice.amountReceived;
   }, 0);
 
   // Calculate overdue invoices
