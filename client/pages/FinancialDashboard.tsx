@@ -351,15 +351,21 @@ export default function FinancialDashboard() {
           title={t("netProfit")}
           value={`$${(realFinancialData.netProfit / 1000).toFixed(1)}K`}
           change={realFinancialData.netProfit > 0 ? "+18.7%" : "-5.2%"}
-          icon={TrendingUp}
-          color={realFinancialData.netProfit > 0 ? "bg-blue-500" : "bg-red-500"}
+          icon={realFinancialData.netProfit > 0 ? TrendingUp : TrendingDown}
+          color={
+            realFinancialData.netProfit > 0 ? "bg-green-600" : "bg-red-600"
+          }
         />
         <MetricCard
           title={t("profitMargin")}
           value={`${realFinancialData.profitMargin.toFixed(1)}%`}
           change={realFinancialData.profitMargin > 20 ? "+2.1%" : "-1.8%"}
           icon={PieChart}
-          color="bg-purple-500"
+          color={
+            realFinancialData.profitMargin > 20
+              ? "bg-green-500"
+              : "bg-orange-500"
+          }
         />
       </div>
 
