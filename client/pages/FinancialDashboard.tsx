@@ -338,14 +338,14 @@ export default function FinancialDashboard() {
           value={`$${(realFinancialData.totalRevenue / 1000).toFixed(1)}K`}
           change="+12.5%"
           icon={DollarSign}
-          color="bg-green-500"
+          color="bg-green-600"
         />
         <MetricCard
           title={t("totalExpenses")}
           value={`$${(realFinancialData.totalExpenses / 1000).toFixed(1)}K`}
           change="+8.2%"
           icon={TrendingDown}
-          color="bg-red-500"
+          color="bg-blue-500"
         />
         <MetricCard
           title={t("netProfit")}
