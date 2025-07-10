@@ -1,6 +1,14 @@
 import systemData from "../data/systemData";
 
-// Calculate real financial data from system data
+/**
+ * UNIFIED FINANCIAL DATA CALCULATIONS
+ *
+ * This ensures ALL pages (Dashboard, Financial Dashboard, etc.)
+ * use the SAME financial data from systemData.financials
+ * to prevent inconsistencies between different sections.
+ *
+ * All revenue, expenses, and profit figures are synchronized.
+ */
 export const calculateFinancials = () => {
   // Use the unified financial data from systemData to ensure consistency
   const totalRevenue = systemData.financials.revenue;
