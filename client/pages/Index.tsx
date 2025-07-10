@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useAuth } from "../contexts/AuthContext";
 import { useLanguage } from "../contexts/LanguageContext";
 import systemData from "../data/systemData";
+import { verifyDataConsistency } from "../utils/dataConsistency";
 import {
   ShoppingCart,
   Users,
