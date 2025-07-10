@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useLanguage } from "../contexts/LanguageContext";
+import { cardHover, staggerContainer, staggerItem } from "../utils/animations";
 import {
   Package,
   Palette,
@@ -166,10 +167,12 @@ function OrderCard({ order }: { order: OrderCard }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -5, scale: 1.02 }}
-      className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden"
+      variants={staggerItem}
+      className="mobile-card rounded-xl overflow-hidden will-change-transform"
+      {...cardHover}
+      style={{
+        touchAction: "manipulation",
+      }}
     >
       {/* Header */}
       <div
@@ -276,7 +279,12 @@ export default function TrackOrder() {
   });
 
   return (
-    <div className="space-y-6">
+    <motion.div
+      className="space-y-6"
+      variants={staggerContainer}
+      initial="initial"
+      animate="animate"
+    >
       {/* Breadcrumb */}
       <nav className="flex text-sm text-gray-500">
         <Link to="/" className="hover:text-gray-700">
@@ -416,6 +424,6 @@ export default function TrackOrder() {
           </p>
         </motion.div>
       )}
-    </div>
+    </motion.div>
   );
 }
