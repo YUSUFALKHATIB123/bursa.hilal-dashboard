@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../contexts/LanguageContext";
@@ -10,63 +10,129 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false); // Start closed on mobile
+  const [isMobile, setIsMobile] = useState(false);
   const { language, dir } = useLanguage();
 
+  // Detect mobile screen size
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+      // Auto-close sidebar on mobile, auto-open on desktop
+      if (window.innerWidth >= 768) {
+        setSidebarOpen(true);
+      } else {
+        setSidebarOpen(false);
+      }
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+
+  const closeSidebar = () => {
+    if (isMobile) {
+      setSidebarOpen(false);
+    }
+  };
 
   return (
     <div
       className={`min-h-screen bg-gray-50 ${language === "ar" ? "font-arabic" : ""}`}
+      dir={dir}
     >
-      <div className="flex ltr-layout">
-        <AnimatePresence>
+      <div className="flex h-screen">
+        {/* Sidebar */}
+        <AnimatePresence mode="wait">
           {sidebarOpen && (
-            <motion.div
-              initial={{ x: language === "ar" ? 300 : -300, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: language === "ar" ? 300 : -300, opacity: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-              className={`fixed inset-y-0 z-40 md:relative ${language === "ar" ? "right-0" : "left-0"}`}
-            >
-              <div dir={dir}>
-                <Sidebar />
-              </div>
-            </motion.div>
+            <>
+              {/* Mobile Overlay */}
+              {isMobile && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="fixed inset-0 bg-black/50 z-40"
+                  onClick={closeSidebar}
+                  style={{ touchAction: "none" }}
+                />
+              )}
+
+              {/* Sidebar Container */}
+              <motion.div
+                initial={{
+                  x: language === "ar" ? "100%" : "-100%",
+                  opacity: isMobile ? 0 : 1,
+                }}
+                animate={{
+                  x: 0,
+                  opacity: 1,
+                }}
+                exit={{
+                  x: language === "ar" ? "100%" : "-100%",
+                  opacity: isMobile ? 0 : 1,
+                }}
+                transition={{
+                  type: "spring",
+                  damping: 25,
+                  stiffness: 200,
+                  duration: 0.3,
+                }}
+                className={`
+                  ${
+                    isMobile
+                      ? `fixed ${language === "ar" ? "right-0" : "left-0"} top-0 bottom-0 z-50`
+                      : "relative"
+                  }
+                  w-64 bg-white border-r border-gray-200 flex-shrink-0
+                `}
+                style={{
+                  touchAction: "pan-y",
+                  WebkitTouchCallout: "none",
+                  WebkitUserSelect: "none",
+                }}
+              >
+                <Sidebar onItemClick={closeSidebar} />
+              </motion.div>
+            </>
           )}
         </AnimatePresence>
 
-        <div className="flex-1 flex flex-col min-h-screen">
-          <div dir={dir}>
-            <Navbar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+        {/* Main Content Area */}
+        <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+          {/* Navbar */}
+          <div className="bg-white border-b border-gray-200 z-30 relative">
+            <Navbar
+              sidebarOpen={sidebarOpen}
+              toggleSidebar={toggleSidebar}
+              isMobile={isMobile}
+            />
           </div>
 
-          <main className="flex-1 p-6 overflow-auto">
+          {/* Main Content */}
+          <main className="flex-1 overflow-y-auto bg-gray-50">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="max-w-7xl mx-auto"
-              dir={dir}
+              transition={{
+                duration: 0.4,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
+              className="p-4 md:p-6 max-w-7xl mx-auto w-full"
+              style={{
+                touchAction: "pan-y",
+                WebkitOverflowScrolling: "touch",
+              }}
             >
               {children || <Outlet />}
             </motion.div>
           </main>
         </div>
       </div>
-
-      {/* Mobile overlay */}
-      <AnimatePresence>
-        {sidebarOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={toggleSidebar}
-            className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
-          />
-        )}
-      </AnimatePresence>
     </div>
   );
 }
