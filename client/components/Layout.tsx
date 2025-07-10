@@ -17,9 +17,10 @@ export default function Layout({ children }: LayoutProps) {
   // Detect mobile screen size
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      const isMobileScreen = window.innerWidth < 768;
+      setIsMobile(isMobileScreen);
       // Auto-close sidebar on mobile, auto-open on desktop
-      if (window.innerWidth >= 768) {
+      if (!isMobileScreen) {
         setSidebarOpen(true);
       } else {
         setSidebarOpen(false);
@@ -42,9 +43,11 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <div
       className={`min-h-screen bg-gray-50 ${language === "ar" ? "font-arabic" : ""}`}
-      dir={dir}
+      style={{ direction: dir }}
     >
-      <div className="flex h-screen">
+      <div
+        className={`flex h-screen ${language === "ar" ? "flex-row-reverse" : ""}`}
+      >
         {/* Sidebar */}
         <AnimatePresence mode="wait">
           {sidebarOpen && (
@@ -122,7 +125,7 @@ export default function Layout({ children }: LayoutProps) {
                 duration: 0.4,
                 ease: [0.25, 0.46, 0.45, 0.94],
               }}
-              className="p-4 md:p-6 max-w-7xl mx-auto w-full"
+              className={`p-4 md:p-6 max-w-7xl w-full ${language === "ar" ? "mr-auto" : "mx-auto"}`}
               style={{
                 touchAction: "pan-y",
                 WebkitOverflowScrolling: "touch",
