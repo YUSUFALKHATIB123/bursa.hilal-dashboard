@@ -67,7 +67,7 @@ export default function UpdateStockModal({
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
         onClick={(e) => e.stopPropagation()}
-        className="bg-white rounded-2xl shadow-2xl max-w-md w-full"
+        className="bg-white rounded-2xl shadow-2xl max-w-sm w-full max-h-[80vh] overflow-y-auto"
         dir={language === "ar" ? "rtl" : "ltr"}
       >
         {/* Header */}
