@@ -140,13 +140,45 @@ export default function Sidebar({ onItemClick }: SidebarProps) {
           >
             <NavLink
               to={item.path}
-              onClick={onItemClick}
+              onClick={(e) => {
+                // Prevent any delays and ensure immediate navigation
+                e.preventDefault();
+
+                // Use immediate navigation
+                const navigate = () => {
+                  window.location.hash = `#${item.path}`;
+                  window.location.pathname = item.path;
+                };
+
+                // Close sidebar immediately on mobile
+                if (onItemClick) {
+                  onItemClick();
+                }
+
+                // Navigate immediately
+                navigate();
+              }}
+              onTouchStart={(e) => {
+                // Prevent iOS double-tap zoom
+                e.currentTarget.style.backgroundColor =
+                  e.currentTarget.classList.contains("bg-gradient-to-r")
+                    ? ""
+                    : "#f3f4f6";
+              }}
+              onTouchEnd={(e) => {
+                // Reset background after touch
+                setTimeout(() => {
+                  if (!e.currentTarget.classList.contains("bg-gradient-to-r")) {
+                    e.currentTarget.style.backgroundColor = "";
+                  }
+                }, 150);
+              }}
               className={({ isActive }) =>
-                `flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group select-none ${
+                `flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-150 group select-none cursor-pointer ${
                   isActive
                     ? "bg-gradient-to-r from-green-primary to-green-secondary text-white shadow-lg"
                     : "text-gray-700 hover:bg-gray-100 hover:text-green-primary active:bg-green-50"
-                }`
+                } ${language === "ar" ? "flex-row-reverse space-x-reverse" : ""}`
               }
               style={{
                 touchAction: "manipulation",
@@ -154,6 +186,8 @@ export default function Sidebar({ onItemClick }: SidebarProps) {
                 WebkitTouchCallout: "none",
                 WebkitUserSelect: "none",
                 userSelect: "none",
+                cursor: "pointer",
+                minHeight: "48px", // Ensure adequate touch target
               }}
             >
               <item.icon className="w-5 h-5" />

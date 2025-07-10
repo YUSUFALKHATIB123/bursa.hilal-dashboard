@@ -10,7 +10,7 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false); // Start closed on all devices
   const [isMobile, setIsMobile] = useState(false);
   const { language } = useLanguage();
 
@@ -18,7 +18,9 @@ export default function Layout({ children }: LayoutProps) {
     const checkMobile = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
-      setSidebarOpen(!mobile); // Open on desktop, closed on mobile
+      if (mobile) {
+        setSidebarOpen(false); // Always close on mobile
+      }
     };
 
     checkMobile();
@@ -27,11 +29,16 @@ export default function Layout({ children }: LayoutProps) {
   }, []);
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
-  const closeSidebar = () => setIsMobile(true) && setSidebarOpen(false);
+
+  // Enhanced close function for better mobile experience
+  const closeSidebar = () => {
+    setSidebarOpen(false);
+  };
 
   return (
     <div
       className={`min-h-screen bg-gray-50 ${language === "ar" ? "font-arabic" : ""}`}
+      dir={language === "ar" ? "rtl" : "ltr"}
     >
       {/* Mobile Overlay */}
       <AnimatePresence>
@@ -40,25 +47,43 @@ export default function Layout({ children }: LayoutProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 z-40 md:hidden"
+            className="fixed inset-0 bg-black/60 z-40 md:hidden"
             onClick={closeSidebar}
+            style={{ touchAction: "none" }}
           />
         )}
       </AnimatePresence>
 
-      <div className="flex h-screen">
+      <div
+        className={`flex h-screen ${language === "ar" ? "flex-row-reverse" : "flex-row"}`}
+      >
         {/* Sidebar */}
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {sidebarOpen && (
             <motion.div
-              initial={{ x: language === "ar" ? "100%" : "-100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: language === "ar" ? "100%" : "-100%" }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
+              initial={{
+                x: language === "ar" ? "100%" : "-100%",
+                opacity: 0,
+              }}
+              animate={{
+                x: 0,
+                opacity: 1,
+              }}
+              exit={{
+                x: language === "ar" ? "100%" : "-100%",
+                opacity: 0,
+              }}
+              transition={{
+                duration: 0.25,
+                ease: "easeOut",
+                opacity: { duration: 0.2 },
+              }}
               className={`
                 ${isMobile ? "fixed z-50" : "relative z-10"}
-                ${language === "ar" ? "right-0" : "left-0"}
-                h-full w-64 bg-white border-r border-gray-200 shadow-lg
+                ${language === "ar" ? (isMobile ? "right-0" : "") : isMobile ? "left-0" : ""}
+                h-full ${isMobile ? "w-80 max-w-[80vw]" : "w-64"}
+                bg-white shadow-2xl
+                ${language === "ar" ? "border-l border-gray-200" : "border-r border-gray-200"}
               `}
             >
               <Sidebar onItemClick={closeSidebar} />
@@ -67,7 +92,7 @@ export default function Layout({ children }: LayoutProps) {
         </AnimatePresence>
 
         {/* Main Content */}
-        <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="flex-1 flex flex-col min-w-0">
           {/* Navbar */}
           <Navbar
             sidebarOpen={sidebarOpen}
@@ -76,12 +101,27 @@ export default function Layout({ children }: LayoutProps) {
           />
 
           {/* Page Content */}
-          <main className="flex-1 overflow-auto bg-gray-50 p-4 md:p-6">
+          <main
+            className={`
+              flex-1 overflow-auto bg-gray-50 p-4 md:p-6
+              transition-all duration-300 ease-out
+              ${
+                !isMobile && sidebarOpen
+                  ? language === "ar"
+                    ? "mr-0"
+                    : "ml-0"
+                  : ""
+              }
+            `}
+          >
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
-              className="max-w-7xl mx-auto w-full"
+              className={`
+                max-w-7xl w-full
+                ${language === "ar" ? "mr-auto ml-auto" : "mx-auto"}
+              `}
             >
               {children || <Outlet />}
             </motion.div>
