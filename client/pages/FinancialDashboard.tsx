@@ -4,6 +4,13 @@ import { useLanguage, Language } from "../contexts/LanguageContext";
 import systemData from "../data/systemData";
 import { realFinancialData } from "../utils/financialCalculations";
 import {
+  fadeInUp,
+  staggerContainer,
+  staggerItem,
+  cardHover,
+  buttonPress,
+} from "../utils/animations";
+import {
   TrendingUp,
   TrendingDown,
   DollarSign,
@@ -75,9 +82,9 @@ function MetricCard({
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      className="bg-white rounded-lg border border-gray-200 p-6"
+      variants={staggerItem}
+      className="mobile-card p-6 will-change-transform"
+      {...cardHover}
     >
       <div className="flex items-center justify-between">
         <div>
@@ -257,7 +264,13 @@ export default function FinancialDashboard() {
   const [timeRange, setTimeRange] = useState("month");
 
   return (
-    <div className="space-y-6">
+    <motion.div
+      className="space-y-6"
+      variants={staggerContainer}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+    >
       {/* Breadcrumb */}
       <nav className="flex text-sm text-gray-500">
         <span>{t("dashboard")}</span>
@@ -295,8 +308,8 @@ export default function FinancialDashboard() {
             </option>
           </select>
           <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            className="mobile-button bg-green-primary text-white hover:bg-green-secondary fast-click"
+            {...buttonPress}
             onClick={() => {
               // Generate CSV export with real data
               const csvContent = [
@@ -323,7 +336,9 @@ export default function FinancialDashboard() {
               document.body.removeChild(link);
               window.URL.revokeObjectURL(url);
             }}
-            className="px-4 py-2 bg-green-primary text-white rounded-lg hover:bg-green-secondary transition-colors flex items-center space-x-2"
+            style={{
+              touchAction: "manipulation",
+            }}
           >
             <Download className="w-4 h-4" />
             <span>{t("exportReport")}</span>
@@ -686,6 +701,6 @@ export default function FinancialDashboard() {
           {language === "ar" ? "حفظ الملاحظات" : "Save Notes"}
         </button>
       </motion.div>
-    </div>
+    </motion.div>
   );
 }
