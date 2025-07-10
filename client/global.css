@@ -111,6 +111,23 @@
     text-align: right;
   }
 
+  /* Fix RTL content centering */
+  [dir="rtl"] .max-w-7xl {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  [dir="rtl"] .mx-auto {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* Fix sidebar positioning in RTL */
+  [dir="rtl"] .sidebar-rtl {
+    right: 0;
+    left: auto;
+  }
+
   /* Arabic font and RTL improvements */
   .font-arabic {
     font-family: "Cairo", "Arial", sans-serif;
