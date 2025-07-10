@@ -141,22 +141,11 @@ export default function Sidebar({ onItemClick }: SidebarProps) {
             <NavLink
               to={item.path}
               onClick={(e) => {
-                // Prevent any delays and ensure immediate navigation
-                e.preventDefault();
-
-                // Use immediate navigation
-                const navigate = () => {
-                  window.location.hash = `#${item.path}`;
-                  window.location.pathname = item.path;
-                };
-
-                // Close sidebar immediately on mobile
+                // Close sidebar immediately on mobile for better UX
                 if (onItemClick) {
                   onItemClick();
                 }
-
-                // Navigate immediately
-                navigate();
+                // Let React Router handle navigation normally
               }}
               onTouchStart={(e) => {
                 // Prevent iOS double-tap zoom
