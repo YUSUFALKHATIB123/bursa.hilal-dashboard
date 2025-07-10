@@ -4,6 +4,12 @@ import { useLanguage } from "../contexts/LanguageContext";
 import EmployeeDetailModal from "../components/EmployeeDetailModal";
 import systemData from "../data/systemData";
 import {
+  cardHover,
+  staggerContainer,
+  staggerItem,
+  buttonPress,
+} from "../utils/animations";
+import {
   UserCheck,
   Plus,
   Users,
@@ -91,11 +97,13 @@ function EmployeeCard({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -5, scale: 1.02 }}
+      variants={staggerItem}
       onClick={onClick}
-      className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden cursor-pointer"
+      className="mobile-card rounded-xl overflow-hidden cursor-pointer will-change-transform"
+      {...cardHover}
+      style={{
+        touchAction: "manipulation",
+      }}
     >
       {/* Header */}
       <div
@@ -271,7 +279,12 @@ export default function Employees() {
   };
 
   return (
-    <div className="space-y-6">
+    <motion.div
+      className="space-y-6"
+      variants={staggerContainer}
+      initial="initial"
+      animate="animate"
+    >
       {/* Breadcrumb */}
       <nav className="flex text-sm text-gray-500">
         <span>{t("dashboard")}</span>
@@ -474,6 +487,6 @@ export default function Employees() {
         }}
         employee={selectedEmployee}
       />
-    </div>
+    </motion.div>
   );
 }
