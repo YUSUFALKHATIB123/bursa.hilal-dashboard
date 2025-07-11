@@ -177,7 +177,7 @@ export default function Index() {
             trend: lowStockItems > 0 ? "Alert" : "Good",
           },
           {
-            title: language === "ar" ? "التنبيهات النشطة" : "Active Alerts",
+            title: language === "ar" ? "التنبيهات ��لنشطة" : "Active Alerts",
             description:
               language === "ar"
                 ? "تنبيهات عالية الأولوية"
@@ -412,82 +412,6 @@ export default function Index() {
           </div>
         </div>
       </motion.div>
-
-      {/* Quick Actions for specific roles */}
-      {(user?.role === "admin" || user?.role === "owner") && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2 }}
-          className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200 p-6"
-        >
-          <h3 className="text-lg font-semibold text-blue-900 mb-4">
-            {t("quickActions")}
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="text-center p-3 bg-white rounded-lg border border-blue-200 hover:shadow-md transition-shadow cursor-pointer">
-              <div className="text-sm font-medium text-blue-800">
-                {t("overdueOrders")}
-              </div>
-              <div className="text-xl font-bold text-blue-600">2</div>
-            </div>
-            <div className="text-center p-3 bg-white rounded-lg border border-blue-200 hover:shadow-md transition-shadow cursor-pointer">
-              <div className="text-sm font-medium text-blue-800">
-                {t("lowStock")}
-              </div>
-              <div className="text-xl font-bold text-orange-600">
-                {lowStockItems}
-              </div>
-            </div>
-            <div className="text-center p-3 bg-white rounded-lg border border-blue-200 hover:shadow-md transition-shadow cursor-pointer">
-              <div className="text-sm font-medium text-blue-800">
-                {t("pendingPayments")}
-              </div>
-              <div className="text-xl font-bold text-red-600">3</div>
-            </div>
-            <div className="text-center p-3 bg-white rounded-lg border border-blue-200 hover:shadow-md transition-shadow cursor-pointer">
-              <div className="text-sm font-medium text-blue-800">
-                {t("productionRate")}
-              </div>
-              <div className="text-xl font-bold text-green-600">94%</div>
-            </div>
-          </div>
-        </motion.div>
-      )}
-
-      {/* Data Consistency Check (Admin/Owner Only) */}
-      {(user?.role === "admin" || user?.role === "owner") && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.4 }}
-          className="bg-green-50 border border-green-200 rounded-xl p-4"
-        >
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-green-100 rounded-lg">
-                <CheckCircle className="w-5 h-5 text-green-600" />
-              </div>
-              <div>
-                <h4 className="font-medium text-green-800">
-                  {language === "ar" ? "تطابق البيانات" : "Data Consistency"}
-                </h4>
-                <p className="text-sm text-green-600">
-                  {language === "ar"
-                    ? "جميع الصفحات تستخدم نفس مصدر البيانات"
-                    : "All pages use unified data source"}
-                </p>
-              </div>
-            </div>
-            <div className="text-right">
-              <div className="text-lg font-bold text-green-700">100%</div>
-              <div className="text-xs text-green-600">
-                {language === "ar" ? "متطابق" : "Synchronized"}
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      )}
     </div>
   );
 }

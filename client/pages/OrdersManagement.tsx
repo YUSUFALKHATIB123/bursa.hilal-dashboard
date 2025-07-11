@@ -304,9 +304,10 @@ export default function OrdersManagement() {
                         <ExternalLink className="w-4 h-4" />
                       </Link>
                       <button
-                        onClick={() =>
-                          alert(`Edit order ${order.id} - Coming soon!`)
-                        }
+                        onClick={() => {
+                          setSelectedOrder(order);
+                          setShowEditModal(true);
+                        }}
                         className="text-blue-600 hover:text-blue-800 p-1 rounded transition-colors"
                         title="Edit Order"
                       >
