@@ -459,6 +459,17 @@ export default function OrdersManagement() {
         isOpen={showNewOrderModal}
         onClose={() => setShowNewOrderModal(false)}
       />
+
+      {/* Edit Order Modal */}
+      <EditOrderModal
+        order={selectedOrder}
+        isOpen={showEditModal}
+        onClose={() => {
+          setShowEditModal(false);
+          setSelectedOrder(null);
+        }}
+        onSave={handleSaveOrder}
+      />
     </div>
   );
 }
