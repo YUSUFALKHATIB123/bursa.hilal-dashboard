@@ -4,6 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useNotifications } from "../contexts/NotificationContext";
 import { useNavigate } from "react-router-dom";
+import GlobalSearch from "./GlobalSearch";
 import {
   Menu,
   Search,
