@@ -315,6 +315,18 @@ export default function Invoices() {
     setShowDetailModal(true);
   };
 
+  const handleSaveInvoice = (updatedInvoice: Invoice) => {
+    // Update invoice in system data
+    const invoiceIndex = systemData.invoices.findIndex(
+      (inv) => inv.id === updatedInvoice.id,
+    );
+    if (invoiceIndex !== -1) {
+      systemData.invoices[invoiceIndex] = updatedInvoice;
+    }
+    setShowEditModal(false);
+    setSelectedInvoice(null);
+  };
+
   return (
     <div className="space-y-6">
       {/* Breadcrumb */}
@@ -636,6 +648,17 @@ export default function Invoices() {
       <UploadInvoiceModal
         isOpen={showUploadModal}
         onClose={() => setShowUploadModal(false)}
+      />
+
+      {/* Edit Invoice Modal */}
+      <EditInvoiceModal
+        invoice={selectedInvoice}
+        isOpen={showEditModal}
+        onClose={() => {
+          setShowEditModal(false);
+          setSelectedInvoice(null);
+        }}
+        onSave={handleSaveInvoice}
       />
     </div>
   );
