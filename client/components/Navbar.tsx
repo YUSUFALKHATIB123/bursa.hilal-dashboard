@@ -117,17 +117,26 @@ export default function Navbar({
           </motion.button>
 
           {/* Search */}
-          <div className="relative hidden lg:block">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <input
-              type="text"
-              placeholder={language === "ar" ? "بحث..." : "Search..."}
-              className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-primary focus:border-transparent w-64 xl:w-80"
-              style={{
-                touchAction: "manipulation",
-              }}
-            />
-          </div>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setShowGlobalSearch(true)}
+            className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors w-64 xl:w-80"
+            style={{
+              touchAction: "manipulation",
+              WebkitTapHighlightColor: "transparent",
+            }}
+          >
+            <Search className="w-4 h-4 text-gray-400" />
+            <span className="text-gray-500 text-left flex-1">
+              {language === "ar"
+                ? "بحث في جميع الأقسام..."
+                : "Search all sections..."}
+            </span>
+            <kbd className="px-2 py-1 text-xs text-gray-400 bg-gray-100 rounded hidden sm:block">
+              ⌘K
+            </kbd>
+          </motion.button>
         </div>
 
         {/* Right side */}
