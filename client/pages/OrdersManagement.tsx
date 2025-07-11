@@ -73,6 +73,18 @@ export default function OrdersManagement() {
     return matchesSearch && matchesStatus;
   });
 
+  const handleSaveOrder = (updatedOrder: any) => {
+    // Update the order in the system data
+    const orderIndex = systemData.orders.findIndex(
+      (order) => order.id === updatedOrder.id,
+    );
+    if (orderIndex !== -1) {
+      systemData.orders[orderIndex] = updatedOrder;
+    }
+    setShowEditModal(false);
+    setSelectedOrder(null);
+  };
+
   return (
     <div className="space-y-6">
       {/* Breadcrumb */}
