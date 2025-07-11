@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../contexts/LanguageContext";
 import NewOrderModal from "../components/NewOrderModal";
+import EditOrderModal from "../components/EditOrderModal";
 import systemData from "../data/systemData";
 import {
   Plus,
