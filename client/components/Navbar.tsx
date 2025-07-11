@@ -350,7 +350,7 @@ export default function Navbar({
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          alert("Settings page - Coming soon!");
+                          navigate("/settings");
                           setUserMenuOpen(false);
                         }}
                         className="w-full flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left"
@@ -390,6 +390,12 @@ export default function Navbar({
           }}
         />
       )}
+
+      {/* Global Search Modal */}
+      <GlobalSearch
+        isOpen={showGlobalSearch}
+        onClose={() => setShowGlobalSearch(false)}
+      />
     </motion.header>
   );
 }
