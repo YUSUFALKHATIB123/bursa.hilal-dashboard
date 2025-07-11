@@ -33,6 +33,7 @@ export default function Navbar({
 }: NavbarProps) {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [showGlobalSearch, setShowGlobalSearch] = useState(false);
   const { user, logout } = useAuth();
   const { language, setLanguage, t } = useLanguage();
   const { notifications, unreadCount, markAsRead, markAllAsRead } =
