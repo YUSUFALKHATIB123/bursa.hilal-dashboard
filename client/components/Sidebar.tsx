@@ -13,6 +13,7 @@ import {
   TrendingUp,
   Building2,
   MapPin,
+  Settings,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -79,6 +80,12 @@ const menuItems = [
     icon: Building2,
     label: { en: "Supplier Management", ar: "إدارة الموردين" },
     permission: "suppliers",
+  },
+  {
+    path: "/settings",
+    icon: Settings,
+    label: { en: "Settings", ar: "الإعدادات" },
+    permission: "admin",
   },
 ];
 
