@@ -49,6 +49,8 @@ export default function OrdersManagement() {
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
   const [showNewOrderModal, setShowNewOrderModal] = useState(false);
   const [showFilterModal, setShowFilterModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState<any>(null);
 
   // Calculate real stats from system data
   const totalOrders = mockOrders.length;
