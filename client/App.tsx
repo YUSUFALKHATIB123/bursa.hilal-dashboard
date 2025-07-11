@@ -16,6 +16,7 @@ import Employees from "./pages/Employees";
 import Notifications from "./pages/Notifications";
 import FinancialDashboard from "./pages/FinancialDashboard";
 import Suppliers from "./pages/Suppliers";
+import Settings from "./pages/Settings";
 
 export default function App() {
   return (
@@ -109,6 +110,14 @@ export default function App() {
                           element={
                             <ProtectedRoute permission="suppliers">
                               <Suppliers />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="/settings"
+                          element={
+                            <ProtectedRoute permission="admin">
+                              <Settings />
                             </ProtectedRoute>
                           }
                         />
