@@ -6,6 +6,7 @@ import {
   CreateInvoiceModal,
   UploadInvoiceModal,
 } from "../components/InvoiceModals";
+import EditInvoiceModal from "../components/EditInvoiceModal";
 import {
   FileText,
   Plus,
